@@ -20,9 +20,14 @@
       </div>
       <nav class="nav">
         <div class="nav__item cart"><img src="./images/cart.png" height="24px" width="24px"></div>
-        <div class="login nav__item"><a href="signup.html">Log in</a></div>
+        <div class="login nav__item"><a href="">Log in</a></div>
         <div class="signup nav__item"><a href="#">Sign Up</a></div>
       </nav>
+      <div class="shopping-cart-card">
+        <h1 class="cart-title">Food Cart</h1>
+        <div class="all-items"></div>
+        <button class="item-checkout" >Checkout</button>
+      </div>
     </div>
   </header>
   <main class="content">
@@ -31,13 +36,25 @@
             <input class="search-food" type="text" placeholder="Search" />
           </div>
     </div>
+    <div class="pop-up">
+      <div class="pop-up-container">
+        <div>
+          <img class="pop-up-image" src="./images/happy.png"/>
+        </div>
+        <div class="pop-up-msg-group">
+          <h2 class="pop-up-title">Hi Customer! This is your Attendant</h2>
+          <p class="pop-up-message">You have already added this to your food cart. Please adjust the quantity there</p>
+          <p class="close-pop-up">Ok</p>
+        </div>
+      </div>
+    </div>
     <div class="content-food">
       <div class="container">
         <div class="card">
           <h1 class="food-title">Double-Double</h1>
           <div class="space"></div>
           <div class="food-group">
-          <img class="food-img" src="./images/double-double.jpg">
+          <img class="food-img" alt="double-double" src="./images/double-double.jpg">
           <div class="food-more">
               <h2>Details</h2>
               <ul class="details">
@@ -50,7 +67,7 @@
             </div>
           <hr/>
           <p class="food-des">There's one small change that can take the Double-Double from “best burger ever” to “literal perfection between two buns...</p>
-          <h1 class="order-now">Order Now</h1>
+          <h1 class="order-now" data-price="1550" data-title="double-double" data-image-src="./images/double-double.jpg">add to cart</h1>
           
         </div>
 
@@ -58,7 +75,7 @@
           <h1 class="food-title">Chicken Popeyes</h1>
           <div class="space"></div>
           <div class="food-group">
-          <img class="food-img" src="./images/chiken-popeye.jpg">
+          <img class="food-img" alt="chicken-popeye" src="./images/chiken-popeye.jpg">
           <div class="food-more">
               <h2>Details</h2>
               <ul class="details">
@@ -71,7 +88,7 @@
             </div>
           <hr/>
           <p class="food-des">succulent meat and those perfectly crisp and savory flaps of fried skin...</p>
-          <h1 class="order-now">Order Now</h1>
+          <h1 class="order-now" data-price="2250" data-title="Chicken Popeyes" data-image-src="./images/chiken-popeye.jpg">add to cart</h1>
           
         </div>
 
@@ -79,7 +96,7 @@
           <h1 class="food-title">Chicken Sandwich</h1>
           <div class="space"></div>
           <div class="food-group">
-          <img class="food-img" src="./images/chicken-sandwich.jpg">
+          <img class="food-img" alt="chicken-sandwich" src="./images/chicken-sandwich.jpg">
           <div class="food-more">
               <h2>Details</h2>
               <ul class="details">
@@ -92,7 +109,7 @@
             </div>
           <hr/>
           <p class="food-des">The Chick-fil-A chicken sandwich is transcendent. The perfect combination of a generous portion of breaded chicken, soft bun, and tart pickles...</p>
-          <h1 class="order-now">Order Now</h1>
+          <h1 class="order-now" data-price="1850" data-title="Chicken Sandwich" data-image-src="./images/chicken-sandwich.jpg">add to cart</h1>
           
         </div>
 
@@ -100,7 +117,7 @@
           <h1 class="food-title">Spicy Chicken Sandwich</h1>
           <div class="space"></div>
           <div class="food-group">
-          <img class="food-img" src="./images/spiceychickensandwich.jpg">
+          <img class="food-img" alt="spicey-chicken" src="./images/spiceychickensandwich.jpg">
           <div class="food-more">
               <h2>Details</h2>
               <ul class="details">
@@ -113,7 +130,7 @@
             </div>
           <hr/>
           <p class="food-des">This spicy chicken sandwich is iconic despite taking more than 50 years to arrive. It is the best spicey chicken ever...</p>
-          <h1 class="order-now">Order Now</h1>
+          <h1 class="order-now" data-price="2850" data-title="Spicey Chicken Sandwich" data-image-src="./images/spiceychickensandwich.jpg">add to cart</h1>
           
         </div>
 
@@ -121,7 +138,7 @@
           <h1 class="food-title">Bacon Cheeseburger</h1>
           <div class="space"></div>
           <div class="food-group">
-          <img class="food-img" src="./images/bacon-chesseburger.jpg">
+          <img class="food-img" alt="bacon" src="./images/bacon-chesseburger.jpg">
           <div class="food-more">
               <h2>Details</h2>
               <ul class="details">
@@ -134,7 +151,7 @@
             </div>
           <hr/>
           <p class="food-des">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</p>
-          <h1 class="order-now">Order Now</h1>
+          <h1 class="order-now" data-price="2250" data-title="Bacon Cheeseburger" data-image-src="./images/bacon-chesseburger.jpg">add to cart</h1>
           
         </div>
 
@@ -142,7 +159,7 @@
           <h1 class="food-title">Waffle Fries</h1>
           <div class="space"></div>
           <div class="food-group">
-          <img class="food-img" src="./images/wafflesfries.jpg">
+          <img class="food-img" alt="waffles-fries" src="./images/wafflesfries.jpg">
           <div class="food-more">
               <h2>Details</h2>
               <ul class="details">
@@ -155,11 +172,12 @@
             </div>
           <hr/>
           <p class="food-des">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</p>
-          <h1 class="order-now">Order Now</h1>
+          <h1 class="order-now" data-price="1250" data-title="Waffles fries" data-image-src="./images/wafflesfries.jpg">add to cart</h1>
           
         </div>
       </div>
     </div>
+    
   </main>
   <footer class="footer">
     <p>&copy;Copyright 2018</p>
