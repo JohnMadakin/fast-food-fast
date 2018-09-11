@@ -10,6 +10,9 @@ const itemsContainer = document.querySelector('.all-items');
 const popUp = document.querySelector('.pop-up');
 const close = document.querySelector('.close-pop-up');
 const deleteItem = document.querySelector('.delete');
+let tax = document.querySelector('.total-tax');
+let subTotal = document.querySelector('.sub-total');
+let total = document.querySelector('.total-price');
 let items = [];
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -18,7 +21,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const startApp = () =>{
   window.onscroll = () => stickyHeader();
-  // window.onclick = () => popUp.style.display = 'none';
+  popUp.onclick = () => popUp.style.display = 'none';
+  document.querySelector('.content').onclick = () => checkout.classList.remove('openCart');
+  checkOutOrders();
   viewCart();
   orderFood();
   closePopUp();
@@ -32,13 +37,10 @@ const stickyHeader = () => {
   }
 } 
 
-const getQuantity = () => {
-  qty.className = 'qty';
-  qty.type = 'textbox';
-  qty.addEventListener('change',(evt)=>{
-    return evt.target.value;
+const checkOutOrders = () => {
+  checkoutBtn.addEventListener('click',()=>{
+    window.location.href = 'checkout.html';
   });
-  return 1;
 }
 
 const viewCart = () => {
@@ -59,32 +61,43 @@ const appendNode = (parent,child) => {
 
 const orderFood = () => {
   orders.forEach((order)=>{
+    order.title = 'Add food to cart';
     order.addEventListener('mouseover',()=>{
       if(order.title == 'added'){
         return order.title = 'Food Added Already';
       }
-      order.title = 'Add food to cart';
     });
     
     order.addEventListener('click', (evt)=>{
       let title = order.getAttribute('data-title');
       let price = order.getAttribute('data-price');
       let img = order.getAttribute('data-image-src');
+      let qty = 1;
       const isAdded = items.find((element)=> element.title === title);
       if(!isAdded){
         order.title = 'added';
-        return items.push({title,price,img});
+        calculatePrices(price,qty);
+        return items.push({title,price,qty,img});
       }
       popUp.style.display = 'block';
       return;
     });
   });
 }
+
+const calculatePrices = (price,qty) => {
+  subTotal.textContent = (subTotal.textContent*1) + (price*qty);
+  tax.textContent = tax.textContent*1 + (price * 0.05);
+  total.textContent =  (tax.textContent * 1 + subTotal.textContent * 1);
+  return
+}
+
 const closePopUp = () => {
   close.addEventListener('click',()=>{
     popUp.style.display = 'none';
   });
 }
+
 const getItemFooter = () => {
   let foodItemFooter = createNode('div');
   let plus = createNode('div');
@@ -122,44 +135,94 @@ const getItem = () => {
   }
 }
 
-const increaseQty = (value) => {
-  return value + 1;
-}
-const decreaseQty = (value) => {
-  return value - 1;
+const adjustAllPrices = (price, value,index,item,adjustment) => {
+  if (adjustment === true) {
+    items.splice(index,1,{
+      title:item.title,
+      price,
+      qty:value,
+      img:item.img,
+    });
+    subTotal.textContent = price * 1;
+    tax.textContent =  (price * 0.05);
+    total.textContent = (tax.textContent * 1 + subTotal.textContent * 1);
+    return
+  }
+  items.splice(index,1,{
+    title:item.title,
+    price,
+    qty:value,
+    img:item.img,
+  });
+  subTotal.textContent =  price * 1;
+  tax.textContent =  (price * 0.05);
+  total.textContent = (tax.textContent * 1 + subTotal.textContent * 1);
+  return;
 }
 
-const adjustQty = (minus,plus,qty,itemQty) =>{
+const increaseQty = (value,price,index,item) => {
+  value = value + 1;
+  price = value*price;
+  console.log(price);
+  // calculatePrices(price,value);
+  adjustAllPrices(price,value,index,item,true);
+  return {value,price};
+}
+const decreaseQty = (value,price,index,item) => {
+  value = value - 1;
+  price = value*price;
+  console.log(price);
+  adjustAllPrices(price,value,index,item,false);
+  // calculatePrices(price,value);
+  return {value,price};
+}
+
+const adjustQty = (minus,plus,qty,itemQty,itemPrice,index,item) =>{
+  let price = itemPrice.textContent;
+  let currentPrice = price;
   minus.addEventListener('click',(e)=>{
     if(qty < 2) return itemQty.textContent = qty;
-    qty = decreaseQty(qty);
-    itemQty.textContent = qty;
+    let previousPrice = price;
+    let qtyItem = decreaseQty(qty,currentPrice,index,item);
+    qty =  qtyItem.value;
+    // price = currentPrice*qty;
+    itemQty.textContent = qtyItem.value;
+    itemPrice.textContent = qtyItem.price;
   });
   plus.addEventListener('click',(e)=>{
-    qty = increaseQty(qty);
-    itemQty.textContent = qty;
+    let previousPrice = price;
+    let qtyItem = increaseQty(qty,currentPrice,index,item);
+    qty =  qtyItem.value;
+    // price = currentPrice*qty;
+    itemQty.textContent = qtyItem.value;
+    itemPrice.textContent = qtyItem.price;
   });
 }
-const populateCart = () => {
-  itemsContainer.innerHTML ='';
-  checkoutBtn.disabled = false;
 
+const emptyCart = () => {
   if(items.length < 1){
     itemsContainer.innerHTML ='';
     let noItem = createNode('p');
     noItem.textContent = 'Cart is Empty';
     noItem.className = 'noItems';
     checkoutBtn.disabled = true;
+    subTotal.textContent = 0;
+    tax.textContent = 0;
+    total.textContent = 0;
     appendNode(itemsContainer,noItem);
   }
+}
+const populateCart = () => {
+  itemsContainer.innerHTML ='';
+  checkoutBtn.disabled = false;
+  emptyCart();
   items.forEach((item,i)=>{
-    let qty = 1;
     let {foodItem,itemImage,itemPrice,itemTitle} = getItem();
     let {itemQty,plus,minus,deleteItem,foodItemFooter} =getItemFooter();
     itemImage.setAttribute('src',`${item.img}`);
     itemPrice.textContent = item.price;
     itemTitle.textContent = item.title;
-    itemQty.textContent = qty;
+    itemQty.textContent = item.qty;
     appendNode(itemsContainer,foodItem);
     appendNode(foodItem,itemImage);
     appendNode(foodItem,itemTitle);
@@ -169,10 +232,16 @@ const populateCart = () => {
     appendNode(foodItemFooter,itemQty);
     appendNode(foodItemFooter,plus);
     appendNode(foodItemFooter,deleteItem);
-    adjustQty(minus,plus,qty,itemQty);
-    deleteItem.addEventListener('click',()=>{
+    adjustQty(minus,plus,item.qty,itemQty,itemPrice,i,item);
+    
+    deleteItem.addEventListener('click',()=> {
+      let itemTax = item.price*0.05;
+      subTotal.textContent = subTotal.textContent*1 - item.price*1;
+      tax.textContent = tax.textContent*1 - itemTax*1;
+      total.textContent = subTotal.textContent*1 + tax.textContent*1;
       items.splice(i,1);
       itemsContainer.removeChild(foodItem);
+      emptyCart();
     });
   });
 }

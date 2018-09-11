@@ -200,6 +200,14 @@ body {
   z-index: 4;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
   padding-bottom: 1.5rem;
+
+}
+.checkout-shopping-cart{
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+  padding-bottom: 1.5rem;
+  width:70%;
+  min-height: 30%;
+  margin: 0 auto;
 }
 
 .card:hover {
@@ -223,10 +231,17 @@ body {
   margin: 0;
   font-size: 1.8rem;
 }
+.checkout-cart-title{
+  font-size: 2.2rem;
+}
 .cart-title{
   color: white;
   font-size: 1.5rem;
   padding: 0.5rem 1.5rem;
+}
+.checkout-cart-title{
+  font-size: 2.2rem;
+  padding: 1.5rem 2.5rem;
 }
 
 .order-now {
@@ -252,7 +267,7 @@ body {
 }
 .pop-up-image{
   width:100%;
-  height: 60%;
+  height: 70%;
   display: block;
   padding: 1rem 1rem;
   margin: auto auto;
@@ -341,10 +356,10 @@ body {
   -webkit-text-fill-color: transparent;
 }
 .item-checkout{
-  text-align: center;
   padding: 0.8rem 2.5rem;
   background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
-  margin: 2rem 2.8rem;
+  display:block;
+  margin: 1.2rem auto;
   font-size: 1.6rem;
   border-radius: 25px;
   color: white;
@@ -366,8 +381,12 @@ body {
   background-image: url('../images/delete.png');
   background-repeat: no-repeat;
   background-position: center;
-  margin-left: 17rem;
+  margin-left: 18rem;
   cursor: pointer;
+ }
+ .checkout-delete{
+  margin-left: 1rem;
+  padding: 3.5rem 0rem;
  }
 .minus{
   width: 16px;
@@ -391,11 +410,32 @@ body {
   padding:3px 6px;
   font-size: 1.6rem;
   font-weight: bold;
-  margin: 5px 5px;;
+  margin: 5px 5px;
+}
+.checkout-item-title, .checkout-item-price{
+  padding: 2.5rem 3.5rem;
+  /* margin: 0 10%; */
+}
+.checkout-item-title{
+  width: 30%;
+}
+.checkout-plus,
+.checkout-minus {
+  padding: 3.5rem 3.5rem;
+}
+.checkout-item-qty{
+  padding: 2.7rem 3.5rem;
+  font-size: 1.7rem;
 }
 .cart-image{
   height:40px;
   width:40px;
+}
+.checkout-cart-image{
+  height:70px;
+  width:70px;
+  margin: 0rem 2.5rem;
+
 }
 .item{
   font-size: 1.6rem;
@@ -405,6 +445,10 @@ body {
   flex-wrap: wrap;
   margin: 0.5rem 0.7rem;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+}
+.checkout-item{
+  margin: 1.5rem 1rem;
+
 }
 .noItems{
   font-size: 1.6rem;
