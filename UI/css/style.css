@@ -83,11 +83,199 @@ body {
   border-radius: 1px;
   font-size: 1.5rem;
   padding: 5px 10px;
+  cursor:pointer;
 }
 
 .nav {
   display: flex;
 }
+
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1006;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4); 
+  padding-top: 60px;
+}
+.toggle-signup{
+  font-size: 1.6rem;
+}
+.signup-title{
+  width:40%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/login-background.jpg');  background-repeat: no-repeat;
+  background-position: center;
+}
+.signup-title h1{
+  color: white;
+  text-align:center;
+}
+.signup-register{
+  background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
+  color: #f2f1f3;
+  padding: 1.5rem 2.5rem;
+  text-align: center;
+}
+.email, .home-address, .delivery-address {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.signup-container, .signup-form-container{
+      width:100%;
+}
+.signup-form{
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+  padding: 1.5rem 2.5rem;
+}
+.signup-container{
+  width: 40%;
+  height: 50%;
+  padding: 1.5rem 2.5rem;
+}
+.content_signup{
+  display:flex;
+  flex-wrap: wrap;
+  height: 400px;
+  width: 80%;
+  margin: 6rem auto;
+}
+
+.pwd-group, .name-group{
+  display: flex;
+  justify-content: space-between;
+
+}
+.pwd-group .pwd{
+  width:48%;
+}
+.firstname, .lastname, .pwd{
+  width: 48%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+.signup-submit{
+  cursor: pointer;
+  width: 40%;
+ background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
+  color: #f2f1f3;
+  padding: 12px 18px;
+  margin: 8px 0;
+  border: none;
+}
+
+/* form {
+  border: 3px solid #f1f1f1;
+} */
+
+#uname, #psw {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+button {
+  background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
+  color: white;
+  padding: 1rem 2rem;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 50%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+label{
+  font-size: 1.6rem;
+}
+
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+.imgcontainer {
+  text-align: center;
+  margin: 0 0 12px 0;
+}
+.imgcontainer h1{
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../images/login-background.jpg');  
+  background-repeat: no-repeat;  
+  background-position: center;
+  padding: 2.5rem 0rem;
+  margin-top: 0;
+  color: white;
+}
+
+
+.modal-container {
+  padding: 16px;
+}
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5px auto; /* 15% from the top and centered */
+  border: 1px solid #888;
+  width: 30%; 
+}
+
+.close {
+  position: absolute;
+  right: 25px;
+  top: 0;
+  color: #ccc;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #f1a503a1;
+  cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+  -webkit-animation: animatezoom 0.6s;
+  animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+  from {-webkit-transform: scale(0)}
+  to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+  from {transform: scale(0)}
+  to {transform: scale(1)}
+}
+
+
 
 .login,
 .signup {
@@ -251,12 +439,10 @@ body {
   z-index: 4;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
   padding-bottom: 1.5rem;
-  /* direction: rtl; */
   right:10%;
+  overflow: auto;
 }
-/* .shopping-cart-card >*{
-  direction: ltr;
-} */
+
 .checkout-shopping-cart{
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
   padding-bottom: 1.5rem;
@@ -742,7 +928,7 @@ hr {
   padding: 2.5rem 2.5rem;
 }
 .dashboard{
-  background-color: aquamarine;
+  background-color: #f1f50ca1;
   width:70%;
   height:10%;
   padding: 2.5rem 2.5rem;
@@ -750,13 +936,36 @@ hr {
 .admin-content-food{
   width:70%;
   height:100%;
-  background-color: aquamarine;
+  background-color: #f1f50ca1;
   padding: 2.5rem 2.5rem;
   display: none;
   flex-wrap: wrap;
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+
+}
+@media screen and (max-width: 300px) {
+  span.psw {
+      display: block;
+      float: none;
+  }
+  .cancelbtn {
+      width: 100%;
+  }
+  #uname, #psw{
+    width: 100%;
+  }
+  .signup-title{
+    display: none;
+  }
 }
 
 @media all and (max-width: 600px) {
+  #uname, #psw {
+    width: 100%;
+  }
+  .signup-title{
+    display: none;
+  }
   .header-content {
     width: 100vw;
     margin:0;

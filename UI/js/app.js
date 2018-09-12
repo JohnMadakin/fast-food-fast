@@ -14,8 +14,10 @@ const menu =  document.querySelector('.menu');
 const nav =  document.querySelector('.nav');
 const content =  document.querySelector('.content');
 const adminNav = document.querySelectorAll('.admin-nav-orders');
+const modal = document.getElementById('modal-id');
+const openLogin =  document.querySelector('.login-modal');
 const contentContainer = document.querySelectorAll('.admin-content-food');
-
+const submit = document.querySelector('.submit');
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
 let total = document.querySelector('.total-price');
@@ -27,20 +29,44 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const startApp = () =>{
   window.onscroll = () => stickyHeader();
-  console.log(window.location.pathname );
-  if(window.location.pathname === '/UI/index.html'){
+  const path = window.location.pathname;
+  if( path.includes('index.html')){
     popUp.onclick = () => popUp.style.display = 'none';
     document.querySelector('.content').onclick = () => checkout.classList.remove('openCart');
     checkOutOrders();
     viewCart();
     orderFood();
     closePopUp();
+    login();
+    gotoDashboard();
   
   }
+  window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
   menuToggle();
-  console.log(adminNav);
   toggleprofileNav();
   return;
+}
+const gotoDashboard = () => {
+  const uname = document.getElementById('uname').value;
+  submit.addEventListener('click',(e)=>{
+    e.preventDefault();
+    console.log(uname.trim() == "admin")
+    if(uname.trim() == "admin"){
+      return window.location.href = 'admin.html';
+    }
+   return window.location.href = 'user.html';
+
+  });
+}
+
+const login = () =>{
+  openLogin.addEventListener('click',()=>{
+    modal.style.display='block';
+  });
 }
 
 const menuToggle = ()=> {
@@ -52,7 +78,6 @@ const menuToggle = ()=> {
 
 const toggleMenu = (evt) => {
   evt.stopPropagation();
-  console.log('hello');
   return nav.classList.toggle('open');
 }
 
@@ -194,8 +219,6 @@ const adjustAllPrices = (price, value,index,item,adjustment) => {
 const increaseQty = (value,price,index,item) => {
   value = value + 1;
   price = value*price;
-  console.log(price);
-  // calculatePrices(price,value);
   adjustAllPrices(price,value,index,item,true);
   return {value,price};
 }
@@ -204,7 +227,6 @@ const decreaseQty = (value,price,index,item) => {
   price = value*price;
   console.log(price);
   adjustAllPrices(price,value,index,item,false);
-  // calculatePrices(price,value);
   return {value,price};
 }
 
@@ -279,7 +301,6 @@ const populateCart = () => {
 }
 const toggleprofileNav =() =>{
   adminNav.forEach((nav)=>{
-    console.log(nav);
     nav.addEventListener('click',setFocus);
   });
   return;

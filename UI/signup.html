@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Fast food fast</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Dosis|PT+Sans+Narrow" rel="stylesheet"> 
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div class="logo-container"><a href="index.html" class="homepage">
+          <p class="logo">fast<span class="logo-icon"><img src="./images/logo.png" height="32px" width="32px"></span><span class="logo_sub">food</span> <span class="logo_sub_2">fast</span></p>
+        </a></div>
+        <div class="cart"><img src="./images/cart.png" height="24px" width="24px">My Food Cart</div>
+        <div class="menu"><img src="./images/menu1.png" height="32px" width="32px"> </div>
+        <nav class="nav">
+            <div class="signup nav__item"><a href="#">Sign Up</a></div>
+            </div>
+          </nav>
+          <div class="shopping-cart-card">
+            <div class="cart-arrow"></div>
+            <h1 class="cart-title">Food Cart</h1>
+            <div class="all-items"></div>
+            <div class="item-recipt">
+                <div class="sub"><p>Sub-total</p><p class="sub-total">0</p></div>
+                <div class="tax"><p>Tax</p><p class="total-tax">0</p></div>
+                <div class="total"><p>Total</p><p class="total-price">0</p></div>
+              </div>
+            <button class="item-checkout" >Checkout</button>
+          </div>
+    </div>
+  </header>
+<main class="content">
+    <div class="content_signup">
+    <div class="signup-title">
+        <h1>Welcome to the <br>Best Fast Food online Restaurant</h1>
+    </div>
+    <div class="signup-container">
+        <div class="toggle-signup">
+            <div class="signup-register">Register</div>
+        </div>
+<form class="signup-form">
+  <div class="signup-form-container">
+    <div class="name-group">
+      <input type="text" placeholder="Enter Firstname" name="firstname" required class="firstname">
+      <input required type="text" placeholder="Enter Lastname" name="lastname" class="lastname"></div>
+    <input required type="email" placeholder="Enter Your Email" name="email" class="email">
+    <div class="pwd-group">
+      <input required type="password" placeholder="Enter Password" class="pwd" name="password">
+      <input required type="password" placeholder="Confirm Password" name="confirmpassword" class="pwd">
+    </div>
+    <input required type="text" placeholder="Enter Your Home Address" name="home" class="home-address">
+    <input  type="text" placeholder="Enter Delivery Address" name="delivery" class="delivery-address">
+
+    <button type="submit" class="signup-submit">SignUp</button>
+  </div>
+</form>
+    </div>
+    </div>
+</main>
+<footer class="footer">
+  <p>&copy;Copyright 2018</p>
+</footer>
+<script src="js/app.js"></script>
+</body>
+
+</html>

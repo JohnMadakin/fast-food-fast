@@ -19,8 +19,8 @@
         <div class="cart"><img src="./images/cart.png" height="24px" width="24px">My Food Cart</div>
         <div class="menu"><img src="./images/menu1.png" height="32px" width="32px"> </div>
         <nav class="nav">
-            <div class="login nav__item"><a href="">Log in</a></div>
-            <div class="signup nav__item"><a href="#">Sign Up</a></div>
+            <div class="login nav__item"><a class="login-modal">Log in</a></div>
+            <div class="signup nav__item"><a href="signup.html">Sign Up</a></div>
             </div>
           </nav>
           <div class="shopping-cart-card">
@@ -34,7 +34,35 @@
               </div>
             <button class="item-checkout" >Checkout</button>
           </div>
+          <div id="modal-id" class="modal">
+              <span onclick="document.getElementById('modal-id').style.display='none'"
+            class="close" title="Close Modal">&times;</span>
+              <form class="modal-content animate">
+                <div class="imgcontainer">
+                  <h1>Login</h1>
+                </div>
+            
+                <div class="modal-container">
+                  <label for="uname"><b>Username</b></label>
+                  <input id="uname" type="text" placeholder="Enter Username" name="uname" required>
+            
+                  <label  for="psw"><b>Password</b></label>
+                  <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
+            
+                  <button class="submit" type="submit">Login</button>
+                  <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                  </label>
+                </div>
+            
+                <div class="modal-container" style="background-color:#f1f1f1">
+                  <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                  <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+              </form>
+            </div>
     </div>
+    
   </header>
   <main class="content">
     <div class="hero">
