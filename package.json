@@ -1,0 +1,19 @@
+{
+  "name": "fast-food-fast",
+  "version": "1.0.0",
+  "description": "Fast-Food-Fast​ is a food delivery service web app for a restaurant.",
+  "main": "./server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohnMadakin/fast-food-fast.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JohnMadakin/fast-food-fast/issues"
+  },
+  "homepage": "https://github.com/JohnMadakin/fast-food-fast#readme"
+}
