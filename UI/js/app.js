@@ -59,7 +59,6 @@ const gotoDashboard = () => {
       return window.location.href = 'admin.html';
     }
    return window.location.href = 'user.html';
-
   });
 }
 
