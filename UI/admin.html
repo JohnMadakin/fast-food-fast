@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Fast food fast</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Dosis|PT+Sans+Narrow" rel="stylesheet"> 
+</head>
+
+<body>
+  <main class="content">
+      <header class="header">
+          <div class="header-content">
+            <div class="logo-container"><a href="index.html" class="homepage">
+                <p class="logo">fast<span class="logo-icon"><img src="./images/logo.png" height="32px" width="32px"></span><span class="logo_sub">food</span> <span class="logo_sub_2">fast</span></p>
+              </a></div>
+            <div class="menu"><img src="./images/menu.svg">
+            </div>
+            <nav class="nav">
+              <div class="login logout nav__item"><a href="index.html">Log out</a></div>
+            </nav>
+        </header>
+        <div class="admin-content">
+          <div class="content-nav">
+            <p class="admin-nav-orders" data-nav="pending">Pending Orders</p>
+            <p class="admin-nav-orders" data-nav="confirm">Confirmed Orders</p>
+          </div>
+          <h1 class="dashboard">Welcome to the Admin Dashboard</h1>
+          <div class="admin-content-food" id="confirm">
+              <div class="admin-order">
+                  <h2 class="order-status confirmed">Confirmed</h2>
+                  <div class="profile-image"><img class="order-avatar" src="./images/img_avatar.png"></div>
+                  <h2 class="profile-names">Bassey Akpan</h2>
+                  <div class="order-menu"><h3 class="order-menu-title">Order</h3>
+                    <div class="admin-arrow"></div>
+                  </div>
+                  <div class="order-menu-group">
+                      <p class="payment-status">Status <span >Pay on Delivery</span></p>
+                      <p class="admin-food-list">Food List</p>
+                      <div class="admin-food-items">
+                        <ul>
+                            <li class="admin-food-item">Double - Double <span class="admin-order-qty">3</span></li>
+                            <li class="admin-food-item">Waffle fries <span class="admin-order-qty">2</span></li>
+                            <li class="admin-food-item">Chicken Sandwich<span class="admin-order-qty">2</span></li>
+                        </ul>
+                      </div>
+                        <div class="settings">
+                          <div class="admin-settings">
+                                <button class="confirm">Ok</button>
+                          </div>
+                        </div>
+                  </div>
+                  
+                </div> 
+          </div>
+          <div class="admin-content-food" id="pending">
+            <h1 class="admin-title">All Orders</h1>
+            <div class="admin-orders" >
+              <div class="admin-order">
+                <h2 class="order-status">Pending</h2>
+                <div class="profile-image"><img class="order-avatar" src="./images/img_avatar.png"></div>
+                <h2 class="profile-names">John Peterson</h2>
+                <div class="order-menu"><h3 class="order-menu-title">Order</h3>
+                  <div class="admin-arrow"></div>
+                </div>
+                <div class="order-menu-group">
+                    <p class="payment-status">Status <span >Pay on Delivery</span></p>
+                    <p class="admin-food-list">Food List</p>
+                    <div class="admin-food-items">
+                      <ul>
+                          <li class="admin-food-item">Double - Double <span class="admin-order-qty">3</span></li>
+                          <li class="admin-food-item">Waffle fries <span class="admin-order-qty">2</span></li>
+                          <li class="admin-food-item">Chicken Sandwich<span class="admin-order-qty">2</span></li>
+                      </ul>
+                    </div>
+                      <div class="settings">
+                        <div class="admin-settings">
+                            <select class="admin-settings-values">
+                                <option value="Accept">Accept</option>
+                                <option value="Decline">Decline</option>
+                                <option disabled value="Completed">Completed</option>
+                              </select> 
+                              <button class="confirm">Go</button>
+                        </div>
+                      </div>
+                </div>
+                
+              </div>
+              <div class="admin-order">
+                  <h2 class="order-status rejected">Rejected</h2>
+                  <div class="profile-image"><img class="order-avatar" src="./images/img_avatar2.png"></div>
+                  <h2 class="profile-names">Ademola Akubeyi</h2>
+                  <div class="order-menu"><h3 class="order-menu-title">Order</h3>
+                    <div class="admin-arrow"></div>
+                  </div>
+                  <div class="order-menu-group">
+                      <p class="payment-status">Status <span >Pay on Delivery</span></p>
+                      <p class="admin-food-list">Food List</p>
+                      <div class="admin-food-items">
+                        <ul>
+                            <li class="admin-food-item">Double - Double <span class="admin-order-qty">3</span></li>
+                            <li class="admin-food-item">Waffle fries <span class="admin-order-qty">2</span></li>
+                            <li class="admin-food-item">Chicken Sandwich<span class="admin-order-qty">2</span></li>
+                        </ul>
+                      </div>
+                        <div class="settings">
+                          <div class="admin-settings">
+                              <select disabled class="admin-settings-values">
+                                  <option value="Accept">Accept</option>
+                                  <option value="Decline">Decline</option>
+                                  <option value="Completed">Completed</option>
+                                </select> 
+                                <button class="confirm">Go</button>
+                          </div>
+                        </div>
+                  </div>
+                  
+                </div>
+                <div class="admin-order">
+                    <h2 class="order-status confirmed">Accepted</h2>
+                    <div class="profile-image"><img class="order-avatar" src="./images/img_avatar.png"></div>
+                    <h2 class="profile-names">Bassey Akpan</h2>
+                    <div class="order-menu"><h3 class="order-menu-title">Order</h3>
+                      <div class="admin-arrow"></div>
+                    </div>
+                    <div class="order-menu-group">
+                        <p class="payment-status">Status <span >Pay on Delivery</span></p>
+                        <p class="admin-food-list">Food List</p>
+                        <div class="admin-food-items">
+                          <ul>
+                              <li class="admin-food-item">Double - Double <span class="admin-order-qty">3</span></li>
+                              <li class="admin-food-item">Waffle fries <span class="admin-order-qty">2</span></li>
+                              <li class="admin-food-item">Chicken Sandwich<span class="admin-order-qty">2</span></li>
+                          </ul>
+                        </div>
+                          <div class="settings">
+                            <div class="admin-settings">
+                                <select  class="admin-settings-values">
+                                    <option disabled value="Accept">Accept</option>
+                                    <option disabled value="Decline">Decline</option>
+                                    <option value="Completed">Completed</option>
+                                  </select> 
+                                  <button class="confirm">Go</button>
+                            </div>
+                          </div>
+                    </div>
+                    
+                  </div> 
+
+            </div>
+          </div>
+        </div>
+        <div class="pop-up"></div>
+
+  </main>
+  <footer class="footer">
+    <p>&copy;Copyright 2018</p>
+</footer>
+  <script src="js/app.js"></script>
+  <!-- <script src="js/profile.js"></script> -->
+</body>
+
+</html>

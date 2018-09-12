@@ -10,6 +10,12 @@ const itemsContainer = document.querySelector('.all-items');
 const popUp = document.querySelector('.pop-up');
 const close = document.querySelector('.close-pop-up');
 const deleteItem = document.querySelector('.delete');
+const menu =  document.querySelector('.menu');
+const nav =  document.querySelector('.nav');
+const content =  document.querySelector('.content');
+const adminNav = document.querySelectorAll('.admin-nav-orders');
+const contentContainer = document.querySelectorAll('.admin-content-food');
+
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
 let total = document.querySelector('.total-price');
@@ -21,18 +27,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const startApp = () =>{
   window.onscroll = () => stickyHeader();
-  popUp.onclick = () => popUp.style.display = 'none';
-  document.querySelector('.content').onclick = () => checkout.classList.remove('openCart');
-  checkOutOrders();
-  viewCart();
-  orderFood();
-  closePopUp();
+  console.log(window.location.pathname );
+  if(window.location.pathname === '/UI/index.html'){
+    popUp.onclick = () => popUp.style.display = 'none';
+    document.querySelector('.content').onclick = () => checkout.classList.remove('openCart');
+    checkOutOrders();
+    viewCart();
+    orderFood();
+    closePopUp();
+  
+  }
+  menuToggle();
+  console.log(adminNav);
+  toggleprofileNav();
   return;
 }
+
+const menuToggle = ()=> {
+  menu.addEventListener('click', toggleMenu);
+  content.addEventListener('click', (e)=> {
+      nav.classList.remove('open');
+  });
+}
+
+const toggleMenu = (evt) => {
+  evt.stopPropagation();
+  console.log('hello');
+  return nav.classList.toggle('open');
+}
+
 const stickyHeader = () => {
-  if (window.pageYOffset > sticky) {
+  if (window.scrollY > sticky) {
+    const height = header.offsetHeight;
+    document.querySelector('body').style.paddingTop = `${height}px`;
     header.classList.add("sticky");
-  } else {
+    checkout.classList.remove('openCart')
+    } else {
+    document.querySelector('body').style.paddingTop = `0`;
     header.classList.remove("sticky");
   }
 } 
@@ -210,6 +241,7 @@ const emptyCart = () => {
     tax.textContent = 0;
     total.textContent = 0;
     appendNode(itemsContainer,noItem);
+    // document.querySelector('.cart-arrow').style.left = ``;
   }
 }
 const populateCart = () => {
@@ -244,5 +276,28 @@ const populateCart = () => {
       emptyCart();
     });
   });
+}
+const toggleprofileNav =() =>{
+  adminNav.forEach((nav)=>{
+    console.log(nav);
+    nav.addEventListener('click',setFocus);
+  });
+  return;
+}
+
+const toggleContent =() =>{
+  contentContainer.forEach((cont,i)=>{
+    cont.style.display = "none";
+    adminNav[i].className = adminNav[i].className.replace(" active", " ");
+  });
+  return;
+}
+
+function setFocus (e){
+  toggleContent();
+  const selectedNav = this.getAttribute('data-nav');
+  document.querySelector('.dashboard').style.display = "none";
+  document.getElementById(`${selectedNav}`).style.display = "block";
+  e.target.className += " active";
 }
 
