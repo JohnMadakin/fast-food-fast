@@ -3,6 +3,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 import config from './config/config';
+import Orders from './controllers/orders';
+
+const orders = new Orders();
 
 const app = express();
 
@@ -20,6 +23,13 @@ app.get('/', (req, res) => {
     </pre>`;
   res.send(info);
 });
+
+/**
+ * GET route to get all oders from the DB
+ * @params {string} url
+ * @params {function} getAllOrders
+ */
+app.get('/api/v1/orders', orders.getAllOrders);
 
 app.listen(config.port, () => {
   console.log('fast-food-fast Server is listening on port %s, Ctrl+C to stop', config.port);
