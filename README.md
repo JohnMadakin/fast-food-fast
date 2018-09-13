@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/JohnMadakin/fast-food-fast.svg?branch=develop)](https://travis-ci.org/JohnMadakin/fast-food-fast)
+[![Coverage Status](https://coveralls.io/repos/github/JohnMadakin/fast-food-fast/badge.svg?branch=develop)](https://coveralls.io/github/JohnMadakin/fast-food-fast?branch=feature)
+
 # Introduction
 
 Fast-Food-Fast​ is a food delivery service web app for a restaurant.

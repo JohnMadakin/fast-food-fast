@@ -9,13 +9,13 @@ export default class Orders {
   getAllOrders(req, res) {
     const allOrders = [...data.ordersData];
     if (allOrders.length >= 0) {
-      res.status(200).json(
+      return res.status(200).json(
         {
           data: allOrders,
-        }
+        },
       );
     }
-    res.status(500).json({
+    return res.status(500).json({
       error: 'Error fetching Data from the data structure'
     });
   }
