@@ -31,6 +31,13 @@ app.get('/', (req, res) => {
  */
 app.get('/api/v1/orders', orders.getAllOrders);
 
+/**
+ * GET route to get an order based on the orderId
+ * @params {string} url
+ * @params {function} getOrder
+ */
+app.get('/api/v1/orders/:id', orders.getOrder);
+
 app.listen(config.port, () => {
   console.log('fast-food-fast Server is listening on port %s, Ctrl+C to stop', config.port);
 });
