@@ -11,7 +11,7 @@ let ordersData = [
     calorie: 440,
     payment: 'payment on delivery',
     status: 'accepted',
-    image: `${config.origin}/bacon-cheesburger.jpg`
+    imageUrl: `${config.origin}/bacon-cheesburger.jpg`
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ let ordersData = [
     calorie: 550,
     payment: 'Bank Transfer',
     status: 'pending',
-    image: `${config.origin}/double-double.jpg` 
+    imageUrl: `${config.origin}/double-double.jpg` 
   },
 
 ];
