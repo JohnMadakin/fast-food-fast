@@ -45,6 +45,13 @@ app.get('/api/v1/orders/:id', orders.getOrder);
  */
 app.post('/api/v1/orders', orders.postOrder);
 
+/**
+ * PUT route to update an order to the DB
+ * @params {string} url
+ * @params {function} updateOrder
+ */
+app.put('/api/v1/orders/:id', orders.updateOrder);
+
 app.listen(config.port, () => {
   console.log('fast-food-fast Server is listening on port %s, Ctrl+C to stop', config.port);
 });
