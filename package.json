@@ -5,12 +5,13 @@
   "main": "./server/index.js",
   "scripts": {
     "babel-node": "babel-node --presets=env",
-    "start": "npm run babel-node -- ./server/index.js",
+    "start": "nodemon --exec npm run babel-node -- ./server/index.js",
     "build": "babel src -d dist",
     "mocha": "mocha --compilers js:babel-register",
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register --recursive ./**/**/*.test.js  --timeout=3000 --exit",
     "test-watch": "nodemon --exec 'npm test'",
-    "coverage": "nyc report --reporter=text-lcov | coveralls"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "postinstall": "install babel-cli && babel-preset-env"
   },
   "repository": {
     "type": "git",
