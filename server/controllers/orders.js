@@ -4,6 +4,7 @@ import config from '../config/config';
 export default class Orders {
   constructor() {
     this.postOrder = this.postOrder.bind(this);
+    this.updateOrder = this.updateOrder.bind(this);
   }
   /**
  * A method to get all oders from the DB
@@ -111,6 +112,34 @@ export default class Orders {
     }
     return res.status(500).json({
       error: 'Error Saving your order',
+    });
+  }
+
+  updateOrder(req, res) {
+    const { status } = req.body;
+    const id = parseInt(req.params.id, 0);
+    const validStatus = ['accepted', 'pending', 'rejected', 'confirmed'];
+    if (!validStatus.includes(status)) {
+      return res.status(400).json({
+        error: 'Invalid data entry!',
+      });
+    }
+    if (!id) {
+      return res.status(400).json({
+        error: 'Invalid ID!',
+      });
+    }
+    data.ordersData.forEach((order) => {
+      if (order.id === id) {
+        order.status = status;
+        return res.status(200).json({
+          msg: 'Resource Updated Successfully!'
+        });
+      }
+    }); 
+
+    return res.status(404).json({
+      error: 'Resource Not found!',
     });
   }
 }
