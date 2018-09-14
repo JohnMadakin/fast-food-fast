@@ -53,3 +53,64 @@ describe('Get single order based on ID', () => {
       .end(done);
   });
 });
+
+describe('POST order Route', () => {
+  const order = {
+    userId: 4,
+    title: 'SpiceyChicken',
+    description: 'This is the best spicey Chicken',
+    price: 1250,
+    status: 'pending',
+    payment: 'paymentondelivery',
+    ingredient: ['chicken', 'ketchup', 'onion'],
+    calorie: 450,
+    imageUrl: 'spicey-chicken.png'
+  };
+  it('should return 201 when an order is posted', (done) => {
+    const url = 'http://localhost:3002/spicey-chicken.png';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(201)
+      .expect((res) => {
+        expect(typeof res.body).toBe('object');
+        expect(res.body.order.id).toEqual(3);
+        expect(res.body.order.imageUrl).toBe(url);
+        expect(allData.ordersData.length).toBe(3);
+      })
+      .end(done);
+  });
+  it('should return 400 if a field is missing', (done) => {
+    order.title = "";
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('All the fields are required, Check correct values are inputed');
+      })
+      .end(done);
+  });
+
+  it('should return 400 if invalid price,calorie or userId is entered', (done) => {
+    order.title = 'SpiceyChicken';
+    order.price = '15o0';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid price, calorie or userId field');
+      })
+      .end(done);
+  });
+
+  it('should return 400 if invalid title,description or status is entered', (done) => {
+    order.price = 1500;
+    order.title = 'chicken?peppersoup';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid title, payment or status field');
+      })
+      .end(done);
+  });
+});

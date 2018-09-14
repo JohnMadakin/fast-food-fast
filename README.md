@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/JohnMadakin/fast-food-fast.svg?branch=develop)](https://travis-ci.org/JohnMadakin/fast-food-fast)
 [![Coverage Status](https://coveralls.io/repos/github/JohnMadakin/fast-food-fast/badge.svg?branch=develop)](https://coveralls.io/github/JohnMadakin/fast-food-fast?branch=feature)
+[![Maintainability](https://api.codeclimate.com/v1/badges/36aaa28128868c62f5b4/maintainability)](https://codeclimate.com/github/JohnMadakin/fast-food-fast/maintainability)
 
 # Introduction
 
