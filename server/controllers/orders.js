@@ -6,6 +6,7 @@ export default class Orders {
     this.postOrder = this.postOrder.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
   }
+
   /**
  * A method to get all oders from the DB
  * @params {object} req
@@ -31,7 +32,7 @@ export default class Orders {
  * @params {object} res
  */
   getOrder(req, res) {
-    const id = parseInt(req.params.id);
+    const id = parseInt(req.params.id, 0);
     if (!id) {
       return res.status(400).json({
         error: 'Invalid order Id',
@@ -54,17 +55,17 @@ export default class Orders {
     });
   }
 
-   saveOrder(order){
-    return data.ordersData.push(order);
+  saveOrder(order) {
+  return data.ordersData.push(order);
   }
 
-  validatNumber(number){
-    let valid = /^[0-9]+$/;
-    return number.match(valid);
+  validateNumber(number) {
+    if (typeof number === 'number') return true;
+    return false;
   }
 
-  validateText (text){
-    let validText = /^[0-9a-zA-Z]+$/;
+  validateText (text) {
+    const validText = /^[0-9a-zA-Z]+$/;
     return text.match(validText);
   }
   /**
@@ -75,12 +76,12 @@ export default class Orders {
 
   postOrder(req,res) {
     const {userId,title,description,price,ingredient,calorie,payment,status,imageUrl } = req.body;
-    if (!title.trim() || !description.trim() || !price.trim() || !payment.trim || !calorie.trim() || !status.trim() || !ingredient.trim() || !imageUrl.trim() || !userId.trim()) {
+    if (!title.trim() || !description.trim() || !status.trim() || !imageUrl.trim()) {
       return res.status(400).json({
         error: 'All the fields are required, Check correct values are inputed',
       });
     }
-    if (!this.validatNumber(price) || !this.validatNumber(calorie) || !this.validatNumber(userId)) {
+    if (!this.validateNumber(price) || !this.validateNumber(calorie) || !this.validateNumber(userId)) {
       return res.status(400).json({
         error: 'Invalid price, calorie or userId field',
       });
@@ -90,14 +91,16 @@ export default class Orders {
         error: 'Invalid title, payment or status field',
       });
     }
+    if (!Array.isArray(ingredient)) {
+      return res.status(400).json({ error: 'Invalid ingredient format. Should be an Array', });
+    }
     const id = data.ordersData.length * 1 + 1;
-    const ing = ingredient.split(' ');
     const order = {
       id,
       userId,
       title,
       description,
-      ingredient: ing,
+      ingredient,
       calorie,
       price,
       payment,
