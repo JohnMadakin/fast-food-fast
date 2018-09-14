@@ -13,6 +13,9 @@
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "postinstall": "install babel-cli && babel-preset-env"
   },
+  "engines": {
+    "node": "8.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JohnMadakin/fast-food-fast.git"
