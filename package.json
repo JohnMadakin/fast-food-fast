@@ -11,7 +11,7 @@
     "test": "nyc --reporter=html --reporter=text mocha --compilers js:babel-register --recursive ./**/**/*.test.js  --timeout=3000 --exit",
     "test-watch": "nodemon --exec 'npm test'",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "postinstall": "install babel-cli && babel-preset-env"
+    "postinstall": "npm install babel-cli babel-preset-env"
   },
   "engines": {
     "node": "8.10.0"
