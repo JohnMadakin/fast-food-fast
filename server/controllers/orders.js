@@ -120,27 +120,25 @@ export default class Orders {
 
   updateOrder(req, res) {
     const { status } = req.body;
-    const id = parseInt(req.params.id, 0);
+    const { id } = req.params;
+    const validNum = /^[0-9]+$/;
     const validStatus = ['accepted', 'pending', 'rejected', 'confirmed'];
     if (!validStatus.includes(status)) {
       return res.status(400).json({
         error: 'Invalid data entry!',
       });
     }
-    if (!id) {
+    if (!id.match(validNum)) {
       return res.status(400).json({
         error: 'Invalid ID!',
       });
     }
-    data.ordersData.forEach((order) => {
-      if (order.id === id) {
-        order.status = status;
-        return res.status(200).json({
-          msg: 'Resource Updated Successfully!'
-        });
-      }
-    }); 
-
+    const orderIndex = data.ordersData.findIndex(order => order.id === parseInt(id, 0));
+    if (orderIndex !== -1) {
+      return res.status(200).json({
+        message: 'Resource Updated Successfully!',
+      });
+    }
     return res.status(404).json({
       error: 'Resource Not found!',
     });

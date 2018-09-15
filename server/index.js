@@ -19,6 +19,10 @@ app.get('/', (req, res) => {
         Welcome to the fast food fast Lite API
         The following endpoints are available:
 
+        GET /api/v1/orders
+        GET /api/v1/orders:id
+        POST /api/v1/orders:id
+        PATCH /api/v1/orders:id
        
     </pre>`;
   res.send(info);
@@ -50,7 +54,7 @@ app.post('/api/v1/orders', orders.postOrder);
  * @params {string} url
  * @params {function} updateOrder
  */
-app.put('/api/v1/orders/:id', orders.updateOrder);
+app.patch('/api/v1/orders/:id', orders.updateOrder);
 
 app.listen(config.port, () => {
   console.log('fast-food-fast Server is listening on port %s, Ctrl+C to stop', config.port);

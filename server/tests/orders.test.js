@@ -114,3 +114,62 @@ describe('POST order Route', () => {
       .end(done);
   });
 });
+
+describe('Update status using PATCH Route', () => {
+  const id = 3;
+  it('should return 200 when an order is updated', (done) => {
+    const status = {
+      status: 'accepted',
+    };
+    request(app).patch(`/api/v1/orders/${id}`)
+      .send(status)
+      .expect(200)
+      .expect((res) => {
+        expect(typeof res.body.message).toBe('string');
+        expect(res.body.message).toBe('Resource Updated Successfully!');
+        expect(allData.ordersData[0].status).toBe('accepted');
+      })
+      .end(done);
+  });
+  it('should return 400 if ID is invalid', (done) => {
+    const inValidId = '1klwklr';
+    const status = {
+      status: 'accepted',
+    };
+    request(app).patch(`/api/v1/orders/${inValidId}`)
+      .send(status)
+      .expect(400)
+      .expect((res) => {
+        expect(typeof res.body.error).toBe('string');
+        expect(res.body.error).toBe('Invalid ID!');
+      })
+      .end(done);
+  });
+  it('should return 400 if inputed value is invalid', (done) => {
+    const status = {
+      status: 'accept',
+    };
+    request(app).patch(`/api/v1/orders/${id}`)
+      .send(status)
+      .expect(400)
+      .expect((res) => {
+        expect(typeof res.body.error).toBe('string');
+        expect(res.body.error).toBe('Invalid data entry!');
+      })
+      .end(done);
+  });
+  it('should return 404 if ID is not found', (done) => {
+    const status = {
+      status: 'accepted',
+    };
+    const validId = 10;
+    request(app).patch(`/api/v1/orders/${validId}`)
+      .send(status)
+      .expect(404)
+      .expect((res) => {
+        expect(typeof res.body.error).toBe('string');
+        expect(res.body.error).toBe('Resource Not found!');
+      })
+      .end(done);
+  });
+});
