@@ -22,15 +22,23 @@ Fast-Food-Fast​ is a food delivery service web app for a restaurant.
 
 
 ## Technology Stack Used
-HTML,CSS,Javascript
+- HTML
+- CSS
+- Javascript
+- NodeJS
+- Postgres
 
 
 ## Getting Started
-
+1. Clone the repository
+2. cd int directory
+3. Run npm install 
+4. Run 'npm run start' to start the server
 
 ## API Docs
 
 ## Running Test
+Run 'npm run test' to run test
 
 ## Current Limitation
 

@@ -61,16 +61,16 @@ describe('POST order Route', () => {
     description: 'This is the best spicey Chicken',
     price: 1250,
     status: 'pending',
-    payment: 'paymentondelivery',
+    payment: 'card',
     ingredient: ['chicken', 'ketchup', 'onion'],
     calorie: 450,
     imageUrl: 'spicey-chicken.png'
   };
-  it('should return 201 when an order is posted', (done) => {
+  it('should return 200 when an order is posted', (done) => {
     const url = 'http://localhost:3002/spicey-chicken.png';
     request(app).post('/api/v1/orders')
       .send(order)
-      .expect(201)
+      .expect(200)
       .expect((res) => {
         expect(typeof res.body).toBe('object');
         expect(res.body.order.id).toEqual(3);
@@ -79,40 +79,118 @@ describe('POST order Route', () => {
       })
       .end(done);
   });
-  it('should return 400 if a field is missing', (done) => {
-    order.title = "";
+  it('should return 400 if you send a number as title', (done) => {
+    order.title = 19002;
     request(app).post('/api/v1/orders')
       .send(order)
       .expect(400)
       .expect((res) => {
-        expect(res.body.error).toBe('All the fields are required, Check correct values are inputed');
+        expect(res.body.error).toBe(`title is an Invalid field type. Only price, calorie and UserId can be Numbers`);
+      })
+      .end(done);
+  });
+  it('should return 400 if a field is missing', (done) => {
+    order.title = '';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid String Field. check the title field');
+      })
+      .end(done);
+  });
+  it('should return 400 if imageUrl field is not a jpg,jpeg or png', (done) => {
+    order.title = 'Spicey-Chicken';
+    order.imageUrl = 'chicken-spicey.gif';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid image url');
+      })
+      .end(done);
+  });
+  it('should return 400 if ingredient field is not an array', (done) => {
+    order.imageUrl = 'chicken-spicey.jpg';
+    order.ingredient = 'chicken, sauce';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid ingredient format. ingredient Should be an Array');
+      })
+      .end(done);
+  });
+  it('should return 400 if payment field is invalid', (done) => {
+    order.ingredient = ['chicken', 'sauce'];
+    order.payment = 'transfer';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid Payment field, Payment value can\'t be transfer');
       })
       .end(done);
   });
 
   it('should return 400 if invalid price,calorie or userId is entered', (done) => {
-    order.title = 'SpiceyChicken';
+    order.payment = 'bank transfer';
     order.price = '15o0';
     request(app).post('/api/v1/orders')
       .send(order)
       .expect(400)
       .expect((res) => {
-        expect(res.body.error).toBe('Invalid price, calorie or userId field');
+        expect(res.body.error).toBe('price is an Invalid field type.price cannot be a string');
+      })
+      .end(done);
+  });
+  it('should return 400 if invalid status is entered', (done) => {
+    order.price = 1500;
+    order.status = 'acept';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid data entry! status values can\'t be acept');
       })
       .end(done);
   });
 
-  it('should return 400 if invalid title,description or status is entered', (done) => {
-    order.price = 1500;
+  it('should return 400 if invalid title is entered', (done) => {
+    order.status = 'accepted';
     order.title = 'chicken?peppersoup';
     request(app).post('/api/v1/orders')
       .send(order)
       .expect(400)
       .expect((res) => {
-        expect(res.body.error).toBe('Invalid title, payment or status field');
+        expect(res.body.error).toBe('Invalid String Field. check the title field');
       })
       .end(done);
   });
+
+  it('should return 400 if invalid description length is entered', (done) => {
+    order.title = 'chicken peppersoup';
+    order.description = 'chicken';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('Invalid Description. Check text length');
+      })
+      .end(done);
+  });
+  it('should return 400 if you enter an invalid key', (done) => {
+    order.description = 'This is the best spicey Chicken';
+    order.orderTitle = 'cheese burger';
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.error).toBe('orderTitle is an Invalid key');
+      })
+      .end(done);
+  });
+  
 });
 
 describe('Update status using PATCH Route', () => {
@@ -141,7 +219,7 @@ describe('Update status using PATCH Route', () => {
       .expect(400)
       .expect((res) => {
         expect(typeof res.body.error).toBe('string');
-        expect(res.body.error).toBe('Invalid ID!');
+        expect(res.body.error).toBe('Invalid ID! Check the is a valid ID in the url');
       })
       .end(done);
   });
@@ -154,7 +232,7 @@ describe('Update status using PATCH Route', () => {
       .expect(400)
       .expect((res) => {
         expect(typeof res.body.error).toBe('string');
-        expect(res.body.error).toBe('Invalid data entry!');
+        expect(res.body.error).toBe(`Invalid data entry! status values can't be ${status.status}`);
       })
       .end(done);
   });
