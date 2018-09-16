@@ -56,17 +56,7 @@ export default class Orders {
   }
 
   saveOrder(order) {
-  return data.ordersData.push(order);
-  }
-
-  validateNumber(number) {
-    if (typeof number === 'number') return true;
-    return false;
-  }
-
-  validateText (text) {
-    const validText = /^[0-9a-zA-Z]+$/;
-    return text.match(validText);
+    return data.ordersData.push(order);
   }
   /**
    * A method to post an order
@@ -75,25 +65,7 @@ export default class Orders {
    */
 
   postOrder(req,res) {
-    const {userId,title,description,price,ingredient,calorie,payment,status,imageUrl } = req.body;
-    if (!title.trim() || !description.trim() || !status.trim() || !imageUrl.trim()) {
-      return res.status(400).json({
-        error: 'All the fields are required, Check correct values are inputed',
-      });
-    }
-    if (!this.validateNumber(price) || !this.validateNumber(calorie) || !this.validateNumber(userId)) {
-      return res.status(400).json({
-        error: 'Invalid price, calorie or userId field',
-      });
-    }
-    if (!this.validateText(title) || !this.validateText(payment) || !this.validateText(status)) {
-      return res.status(400).json({
-        error: 'Invalid title, payment or status field',
-      });
-    }
-    if (!Array.isArray(ingredient)) {
-      return res.status(400).json({ error: 'Invalid ingredient format. Should be an Array', });
-    }
+    const {userId, title, description, price, ingredient, calorie, payment, status, imageUrl } = req.body;
     const id = data.ordersData.length * 1 + 1;
     const order = {
       id,
@@ -109,7 +81,7 @@ export default class Orders {
     };
     this.saveOrder(order);
     if (data.ordersData.length === id) {
-      return res.status(201).json({
+      return res.status(200).json({
         order,
       });
     }
@@ -118,21 +90,13 @@ export default class Orders {
     });
   }
 
+  /**
+   * A method to Update status an order
+   * @params {object} req
+   * @params {object} res
+   */
   updateOrder(req, res) {
-    const { status } = req.body;
     const { id } = req.params;
-    const validNum = /^[0-9]+$/;
-    const validStatus = ['accepted', 'pending', 'rejected', 'confirmed'];
-    if (!validStatus.includes(status)) {
-      return res.status(400).json({
-        error: 'Invalid data entry!',
-      });
-    }
-    if (!id.match(validNum)) {
-      return res.status(400).json({
-        error: 'Invalid ID!',
-      });
-    }
     const orderIndex = data.ordersData.findIndex(order => order.id === parseInt(id, 0));
     if (orderIndex !== -1) {
       return res.status(200).json({
