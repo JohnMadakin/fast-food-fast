@@ -67,7 +67,7 @@ describe('POST order Route', () => {
     imageUrl: 'spicey-chicken.png'
   };
   it('should return 200 when an order is posted', (done) => {
-    const url = 'http://localhost:3002/spicey-chicken.png';
+    const url = 'http://localhost:3002/server/public/spicey-chicken.png';
     request(app).post('/api/v1/orders')
       .send(order)
       .expect(200)
