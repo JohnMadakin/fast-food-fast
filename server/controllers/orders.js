@@ -105,7 +105,7 @@ export default class Orders {
       price,
       payment,
       status,
-      imageUrl: `${config.origin}/${imageUrl}`,
+      imageUrl: `${config.origin}/server/public/${imageUrl}`,
     };
     this.saveOrder(order);
     if (data.ordersData.length === id) {
