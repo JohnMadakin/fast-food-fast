@@ -18,6 +18,8 @@ const modal = document.getElementById('modal-id');
 const openLogin =  document.querySelector('.login-modal');
 const contentContainer = document.querySelectorAll('.admin-content-food');
 const submit = document.querySelector('.submit');
+
+// const saleTab = document.getElementById('sale');
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
 let total = document.querySelector('.total-price');
@@ -39,7 +41,6 @@ const startApp = () =>{
     closePopUp();
     login();
     gotoDashboard();
-  
   }
   window.onclick = function(event) {
     if (event.target == modal) {
@@ -50,6 +51,9 @@ const startApp = () =>{
   toggleprofileNav();
   return;
 }
+
+
+
 const gotoDashboard = () => {
   const uname = document.getElementById('uname').value;
   submit.addEventListener('click',(e)=>{
