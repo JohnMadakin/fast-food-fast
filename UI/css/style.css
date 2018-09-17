@@ -42,12 +42,12 @@ body {
 
 .logo-container {
   padding: 5px 10px;
-  /* text-transform: uppercase; */
   font-family: 'Dosis',Helvetica, sans-serif;
+  width: 35vw;
 }
 
 .logo {
-  font-size: 3.2rem;
+  font-size: 2.5vw;
   color: rgb(245, 165, 16);
   margin: 5px 0px;
   font-weight: bold;
@@ -77,7 +77,7 @@ body {
   padding-left: 8px;
 }
 
-.login a {
+.login a, .cart a {
   color: #27282B;
   text-decoration: none;
   border-radius: 1px;
@@ -194,28 +194,15 @@ body {
   box-sizing: border-box;
 }
 
-/* button {
-  background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
-  color: white;
-  padding: 1rem 2rem;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 50%;
-} */
-
-button:hover {
-  opacity: 0.8;
-}
 label{
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
-.cancelbtn {
+/* .cancelbtn {
   width: auto;
   padding: 10px 18px;
   background-color: #f44336;
-}
+} */
 
 .imgcontainer {
   text-align: center;
@@ -285,11 +272,11 @@ span.psw {
   align-items: center;
 }
 
-.login a:hover {
+.login a:hover, .cart a:hover {
   color: #f1a503a1;
 }
 
-.signup a {
+.signup a, .submit,.cancelbtn {
   color: white;
   font-weight: bold;
   text-decoration: none;
@@ -297,6 +284,7 @@ span.psw {
   padding: 7px 13px;
   background-color: rgb(245, 165, 16);
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+  border: 0;
 
 }
 .logout {
@@ -344,8 +332,9 @@ span.psw {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-left: 50%;
+  margin-left: 20%;
   font-size:1.4rem;
+  /* width: 10vw; */
 }
 .cart-arrow{
   width: 20px;
@@ -374,7 +363,7 @@ span.psw {
 /**** tabs ********/
 .food-tab {
   overflow: hidden;
-  margin: 1rem 0rem;
+  margin: 0rem 0rem;
 }
 .food-tablinks {
   float: left;
@@ -386,8 +375,6 @@ span.psw {
   height: 40px;
   background-color: transparent;
   font-weight: bold;
-  border-radius: 24px;
-  
 }
 .food-tablinks:hover {
   background-color: transparent;
@@ -414,16 +401,7 @@ span.psw {
   background-repeat: no-repeat;
   background-position: 5px;
 }
-.food-arrow{
-  width: 20px;
-  height: 20px;
-  background-color: white;
-  transform: translateY(-50%) rotate(45deg);
-  position: relative;
-  top: 1.5rem;
-  left: 0.6rem;
-  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
-}
+
 #sale{
   display: block;
 }
@@ -467,7 +445,6 @@ span.psw {
   background-color: transparent;
   margin-left: 2rem;
   color: white;
-  border-radius: 24px;
   font-size: 1.5rem;
   cursor: pointer;
   font-weight: bold;
@@ -475,6 +452,7 @@ span.psw {
 .search-food-btn:hover{
   background-color: rgb(245, 165, 16);
   color: #27282B;
+  transition: background-color 0.3s ease-in;
 }
 
 .search-food {
@@ -499,11 +477,22 @@ span.psw {
   width: 90vw;
   margin: 0 auto;
 }
-
+.checkout-container{
+  display: flex;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto;
+  height: 80.5vh;
+}
+.all-items{
+  overflow-y: scroll;
+  max-height: 50vh;
+}
 .container, .tab-content-container {
   display: flex;
   flex-wrap: wrap;
   min-height: 100vh;
+  border-top: solid 2px rgb(245, 165, 16);
 }
 
 
@@ -513,8 +502,7 @@ span.psw {
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
   overflow: hidden;
   transition: all .2s linear;
-  max-width: 28vw;
-  max-height: 62vh;
+  width: 28vw;
 }
 .shopping-cart-card{
   min-height: 50px;
@@ -522,7 +510,7 @@ span.psw {
   position: absolute;
   display: none;
   background-color: white;
-  top:10%;
+  top:8.5%;
   left:65%;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -534,11 +522,13 @@ span.psw {
 }
 
 .checkout-shopping-cart{
-  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
   padding-bottom: 1.5rem;
   width:70%;
   min-height: 30%;
-  margin: 0 auto;
+}
+.item-recipt-container{
+  margin: auto auto;
+  position: sticky;
 }
 
 .card:hover {
@@ -615,7 +605,7 @@ span.psw {
 }
 .close-pop-up{
   font-size: 1.6rem;
-  background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
+  background-color: rgb(245, 165, 16);
   padding: 1rem 2rem;
   text-align: center;
   margin-top: 0px;
@@ -694,7 +684,6 @@ span.psw {
 }
 .item-checkout{
   padding: 0.8rem 2.5rem;
-  background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
   display:block;
   margin: 1.2rem auto;
   font-size: 1.6rem;
@@ -703,6 +692,8 @@ span.psw {
   font-weight: bold;
   border: none;
   cursor: pointer;
+  background-color: rgb(245, 165, 16);
+  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
 }
 .plus{
   width: 16px;
@@ -751,9 +742,11 @@ span.psw {
   font-weight: bold;
   margin: 5px 5px;
 }
-.checkout-item-title, .checkout-item-price{
+.checkout-item-title {
   padding: 2.5rem 3.5rem;
-  /* margin: 0 10%; */
+}
+.checkout-item-price{
+  padding: 1.4rem 1rem;
 }
 .checkout-item-title{
   width: 30%;
@@ -770,11 +763,16 @@ span.psw {
   height:40px;
   width:40px;
 }
+.checkout-minus, .checkout-plus{
+  padding: 3.5rem 1.5rem;
+}
+.checkout-item-qty {
+  padding: 2.5rem 1.5rem;
+}
 .checkout-cart-image{
   height:70px;
   width:70px;
   margin: 0rem 2.5rem;
-
 }
 .item{
   font-size: 1.6rem;
@@ -787,7 +785,7 @@ span.psw {
 }
 .checkout-item{
   margin: 1.5rem 1rem;
-
+  height: 100px;
 }
 .noItems{
   font-size: 1.6rem;
@@ -1043,7 +1041,7 @@ hr {
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
 
 }
-@media screen and (max-width: 300px) {
+@media screen and (max-width: 339px) {
   span.psw {
       display: block;
       float: none;
@@ -1058,7 +1056,82 @@ hr {
     display: none;
   }
 }
+@media all and (min-width: 340px) and (max-width: 486px) {
+  .logo {
+    font-size: 1.4rem;
+    line-height: 1.6rem;
+  }
+  .logo-container{
+    width: 40vw;
+    padding: 5px 5px;
+  }
+  .cart {
+    margin-left: 10%;
+    font-size: 1.2rem;
+    padding: 5px 0px;
+  }
+  .search {
+    flex-direction: column;
+  }
+  .food-tablinks{
+    padding: 1rem 2rem;
+  }
 
+  .hero{
+    height: 15rem;
+  }
+  .search-food-btn{
+    padding: 1rem 2rem;
+    margin-top: 7px;
+    font-size: 1.3rem;
+  }
+  #sale-link,#rec-link, #fav-link{
+    background-position: 1px;
+    background-size: 16px 16px;
+  }
+  .tab-content-container {
+    flex-direction: column;
+  }
+  .card {
+    width: 95%;
+  }
+  .modal-content, .content_signup {
+    width: 95%;
+  }
+  .signup-container{
+    width: 95%;
+    padding: 0;
+  }
+  .sticky .login a{
+    color: #27282B;
+  }
+  .checkout-shopping-cart{
+    width:100%;
+    min-height: 30%;
+  }
+  .checkout-item-title {
+    padding: 1rem 1.5rem;
+  }
+  .checkout-item-price{
+    padding: 0;
+    margin: 0;
+  }
+  .group-price-delete{
+    display: flex;
+    margin-left: 1.5rem;
+  }
+  .checkout-delete {
+    margin-left: 18rem;
+    padding: 0;
+  }
+  .checkout-cart-image{
+    margin: 1.5rem 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
+ 
+}
+/* @media all and (min-width: 480px) and (max-width: 768px) */
 @media all and (max-width: 600px) {
   #uname, #psw {
     width: 100%;
@@ -1071,9 +1144,7 @@ hr {
     margin:0;
     justify-content: space-between;
   }
-  .delete {
-    margin-left: 5rem;
-   }
+
    .item-price{
     font-size: 1.3rem;
   }
@@ -1105,9 +1176,7 @@ hr {
     display: flex;
     flex-wrap: wrap;
   }
-  .logo {
-    font-size: 1.8rem;
-  }
+
   .menu{
     display:block;
     margin: auto 20px;
@@ -1116,10 +1185,11 @@ hr {
   .sticky .cart{
     color:white;
   }
-  .cart{
+  
+  /* .cart{
     margin-left: 30%;
     font-size: 1.2rem;
-  }
+  } */
   .nav {
     z-index: 13;
     background-color: white;
@@ -1149,6 +1219,7 @@ hr {
   }
   .content-food {
     width: 100vw;
+    height:100%;
   }
 
   .card {
