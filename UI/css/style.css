@@ -577,11 +577,7 @@ textarea:focus{
   font-size: 2.2rem;
   padding: 1.5rem 2.5rem;
 }
-.discount{
-  color: white;
-  font-style: italic;
-  padding-left: 2rem;
-}
+
 
 .order-now {
   margin: 1rem 1rem;
@@ -1093,11 +1089,7 @@ hr {
     width: 100vw;
   }
   .order-now{
-<<<<<<< HEAD
     font-size: 1.6rem;
-=======
-    font-size: 1.5rem;
->>>>>>> 8f0fadb814ac194c0dfa15239dc4e10e2e54175b
   }
   .food-des{
     font-size: 1.2rem;
@@ -1116,11 +1108,7 @@ hr {
     width: 100vw;
   }
   .order-now{
-<<<<<<< HEAD
     font-size: 1.6rem;
-=======
-    font-size: 1.5rem;
->>>>>>> 8f0fadb814ac194c0dfa15239dc4e10e2e54175b
   }
   .shopping-cart-card{
     left: 56%;
@@ -1164,21 +1152,13 @@ hr {
   }
   .price,
 .calorie,
-<<<<<<< HEAD
-=======
-.rating,
->>>>>>> 8f0fadb814ac194c0dfa15239dc4e10e2e54175b
 .ingredient {
   padding: 0.4rem 2rem;
   font-size: 1.2rem;
 }
 .order-now{
   background-position: 5% 50%;
-<<<<<<< HEAD
   font-size: 1.6rem;
-=======
-  font-size: 1.4rem;
->>>>>>> 8f0fadb814ac194c0dfa15239dc4e10e2e54175b
 }
   
 }
@@ -1291,11 +1271,7 @@ hr {
     font-size: 1.5rem;
   }
   .order-now{
-<<<<<<< HEAD
     font-size: 1.4rem;
-=======
-    font-size: 1.2rem;
->>>>>>> 8f0fadb814ac194c0dfa15239dc4e10e2e54175b
   }
   .signup-container{
     width: 95%;
@@ -1486,17 +1462,10 @@ hr {
   .payment-status{
     font-size: 1.1rem;
     margin: 0.5rem 0rem;
-<<<<<<< HEAD
   }
   .order-menu-group span{
     color: rgb(245, 165, 16);
   }
-=======
-  }
-  .order-menu-group span{
-    color: rgb(245, 165, 16);
-  }
->>>>>>> 8f0fadb814ac194c0dfa15239dc4e10e2e54175b
   .admin-settings-status{
     padding: 0;
   }
@@ -1587,7 +1556,7 @@ hr {
     width: 95%;
   }
   .order-now{
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     background-position: 10% 50%;
   }
  .sub, .tax, .total{
