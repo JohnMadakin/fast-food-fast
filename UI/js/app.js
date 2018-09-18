@@ -13,20 +13,17 @@ const deleteItem = document.querySelector('.delete');
 const menu =  document.querySelector('.menu');
 const nav =  document.querySelector('.nav');
 const content =  document.querySelector('.content');
-const adminNav = document.querySelectorAll('.admin-nav-orders');
 const modal = document.getElementById('modal-id');
 const openLogin =  document.querySelector('.login-modal');
-const contentContainer = document.querySelectorAll('.admin-content-food');
 const submit = document.querySelector('.submit');
 
-// const saleTab = document.getElementById('sale');
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
 let total = document.querySelector('.total-price');
 let items = [];
 
 document.addEventListener('DOMContentLoaded', (event) => {
-    startApp();
+  startApp();
 });
 
 const startApp = () =>{
@@ -303,26 +300,5 @@ const populateCart = () => {
     });
   });
 }
-const toggleprofileNav =() =>{
-  adminNav.forEach((nav)=>{
-    nav.addEventListener('click',setFocus);
-  });
-  return;
-}
 
-const toggleContent =() =>{
-  contentContainer.forEach((cont,i)=>{
-    cont.style.display = "none";
-    adminNav[i].className = adminNav[i].className.replace(" active", " ");
-  });
-  return;
-}
-
-function setFocus (e){
-  toggleContent();
-  const selectedNav = this.getAttribute('data-nav');
-  document.querySelector('.dashboard').style.display = "none";
-  document.getElementById(`${selectedNav}`).style.display = "block";
-  e.target.className += " active";
-}
 
