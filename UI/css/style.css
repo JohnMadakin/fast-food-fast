@@ -94,7 +94,7 @@ body {
   width: 100%;
 }
 
-.modal {
+.modal, .create-food {
   display: none; 
   position: fixed; 
   z-index: 1006;
@@ -286,7 +286,7 @@ span.psw {
 }
 .cancelbtn {
   background-color: rgb(163, 160, 160);
-
+  cursor: pointer;
 }
 .submit,.cancelbtn {
   outline: none;
@@ -533,6 +533,11 @@ textarea:focus{
   right:10%;
   overflow: auto;
 }
+.food-item-list{
+  background-color: white;
+  display:flex;
+  align-items: center;
+}
 
 .checkout-shopping-cart{
   padding-bottom: 1.5rem;
@@ -577,7 +582,6 @@ textarea:focus{
   font-size: 2.2rem;
   padding: 1.5rem 2.5rem;
 }
-
 
 .order-now {
   margin: 1rem 1rem;
@@ -758,6 +762,30 @@ textarea:focus{
 .checkout-item-price{
   padding: 1.4rem 1rem;
 }
+.food-item-ing,.food-item-cal,.edit, .calorie, .food-price{
+  padding: 1.4rem 1rem;
+
+}
+
+.edit{
+  text-decoration: underline;
+  text-decoration-color: #575757;
+  cursor: pointer;
+  font-weight: bold;
+}
+.new{
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+  background-color: rgb(245, 165, 16);
+  width: 15%;
+  text-align: center;
+  cursor: pointer;
+
+}
+.new:hover, .edit:hover{
+  color:#575757;
+}
+
 .checkout-item-title{
   width: 30%;
 }
@@ -873,7 +901,40 @@ hr {
   margin: 0;
   padding-left: 2.0rem;
 }
-
+.delete-item{
+  background-image: url('../images/delete.png');
+  background-repeat: no-repeat;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  margin-left: 10%;
+}
+.food-description{
+  display: none;
+}
+.food-item-cal{
+  background-image: url('../images/value.png');
+  background-repeat: no-repeat;
+  background-position: 0% center;
+  padding-left: 2.5rem;
+}
+.food-price{
+  background-image: url('../images/currency.png');
+  background-repeat: no-repeat;
+  background-position: 0% 40%;
+  padding-left: 2.5rem;
+}
+.food-item-ing{
+  background-image: url('../images/list.png');
+  background-repeat: no-repeat;
+  background-position: 0% center;
+  padding-left: 2.5rem;
+}
+.food-item-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 25%;
+}
 .footer {
   background-color: #575757;
   height: 6.5rem;
@@ -979,25 +1040,7 @@ hr {
   background: rgb(245, 165, 16);
 
 }
-.new-food p{
-  padding: 1.5rem 2.5rem;
-  background: rgb(245, 165, 16);
-  box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
-  color: white;
-  font-size: 1.3rem;
-  cursor: pointer;
-  text-align: center;
-  font-weight: bold;
-}
-.new-food p:hover{
-  color: #27282B;
-}
-.new-food{
-  width: 15%;
-  position: absolute;
-  left: 70%;
-  top: 13%;
-}
+
 .content-nav{
   width: 20%;
   height: 700px;
@@ -1023,6 +1066,10 @@ hr {
   position: relative;
   z-index: 2;
 
+}
+.item-image{
+
+  
 }
 .admin-arrow{
   width: 30px;
@@ -1066,16 +1113,17 @@ hr {
 #custom {
   overflow-x: unset;
 }
+#food {
+  overflow-x:unset;
+  overflow-y: scroll;
+
+}
 .payment-status{
   font-size: 1.3rem;
   font-weight: bold;
 }
 .order-menu-group span{
   color: rgb(245, 165, 16);
-}
-#create{
-  overflow-x: unset;
-  background-color: white;
 }
 
 @media all and (min-width: 951px) and (max-width: 1200px) {
@@ -1184,6 +1232,7 @@ hr {
   .item-title{
     font-size: 1.2rem;
   }
+  
   .cart-image{
     height: 25px;
     width: 25px;
@@ -1318,7 +1367,7 @@ hr {
   }
   .admin-nav-orders {
     padding: 1.5rem 2rem;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
   .checkout-item-price{
     margin: 0;
@@ -1331,6 +1380,17 @@ hr {
   .item-recipt-container{
     margin: 5rem auto;
   }
+  .new{
+    font-size: 1.3rem;
+    width: 30%;
+  }
+
+.food-item-ing, .food-item-cal, .edit, .calorie, .food-price {
+  padding: 0.5rem 1.5rem;
+}
+.delete-item{
+  margin-left: 0rem;
+}
 
 }
 
@@ -1381,11 +1441,7 @@ hr {
   .card {
     width: 95%;
   }
-  .new-food{
-    width: 35%;
-    top: 20%;
-    left: 63%;
-  }
+ 
   .modal-content, .content_signup {
     width: 95%;
   }
@@ -1471,7 +1527,7 @@ hr {
   }
   .admin-nav-orders {
     padding: 1.5rem 2rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
   .search-food{
     padding: 1.2rem 2rem;
@@ -1480,6 +1536,10 @@ hr {
   .nav {
     display: flex;
     flex-wrap: wrap;
+  }
+  .new{
+    font-size: 1.2rem;
+    width: 30%;
   }
 
   .menu{
@@ -1517,6 +1577,12 @@ hr {
   }
   .food-title{
     font-size: 1.6rem;
+  }
+  .food-item-ing, .food-item-cal, .edit, .calorie, .food-price {
+    padding: 0.5rem 1.4rem;
+  }
+  .delete-item{
+    margin-left: 0rem;
   }
 
 }
@@ -1578,12 +1644,11 @@ hr {
 .checkout-item-title {
   padding: 1rem 1rem;
 }
-
-.new-food {
-  top: 25%;
+.food-item-ing, .food-item-cal, .edit, .calorie, .food-price {
+  padding: 0.5rem 1.2rem;
+}
+.delete-item{
+  margin-left: 0rem;
 }
 
-.new-food p {
-  font-size: 1.1rem;
-}
 }
