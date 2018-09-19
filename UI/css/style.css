@@ -763,7 +763,7 @@ textarea:focus{
   padding: 1.4rem 1rem;
 }
 .food-item-ing,.food-item-cal,.edit, .calorie, .food-price{
-  padding: 1.4rem 1rem;
+  padding: 1.6rem 1rem;
 
 }
 
@@ -871,7 +871,14 @@ hr {
   padding: 0.4rem 2rem;
   font-size: 1.4rem;
 }
-
+.save-edited-menu{
+  display: flex;
+  justify-content: space-between;
+}
+.item-list-group{
+  display: flex;
+  width: 40%
+}
 .price {
   background-image: url('../images/currency.png');
   background-repeat: no-repeat;
@@ -933,7 +940,8 @@ hr {
 .food-item-title{
   font-size: 1.5rem;
   font-weight: bold;
-  width: 25%;
+  width: 35%;
+  padding: 1.4rem 2.5rem;
 }
 .footer {
   background-color: #575757;
@@ -1477,6 +1485,23 @@ hr {
   .content{
     min-height: 100%;
   }
+  .item-list-group{
+    width: 50%
+  }
+  .food-item-title {
+    font-size: 1.4rem;
+    width: 50%;
+    padding: 1.4rem 1.5rem;
+}
+
+textarea{
+  width: 24em;
+}
+
+.checkout-item {
+  margin: 1.2rem 0.5rem;
+  height: 120px;
+}
   
   .checkout-cart-image{
     margin: 1.5rem 1.5rem;

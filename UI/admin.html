@@ -221,20 +221,24 @@
           <div class="new">New Food</div>
           <div class="food-list">
               <div class="item checkout-item food-item-list">
-                  <img class="checkout-cart-image item-image" src="./images/wafflesfries.jpg" />
-                  <div class="food-item-title">Waffle fries</div>
-                  <div class="food-item-cal">440</div>
-                  <div class="food-item-ing">patatoes, wheat</div>
-                      <div class="food-price">1250</div>
-                      <div class="edit">Edit</div>
-                      <div class="delete-item" ></div>
-                      <div class="food-description">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</div>
+                <div class="item-list-group">
+                    <img class="checkout-cart-image item-image" src="./images/wafflesfries.jpg" />
+                    <div class="food-item-title">Waffle fries</div>
+                </div>
+                <div class="food-item-ing">patatoes, wheat</div>
+                <div class="food-item-cal">440</div>
+                <div class="food-price">1250</div>
+                <div class="edit">Edit</div>
+                  <div class="delete-item" ></div>
+                  <div class="food-description">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</div>
               </div>
               <div class="item checkout-item food-item-list">
+                  <div class="item-list-group">
                   <img class="checkout-cart-image item-image" src="./images/chiken-popeye.jpg" />
                   <div class="food-item-title">Chicken Popeyes</div>
-                  <div class="food-item-cal">440</div>
-                  <div class="food-item-ing">chicken, wheat</div>
+                      </div>
+                      <div class="food-item-ing">chicken, wheat</div>
+                      <div class="food-item-cal">440</div>
                       <div class="food-price">2250</div>
                       <div class="edit">Edit</div>
                       <div class="delete-item" ></div>
@@ -242,10 +246,12 @@
               </div>
 
               <div class="item checkout-item food-item-list">
-                  <img class="checkout-cart-image item-image" src="./images/spiceychickensandwich.jpg" />
+                  <div class="item-list-group">
+                <img class="checkout-cart-image item-image" src="./images/spiceychickensandwich.jpg" />
                   <div class="food-item-title">Spicy Chicken Sandwich</div>
-                  <div class="food-item-cal">570</div>
-                  <div class="food-item-ing">chicken,spices</div>
+                      </div>
+                      <div class="food-item-ing">chicken,spices</div>
+                      <div class="food-item-cal">570</div>
                       <div class="food-price">2850</div>
                       <div class="edit">Edit</div>
                       <div class="delete-item" ></div>
@@ -253,21 +259,27 @@
              </div>
 
               <div class="item checkout-item food-item-list">
+                  <div class="item-list-group">
                   <img class="checkout-cart-image item-image" src="./images/bacon-chesseburger.jpg" />
-                  <div class="food-item-title">Bacon Cheeseburger</div>
-                  <div class="food-item-cal">440</div>
-                  <div class="food-item-ing">beef,cheese,bacon</div>
-                      <div class="food-price">2250</div>
-                      <div class="edit">Edit</div>
-                      <div class="delete-item" ></div>
-                      <div class="food-description">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</div>
+                  <div class="food-item-title">Bacon Cheesebuger</div>
+                      </div>
+                      <div class="food-item-ing">beef,cheese,bacon</div>
+
+                        <div class="food-item-cal">440</div>
+                        <div class="food-price">2250</div>
+                        <div class="edit">Edit</div>
+                        <div class="delete-item" ></div>
+                        <div class="food-description">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</div>
               </div>
 
               <div class="item checkout-item food-item-list">
+                  <div class="item-list-group">
+
                   <img class="checkout-cart-image item-image" src="./images/double-double.jpg" />
                   <div class="food-item-title">Double-Double</div>
-                  <div class="food-item-cal">700</div>
-                  <div class="food-item-ing">beef,vegetables</div>
+                      </div>
+                      <div class="food-item-ing">beef,vegetables</div>
+                      <div class="food-item-cal">700</div>
                       <div class="food-price">2250</div>
                       <div class="edit">Edit</div>
                       <div class="delete-item" ></div>
@@ -288,15 +300,18 @@
               <input id="title" type="text" placeholder="Food Name" name="foodname" required>
               <input id="price" type="number" placeholder="Price" name="price" required>
               <input id="calorie" type="number" placeholder="Calorie" name="calorie" required>
-              <textarea id="ingredient" cols="65" rows="3" placeholder="Separate ingredients with a comma" ></textarea><br>
+              <textarea id="ingredient" cols="105" rows="3" placeholder="Separate ingredients with a comma" ></textarea><br>
               <select id="category">
                 <option selected disabled>Select Category</option>
                 <option>favourite</option>
                 <option>recommended</option>
                 <option>sale</option>
               </select><br>
-              <textarea id="description" cols="65" rows="5" placeholder="Description" ></textarea><br>
-              <button class="submit" type="submit">Confirm</button>
+              <textarea id="description" cols="105" rows="5" placeholder="Description" ></textarea><br>
+              <div class="save-edited-menu">
+                  <button class="submit" type="submit">Save</button>
+                  <button class= "cancelbtn" type="submit">cancel</button>
+              </div>
 
             </div>
         
