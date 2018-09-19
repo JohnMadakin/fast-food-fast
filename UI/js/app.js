@@ -43,7 +43,7 @@ const startApp = () =>{
     if (event.target == modal) {
         modal.style.display = "none";
     }
-}
+  }
   menuToggle();
   toggleprofileNav();
   return;
