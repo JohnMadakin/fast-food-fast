@@ -82,10 +82,15 @@
         <div class="item-recipt">
           <div class="sub"><p>Sub-total</p><p class="sub-total">0</p></div>
           <div class="tax"><p>Tax</p><p class="total-tax">0</p></div>
-          <div class="tax"><p>Delivery</p><p class="total-tax">  500</p></div>
+          <div class="tax"><p>Delivery</p><p class="delivery-cost">500</p></div>
           <div class="total"><p>Total</p><p class="total-price">0</p></div>
         </div>
-        <button class="item-checkout" >Make Payment</button>
+        <div class="payment-group">
+            <p class="pay">Payment method</p>
+            <input type="radio" name="payment" value="payondelivery"><span class="payment-on-delivery">payment on delivery</span><br>
+            <button class="item-checkout" >Order</button>
+    
+        </div>
       </div>
     </div>
   </main>

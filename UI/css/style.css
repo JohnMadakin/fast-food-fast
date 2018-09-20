@@ -486,7 +486,7 @@ span.psw {
   display: flex;
   flex-wrap: wrap;
   width: 90%;
-  margin: 0 auto;
+  margin: 2.5rem auto;
   min-height: 100%;
 }
 
@@ -683,6 +683,9 @@ textarea:focus{
   border-top: 1px solid #f1a503a1;
 
 }
+.delivery-cost{
+  padding-left: 1rem;
+}
 .item-recipt{
   margin: 10px 10px;
 }
@@ -696,18 +699,34 @@ textarea:focus{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+.payment-on-delivery{
+  font-size: 1.4rem;
+  padding-bottom: 1.5rem;
+}
+.pay{
+  padding: 1rem 2.5rem;
+  font-size: 1.6rem;
+  border-bottom: solid 2px #ccc;
+  border-top: solid 2px #ccc;
+  background-image: url('../images/online-payment.png');
+  background-repeat: no-repeat;
+  background-position: left center;
+
+}
 .item-checkout{
   padding: 0.8rem 2.5rem;
   display:block;
   margin: 1.2rem auto;
   font-size: 1.6rem;
-  border-radius: 25px;
   color: white;
   font-weight: bold;
   border: none;
   cursor: pointer;
   background-color: rgb(245, 165, 16);
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
+}
+.item-checkout:hover{
+  color: #575757;
 }
 .plus{
   width: 16px;
@@ -1304,8 +1323,15 @@ hr {
   .login a {
     font-size: 1.4rem;
   }
-  .shopping-cart-card{
-   right:0;
+  .item-checkout {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.2rem;
+  }
+  .shopping-cart-card {
+    min-height: 50px;
+    width: 45%;
+    right: 0%;
+    top: 5.5%;
   }
   .content-food {
     width: 100vw;
@@ -1385,8 +1411,11 @@ hr {
     margin-left: 1rem;
     padding: 2.5rem 0rem;
   }
+  .checkout-shopping-cart{
+    height: 30%;
+  }
   .item-recipt-container{
-    margin: 5rem auto;
+    margin: 0 auto;
   }
   .new{
     font-size: 1.3rem;
