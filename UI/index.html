@@ -7,21 +7,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css?family=Dosis|PT+Sans+Narrow" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet"> 
 </head>
 
 <body>
   <header class="header">
     <div class="header-content">
-      <div class="logo-container"><a href="index.html" class="homepage">
-          <p class="logo">fast<span class="logo-icon"><img src="./images/logo.png" height="32px" width="32px"></span><span class="logo_sub">food</span> <span class="logo_sub_2">fast</span></p>
+      <div class="logo-container">
+        <a href="index.html" class="homepage">
+          <p class="logo">fast<span class="logo-icon"><img alt="fast-food-fast-logo" src="./images/logo.png" height="32px" width="32px"></span><span class="logo_sub">food</span> <span class="logo_sub_2">fast</span></p>
         </a></div>
-        <div class="cart"><img src="./images/cart.png" height="24px" width="24px">My Food Cart</div>
-        <div class="menu"><img src="./images/menu1.png" height="32px" width="32px"> </div>
+        <div class="cart"><img src="./images/cart.png" alt="cart" height="24px" width="24px"><span>My Food Cart</span></div>
+        <div class="menu"><img src="./images/menu1.png" alt="menu" height="32px" width="32px"> </div>
         <nav class="nav">
             <div class="login nav__item"><a class="login-modal">Log in</a></div>
             <div class="signup nav__item"><a href="signup.html">Sign Up</a></div>
-            </div>
           </nav>
           <div class="shopping-cart-card">
             <div class="cart-arrow"></div>
@@ -67,14 +67,11 @@
   <main class="content">
     <div class="hero">
         <div class="search">
-            <input class="search-food" type="text" placeholder="Search" />
+            <input class="search-food" type="text" placeholder="Search" /><button class="search-food-btn">Search</button>
           </div>
     </div>
     <div class="pop-up">
       <div class="pop-up-container">
-        <div>
-          <img class="pop-up-image" src="./images/happy.png"/>
-        </div>
         <div class="pop-up-msg-group">
           <h2 class="pop-up-title">Hi Customer! This is your Attendant</h2>
           <p class="pop-up-message">You have already added this to your food cart. Please adjust the quantity there</p>
@@ -83,133 +80,333 @@
       </div>
     </div>
     <div class="content-food">
-      <div class="container">
-        <div class="card">
-          <h1 class="food-title">Double-Double</h1>
-          <div class="space"></div>
-          <div class="food-group">
-          <img class="food-img" alt="double-double" src="./images/double-double.jpg">
-          <div class="food-more">
-              <h2>Details</h2>
-              <ul class="details">
-                <li class="price">1,550</li>
-                <li class="calorie">700cal</li>
-                <li class="ingredient">beef,vegetables,onions</li>
-                <li class="rating">5</li>
-              </ul>
-            </div>
-            </div>
-          <hr/>
-          <p class="food-des">There's one small change that can take the Double-Double from “best burger ever” to “literal perfection between two buns...</p>
-          <h1 class="order-now" data-price="1550" data-title="double-double" data-image-src="./images/double-double.jpg">add to cart</h1>
-          
-        </div>
-
-        <div class="card">
-          <h1 class="food-title">Chicken Popeyes</h1>
-          <div class="space"></div>
-          <div class="food-group">
-          <img class="food-img" alt="chicken-popeye" src="./images/chiken-popeye.jpg">
-          <div class="food-more">
-              <h2>Details</h2>
-              <ul class="details">
-                <li class="price">2,250</li>
-                <li class="calorie">440cal</li>
-                <li class="ingredient">chicken, wheat</li>
-                <li class="rating">5</li>
-              </ul>
-            </div>
-            </div>
-          <hr/>
-          <p class="food-des">succulent meat and those perfectly crisp and savory flaps of fried skin...</p>
-          <h1 class="order-now" data-price="2250" data-title="Chicken Popeyes" data-image-src="./images/chiken-popeye.jpg">add to cart</h1>
-          
-        </div>
-
-        <div class="card">
-          <h1 class="food-title">Chicken Sandwich</h1>
-          <div class="space"></div>
-          <div class="food-group">
-          <img class="food-img" alt="chicken-sandwich" src="./images/chicken-sandwich.jpg">
-          <div class="food-more">
-              <h2>Details</h2>
-              <ul class="details">
-                <li class="price">1,850</li>
-                <li class="calorie">440cal</li>
-                <li class="ingredient">chicken, wheat</li>
-                <li class="rating">4.5</li>
-              </ul>
-            </div>
-            </div>
-          <hr/>
-          <p class="food-des">The Chick-fil-A chicken sandwich is transcendent. The perfect combination of a generous portion of breaded chicken, soft bun, and tart pickles...</p>
-          <h1 class="order-now" data-price="1850" data-title="Chicken Sandwich" data-image-src="./images/chicken-sandwich.jpg">add to cart</h1>
-          
-        </div>
-
-        <div class="card">
-          <h1 class="food-title">Spicy Chicken Sandwich</h1>
-          <div class="space"></div>
-          <div class="food-group">
-          <img class="food-img" alt="spicey-chicken" src="./images/spiceychickensandwich.jpg">
-          <div class="food-more">
-              <h2>Details</h2>
-              <ul class="details">
-                <li class="price">2,850</li>
-                <li class="calorie">570cal</li>
-                <li class="ingredient">chicken,spices</li>
-                <li class="rating">5</li>
-              </ul>
-            </div>
-            </div>
-          <hr/>
-          <p class="food-des">This spicy chicken sandwich is iconic despite taking more than 50 years to arrive. It is the best spicey chicken ever...</p>
-          <h1 class="order-now" data-price="2850" data-title="Spicey Chicken Sandwich" data-image-src="./images/spiceychickensandwich.jpg">add to cart</h1>
-          
-        </div>
-
-        <div class="card">
-          <h1 class="food-title">Bacon Cheeseburger</h1>
-          <div class="space"></div>
-          <div class="food-group">
-          <img class="food-img" alt="bacon" src="./images/bacon-chesseburger.jpg">
-          <div class="food-more">
-              <h2>Details</h2>
-              <ul class="details">
-                <li class="price">2,250</li>
-                <li class="calorie">440cal</li>
-                <li class="ingredient">beef,cheese,bacon</li>
-                <li class="rating">5</li>
-              </ul>
-            </div>
-            </div>
-          <hr/>
-          <p class="food-des">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</p>
-          <h1 class="order-now" data-price="2250" data-title="Bacon Cheeseburger" data-image-src="./images/bacon-chesseburger.jpg">add to cart</h1>
-          
-        </div>
-
-        <div class="card">
-          <h1 class="food-title">Waffle Fries</h1>
-          <div class="space"></div>
-          <div class="food-group">
-          <img class="food-img" alt="waffles-fries" src="./images/wafflesfries.jpg">
-          <div class="food-more">
-              <h2>Details</h2>
-              <ul class="details">
-                <li class="price">1,250</li>
-                <li class="calorie">400cal</li>
-                <li class="ingredient">patatoes, wheat</li>
-                <li class="rating">4.5</li>
-              </ul>
-            </div>
-            </div>
-          <hr/>
-          <p class="food-des">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</p>
-          <h1 class="order-now" data-price="1250" data-title="Waffles fries" data-image-src="./images/wafflesfries.jpg">add to cart</h1>
-          
-        </div>
+      <div class="food-tab">
+       <button class="food-tablinks" data-foodtabs="favourite" id="fav-link">Most Popular</button>
+        <button class="food-tablinks active" data-foodtabs="sale" id="sale-link">Sale</button>
+        <button class="food-tablinks" data-foodtabs="recommended" id="rec-link">Recommended</button>
       </div>
+        <div class="tab-content" id="sale">
+          <div class="tab-content-container">
+              <div class="card">
+                  <h1 class="food-title">Spicy Chicken Sandwich</h1>
+                  <div class="space"></div>
+                  <div class="food-group">
+                  <img class="food-img" alt="spicey-chicken" src="./images/spiceychickensandwich.jpg">
+                  <div class="food-more">
+                      <h2>Details</h2>
+                      <ul class="details">
+                        <li class="price">2,850</li>
+                        <li class="calorie">570cal</li>
+                        <li class="ingredient">chicken,spices</li>
+                        
+                      </ul>
+                    </div>
+                    </div>
+                  <hr/>
+                  <p class="food-des">This spicy chicken sandwich is iconic despite taking more than 50 years to arrive. It is the best spicey chicken ever...</p>
+                  <h1 class="order-now" data-price="2850" data-title="Spicey Chicken Sandwich" data-image-src="./images/spiceychickensandwich.jpg">add to cart</h1>
+                  
+                </div>
+        
+                <div class="card">
+                  <h1 class="food-title">Bacon Cheeseburger</h1>
+                  <div class="space"></div>
+                  <div class="food-group">
+                  <img class="food-img" alt="bacon" src="./images/bacon-chesseburger.jpg">
+                  <div class="food-more">
+                      <h2>Details</h2>
+                      <ul class="details">
+                        <li class="price">2,250</li>
+                        <li class="calorie">440cal</li>
+                        <li class="ingredient">beef,cheese,bacon</li>
+                        
+                      </ul>
+                    </div>
+                    </div>
+                  <hr/>
+                  <p class="food-des">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</p>
+                  <h1 class="order-now" data-price="2250" data-title="Bacon Cheeseburger" data-image-src="./images/bacon-chesseburger.jpg">add to cart</h1>
+                  
+                </div>
+        
+                <div class="card">
+                  <h1 class="food-title">Waffle Fries</h1>
+                  <div class="space"></div>
+                  <div class="food-group">
+                  <img class="food-img" alt="waffles-fries" src="./images/wafflesfries.jpg">
+                  <div class="food-more">
+                      <h2>Details</h2>
+                      <ul class="details">
+                        <li class="price">1,250</li>
+                        <li class="calorie">400cal</li>
+                        <li class="ingredient">patatoes, wheat</li>
+                     
+                      </ul>
+                    </div>
+                    </div>
+                  <hr/>
+                  <p class="food-des">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</p>
+                  <h1 class="order-now" data-price="1250" data-title="Waffles fries" data-image-src="./images/wafflesfries.jpg">add to cart </h1>
+                  
+                </div>
+                <div class="card">
+                    <h1 class="food-title">Double-Double</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="double-double" src="./images/double-double.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">2,550</li>
+                          <li class="calorie">700cal</li>
+                          <li class="ingredient">beef,vegetables</li>
+                          
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">There's one small change that can take the Double-Double from “best burger ever” to “literal perfection between two buns...</p>
+                    <h1 class="order-now" data-price="1550" data-title="double-double" data-image-src="./images/double-double.jpg">add to cart</h1>
+                  </div>
+          
+                  <div class="card">
+                    <h1 class="food-title">Chicken Popeyes</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="chicken-popeye" src="./images/chiken-popeye.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">2,250</li>
+                          <li class="calorie">440cal</li>
+                          <li class="ingredient">chicken, wheat</li>
+                          
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">succulent meat and those perfectly crisp and savory flaps of fried skin...</p>
+                    <h1 class="order-now" data-price="2250" data-title="Chicken Popeyes" data-image-src="./images/chiken-popeye.jpg">add to cart</h1>
+                  </div>
+          
+                  <div class="card">
+                    <h1 class="food-title">Chicken Sandwich</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="chicken-sandwich" src="./images/chicken-sandwich.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">1,850</li>
+                          <li class="calorie">440cal</li>
+                          <li class="ingredient">chicken, wheat</li>
+                       
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">Chicken sandwich is transcendent. The perfect combination of a generous portion of breaded chicken, soft bun, and tart pickles...</p>
+                    <h1 class="order-now" data-price="1850" data-title="Chicken Sandwich" data-image-src="./images/chicken-sandwich.jpg">add to cart</h1>
+                    
+                  </div>
+          </div>
+        </div>
+        <div class="tab-content" id="recommended">
+            <div class="tab-content-container">
+                <div class="card">
+                    <h1 class="food-title">Spicy Chicken Sandwich</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="spicey-chicken" src="./images/spiceychickensandwich.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">2,850</li>
+                          <li class="calorie">570cal</li>
+                          <li class="ingredient">chicken,spices</li>
+                          
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">This spicy chicken sandwich is iconic despite taking more than 50 years to arrive. It is the best spicey chicken ever...</p>
+                    <h1 class="order-now" data-price="2850" data-title="Spicey Chicken Sandwich" data-image-src="./images/spiceychickensandwich.jpg">add to cart</h1>
+                    
+                  </div>
+          
+                  <div class="card">
+                    <h1 class="food-title">Bacon Cheeseburger</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="bacon" src="./images/bacon-chesseburger.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">2,250</li>
+                          <li class="calorie">440cal</li>
+                          <li class="ingredient">beef,cheese,bacon</li>
+                          
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</p>
+                    <h1 class="order-now" data-price="2250" data-title="Bacon Cheeseburger" data-image-src="./images/bacon-chesseburger.jpg">add to cart</h1>
+                    
+                  </div>
+          
+                  <div class="card">
+                    <h1 class="food-title">Waffle Fries</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="waffles-fries" src="./images/wafflesfries.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">1,250</li>
+                          <li class="calorie">400cal</li>
+                          <li class="ingredient">patatoes, wheat</li>
+                        
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</p>
+                    <h1 class="order-now" data-price="1250" data-title="Waffles fries" data-image-src="./images/wafflesfries.jpg">add to cart</h1>
+                    
+                  </div>
+            </div>
+        </div>
+        <div class="tab-content" id="favourite">
+          <div class="tab-content-container">
+              <div class="card">
+                  <h1 class="food-title">Double-Double</h1>
+                  <div class="space"></div>
+                  <div class="food-group">
+                  <img class="food-img" alt="double-double" src="./images/double-double.jpg">
+                  <div class="food-more">
+                      <h2>Details</h2>
+                      <ul class="details">
+                        <li class="price">1,550</li>
+                        <li class="calorie">700cal</li>
+                        <li class="ingredient">beef,vegetables</li>
+                        
+                      </ul>
+                    </div>
+                    </div>
+                  <hr/>
+                  <p class="food-des">There's one small change that can take the Double-Double from “best burger ever” to “literal perfection between two buns...</p>
+                  <h1 class="order-now" data-price="1550" data-title="double-double" data-image-src="./images/double-double.jpg">add to cart</h1>
+                </div>
+        
+                <div class="card">
+                  <h1 class="food-title">Chicken Popeyes</h1>
+                  <div class="space"></div>
+                  <div class="food-group">
+                  <img class="food-img" alt="chicken-popeye" src="./images/chiken-popeye.jpg">
+                  <div class="food-more">
+                      <h2>Details</h2>
+                      <ul class="details">
+                        <li class="price">2,250</li>
+                        <li class="calorie">440cal</li>
+                        <li class="ingredient">chicken, wheat</li>
+                        
+                      </ul>
+                    </div>
+                    </div>
+                  <hr/>
+                  <p class="food-des">succulent meat and those perfectly crisp and savory flaps of fried skin...</p>
+                  <h1 class="order-now" data-price="2250" data-title="Chicken Popeyes" data-image-src="./images/chiken-popeye.jpg">add to cart</h1>
+                </div>
+        
+                <div class="card">
+                  <h1 class="food-title">Chicken Sandwich</h1>
+                  <div class="space"></div>
+                  <div class="food-group">
+                  <img class="food-img" alt="chicken-sandwich" src="./images/chicken-sandwich.jpg">
+                  <div class="food-more">
+                      <h2>Details</h2>
+                      <ul class="details">
+                        <li class="price">1,850</li>
+                        <li class="calorie">440cal</li>
+                        <li class="ingredient">chicken, wheat</li>
+                       
+                      </ul>
+                    </div>
+                    </div>
+                  <hr/>
+                  <p class="food-des">Chicken sandwich is transcendent. The perfect combination of a generous portion of breaded chicken, soft bun, and tart pickles...</p>
+                  <h1 class="order-now" data-price="1850" data-title="Chicken Sandwich" data-image-src="./images/chicken-sandwich.jpg">add to cart</h1>
+                  
+                </div>
+                <div class="card">
+                    <h1 class="food-title">Spicy Chicken Sandwich</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="spicey-chicken" src="./images/spiceychickensandwich.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">2,850</li>
+                          <li class="calorie">570cal</li>
+                          <li class="ingredient">chicken,spices</li>
+                          
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">This spicy chicken sandwich is iconic despite taking more than 50 years to arrive. It is the best spicey chicken ever...</p>
+                    <h1 class="order-now" data-price="2850" data-title="Spicey Chicken Sandwich" data-image-src="./images/spiceychickensandwich.jpg">add to cart</h1>
+                    
+                  </div>
+          
+                  <div class="card">
+                    <h1 class="food-title">Bacon Cheeseburger</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="bacon" src="./images/bacon-chesseburger.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">2,250</li>
+                          <li class="calorie">440cal</li>
+                          <li class="ingredient">beef,cheese,bacon</li>
+                          
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">This burger tastes like an actual bacon cheeseburger made with beef and bacon, and that's why it's good. This isn't complicated....</p>
+                    <h1 class="order-now" data-price="2250" data-title="Bacon Cheeseburger" data-image-src="./images/bacon-chesseburger.jpg">add to cart</h1>
+                    
+                  </div>
+          
+                  <div class="card">
+                    <h1 class="food-title">Waffle Fries</h1>
+                    <div class="space"></div>
+                    <div class="food-group">
+                    <img class="food-img" alt="waffles-fries" src="./images/wafflesfries.jpg">
+                    <div class="food-more">
+                        <h2>Details</h2>
+                        <ul class="details">
+                          <li class="price">1,250</li>
+                          <li class="calorie">400cal</li>
+                          <li class="ingredient">patatoes, wheat</li>
+                        
+                        </ul>
+                      </div>
+                      </div>
+                    <hr/>
+                    <p class="food-des">You could probably eat our waffle fries forever. Waffle fries are delicious and leaves you wanting more....</p>
+                    <h1 class="order-now" data-price="1250" data-title="Waffles fries" data-image-src="./images/wafflesfries.jpg">add to cart</h1>
+                    
+                  </div>
+          </div>
+        </div>
+
+        
+
+        
     </div>
     
   </main>
@@ -217,6 +414,7 @@
     <p>&copy;Copyright 2018</p>
 </footer>
   <script src="js/app.js"></script>
+  <script src="js/nav.js"></script>
 </body>
 
 </html>
