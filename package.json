@@ -32,7 +32,8 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "pg-promise": "^8.4.6"
+    "pg-promise": "^8.4.6",
+    "dotenv": "^6.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -41,7 +42,6 @@
     "eslint": "^5.5.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "dotenv": "^6.0.0",
     "expect": "^23.6.0",
     "jsdoc": "^3.5.5",
     "mocha": "^5.2.0",
