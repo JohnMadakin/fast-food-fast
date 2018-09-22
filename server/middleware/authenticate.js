@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -20,7 +21,8 @@ export default class authenticate {
   }
 
   checkUserType(user, res) {
-    if (user.userType !== '000893') {
+    const { userType } = user;
+    if (!bcrypt.compareSync(userType, process.env.USERCODE)) {
       return res.status(401)
         .json({
           message: 'not authenticated, you are not authorized to visit this page',
