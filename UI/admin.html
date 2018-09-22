@@ -252,7 +252,7 @@
                       </div>
                       <div class="food-item-ing">chicken,spices</div>
                       <div class="food-item-cal">570</div>
-                      <div class="food-price">2850</div>
+                      <div class="food-price">12850</div>
                       <div class="edit">Edit</div>
                       <div class="delete-item" ></div>
                       <div class="food-description">This spicy chicken sandwich is iconic despite taking more than 50 years to arrive. It is the best spicey chicken ever...</div>
@@ -277,7 +277,7 @@
                   <img class="checkout-cart-image item-image" src="./images/double-double.jpg" />
                   <div class="food-item-title">Double-Double</div>
                       </div>
-                      <div class="food-item-ing">beef,vegetables</div>
+                      <div class="food-item-ing">beef,vegetables, onions</div>
                       <div class="food-item-cal">700</div>
                       <div class="food-price">2250</div>
                       <div class="edit">Edit</div>
@@ -299,14 +299,16 @@
               <input id="title" type="text" placeholder="Food Name" name="foodname" required>
               <input id="price" type="number" placeholder="Price" name="price" required>
               <input id="calorie" type="number" placeholder="Calorie" name="calorie" required>
-              <textarea id="ingredient" cols="105" rows="3" placeholder="Separate ingredients with a comma" ></textarea><br>
+              <textarea id="ingredient"  placeholder="Separate ingredients with a comma" ></textarea><br>
               <select id="category">
                 <option selected disabled>Select Category</option>
                 <option>favourite</option>
                 <option>recommended</option>
                 <option>sale</option>
               </select><br>
-              <textarea id="description" cols="105" rows="5" placeholder="Description" ></textarea><br>
+              <label>Upload Food Image: </label>
+              <input class="upload-image" type="file" name="pic" accept="image/*"><br>
+              <textarea id="description"  placeholder="Description" ></textarea><br>
               <div class="save-edited-menu">
                   <button class="submit" type="submit">Save</button>
                   <button class= "cancelbtn" type="submit">cancel</button>
