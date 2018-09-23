@@ -158,6 +158,5 @@ export const validateUser = (req, res, next) => {
       error: 'Invalid image url',
     });
   }
-  console.log('please dont reach me?');
   return next();
 };
