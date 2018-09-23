@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-export default class authenticate {
+export default class Authenticate {
   constructor() {
     this.authenticateAdmin = this.authenticateAdmin.bind(this);
     this.authenticateUser = this.authenticateUser.bind(this);

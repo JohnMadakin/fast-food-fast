@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS USERS(
     id SERIAL UNIQUE,
     firstname VARCHAR(25) NOT NULL,
     lastname VARCHAR(25) NOT NULL,
-    phoneNo VARCHAR(11) NOT NULL,
+    phoneNo VARCHAR(11) NOT NULL UNIQUE,
     deliveryAddress VARCHAR(100),
     imageUrl VARCHAR(100),
     userType VARCHAR(25),

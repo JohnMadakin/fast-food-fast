@@ -1,185 +1,163 @@
-export default class ValidateUser {
-  constructor() {
-    this.validateProfileImage = this.validateProfileImage.bind(this);
-    this.validatePasswordLength = this.validatePasswordLength.bind(this);
-    this.validatePhoneNo = this.validatePhoneNo.bind(this);
-    this.validateEmail = this.validateEmail.bind(this);
-    this.validateAddress = this.validateAddress.bind(this);
-    this.validateName = this.validateName.bind(this);
-    this.validateUsername = this.validateUsername.bind(this);
-  }
-
-  validateNumber(number) {
-    const validator = `${number}`;
-    if (validator.length > 5) {
-      return false;
-    }
+export const validateStringLength = (string) => {
+  if (string.length >= 6 && string.length <= 300) {
     return true;
   }
+  return false;
+};
 
-  validateID(id) {
-    const reg = /^[0-9]+$/;
-    if (reg.test(id)) {
-      return false;
-    }
+/**
+ * Regex Source: * https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+ * returns a token for the new user to sign in
+ * @param {string} email
+ **/
+export const checkValidEmail = (email) => {
+  const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const isValid = reg.test(String(email).toLowerCase());
+  if (!isValid) return false;
+  return true;
+};
+
+export const validateText = (text) => {
+  const validText = /^[0-9a-zA-Z\s #$&()%;,_@+|?!\.\-]+$/;
+  if (text.length >= 10 && text.length <= 150 && !!text.match(validText)) {
     return true;
   }
+  return false;
+};
 
-  validateStringLength(string) {
-    if (string.length >= 6 && string.length <= 300) {
-      return true;
-    }
-    return false;
-  }
+export const validatePhoneNo = (phone) => {
+  const validPhoneChar = /^[0][1-9]\d{7}$|^[0][7-9][0-9][0-9]\d{7}$/g;
+  return phone.trim().match(validPhoneChar);
+};
 
-  /**
-   * Regex Source: * https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-   * returns a token for the new user to sign in
-   * @param {string} email
-  **/
 
-  checkValidEmail(email) {
-    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const isValid = reg.test(String(email).toLowerCase());
-    if (!isValid) return false;
-    return true;
-  }
+export const validateImageUrl = (url) => {
+  const reg = /\.(jpe?g|png|)$/i;
+  if (reg.test(url)) return true;
+  return false;
+};
 
-  validateEmail(res, key, email) {
-    if (key === 'email' && !this.checkValidEmail(email)) {
+export const validateString = (string) => {
+  if (typeof string !== 'string') return false;
+  if (string.length < 2 || string.length > 25) return false;
+  const validString = /^[a-zA-Z-]+$/;
+  return string.trim().match(validString);
+};
+
+export const validateUserText = (string) => {
+  if (typeof string !== 'string') return false;
+  if (string.length < 6 || string.length > 25) return false;
+  const validString = /^[0-9a-zA-Z_]+$/;
+  return string.trim().match(validString);
+};
+
+
+export const validateLoginDetail = (req, res, next) => {
+  const {
+    username,
+    password
+  } = req.body;
+  const inputs = Object.keys(req.body);
+  const validKeys = ['username', 'password'];
+  for (let key of inputs) {
+    if (!validKeys.includes(key)) {
       return res.status(400).json({
-        error: `${key} is invalid`,
+        error: `${key} is an Invalid key. Keys should be sent as username and password`,
       });
     }
-    return true;
+    validateUsername(username);
+    validatePasswordLength(password);
   }
-
-  validateText(text) {
-    const validText = /^[0-9a-zA-Z\s #$&()%;,_@+|?!\.\-]+$/;
-    if (text.length >= 10 && text.length <= 150 && !!text.match(validText)) {
-      return true;
-    }
-    return false;
-  }
-
-  validateAddress(res, key, address) {
-    if ((key === 'homeAddress' || key === 'deliveryAddress') && !this.validateText(address)) {
-      return res.status(400).json({
-        error: `${key} entered is invalid`,
-      });
-    }
-    return true;
-  }
-
-  validatePasswordLength(res, key, psw) {
-    if (key === 'imageUrl' && !this.validateStringLength(psw)) {
-      return res.status(400).json({
-        error: 'Invalid password length',
-      });
-    }
-    return true;
-  }
-
-  validatePhoneNo(res, key, phoneNo) {
-    if (key === 'phoneNo' && !this.validateNumber(phoneNo)) {
-      return res.status(400).json({
-        error: `${key} entered is invalid`,
-      });
-    }
-    return true;
-  }
-
-  validateName(res, key, name) {
-    if ((key === 'firstname' || key === 'lastname') && !this.validateString(name)) {
-      return res.status(400).json({
-        error: `${key} entered is invalid`,
-      });
-    }
-    return true;
-  }
-
-  validateImageUrl(url) {
-    const reg = /\.(jpe?g|png|)$/i;
-    if (reg.test(url)) return true;
-    return false;
-  }
-
-  validateProfileImage(res, key, image) {
-    if (key === 'imageUrl' && !this.validateImageUrl(image)) {
-      return res.status(400).json({
-        error: 'Invalid image url',
-      });
-    }
-    return true;
-  }
-
-  validateString(string) {
-    if (typeof string !== 'string') return false;
-    if (string.length < 2 || string.length > 25) return false;
-    const validString = /^[a-zA-Z-]+$/;
-    return string.trim().match(validString);
-  }
-
-  validateUserText(string) {
-    if (typeof string !== 'string') return false;
-    if (string.length < 6 || string.length > 25) return false;
-    const validString = /^[0-9a-zA-Z-_]+$/;
-    return string.trim().match(validString);
-  }
-
-  validateUsername(res, key, string) {
-    if (key === 'username' && !this.validateUserText(string)) {
-      return res.status(400).json({
-        error: 'Invalid username',
-      });
-    }
-    return true;
-  }
-
-  validateLoginDetail(req, res, next) {
-    const { username, password } = req.body;
-    const inputs = Object.keys(req.body);
-    const validKeys = ['username', 'password'];
-    for (let key of inputs) {
-      if (!validKeys.includes(key)) {
-        return res.status(400).json({
-          error: `${key} is an Invalid key. Keys should be sent as username and password`,
-        });
-      }
-      this.validateUsername(username);
-      this.validatePasswordLength(password);
-    }
-    return next();
-  }
-  
-  validateUser(req, res, next) {
-    const {
-      id
-    } = req.params;
-    const inputs = Object.keys(req.body);
-    const validKeys = ['firstname', 'lastname', 'email', 'username', 'homeAddress', 'deliveryAddress', 'phoneNo', 'password', 'imageUrl'];
-    if (id && this.validateID(id)) {
-      return res.status(400).json({
-        error: 'Invalid ID! Check that ID',
-      });
-    }
-    for (let key of inputs) {
-      if(key === 'imageUrl' && res.body[key] == ""){
-        next();
-      }
-      if (!validKeys.includes(key)) {
-        return res.status(400).json({
-          error: `${key} is an Invalid key`,
-        });
-      }
-      this.validateEmail(res, key, req.body[key]);
-      this.validateAddress(res, key, req.body[key]);
-      this.validatePhoneNo(res, key, req.body[key]);
-      this.validateName(res,key, req.body[key]);
-      this.validateProfileImage(res,key, req.body[key]);
-      this.validatePasswordLength(res,key, req.body[key]);
-      this.validateUsername(res,key, req.body[key]);
-    }
-    return next();
-  }
+  return next();
 }
+
+export const validateKeys = (key, validKeys) => {
+  if (!validKeys.includes(key)) {
+    return false;
+  }
+  return true;
+};
+
+export const validateKeysLength = (res, inputs, validKeys) => {
+  if (inputs.length > validKeys.length) {
+    return res.status(400).json({
+      error: 'invalid key',
+      message: 'number of keys exceeded',
+    });
+  }
+  if (inputs.length < validKeys.length) {
+    return res.status(400).json({
+      error: 'invalid key',
+      message: 'incomplete valid keys',
+    });
+  }
+  return true;
+};
+
+export const validateUser = (req, res, next) => {
+  const {
+    email,
+    username,
+    password,
+    deliveryAddress,
+    phoneNo,
+    firstname,
+    lastname,
+    imageUrl,
+  } = req.body;
+  const validKeys = ['firstname', 'lastname', 'email', 'username', 'deliveryAddress', 'phoneNo', 'password', 'imageUrl'];
+  const inputs = Object.keys(req.body);
+  validateKeysLength(res, inputs, validKeys);
+  for (let i = 0; i < inputs.length; i++) {
+    if (validateKeys(inputs[i], validKeys) === false) {
+      return res.status(400).json({
+        error: 'invalid key',
+        message: 'please enter valid keys',
+      });
+    }
+  }
+  if (!validateUserText(username)) {
+    return res.status(400).json({
+      message: 'invalid username',
+      error: 'only special character of _ is allowed, and length > 6 or <= 25',
+    });
+  }
+  if (!validateString(firstname)) {
+    return res.status(400).json({
+      error: 'firstname or lastname entered is invalid',
+    });
+  }
+  if (!validateString(lastname)) {
+    return res.status(400).json({
+      error: 'firstname or lastname entered is invalid',
+    });
+  }
+  if (!validateStringLength(password)) {
+    return res.status(400).json({
+      error: 'Invalid password length',
+    });
+  }
+  if (!validateText(deliveryAddress)) {
+    return res.status(400).json({
+      error: 'Address entered is invalid',
+    });
+  }
+  if (!validatePhoneNo(phoneNo)) {
+    return res.status(400).json({
+      error: 'phone number entered is invalid',
+      message: 'ensure value type is a string and 9digit or 11digits phone number ',
+    });
+  }
+  if (!checkValidEmail(email)) {
+    return res.status(400).json({
+      error: 'email is invalid',
+    });
+  }
+  if (!validateImageUrl(imageUrl) && imageUrl !== '') {
+    return res.status(400).json({
+      error: 'Invalid image url',
+    });
+  }
+  console.log('please dont reach me?');
+  return next();
+};
