@@ -5,3 +5,7 @@ services:
  - postgresql
 after_success:
   - npm run coverage
+before_script:
+  - psql -c "CREATE DATABASE fast_food_fast;" -U postgres
+  - psql -c "ALTER USER postgres WITH PASSWORD 'password!1';" -U postgres
+  

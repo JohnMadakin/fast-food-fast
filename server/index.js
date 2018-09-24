@@ -5,8 +5,16 @@ import cors from 'cors';
 import config from './config/config';
 import Orders from './controllers/orders';
 import validate from './middleware/validate';
+import { validateUser } from './middleware/userValidation';
+import Authenticate from './middleware/authenticate';
+import Users from './controllers/users';
+import db from './db/dbconnection';
 
+const auth = new Authenticate();
 const orders = new Orders();
+const users = new Users();
+
+db.tables.create();
 
 const app = express();
 
@@ -28,6 +36,14 @@ app.get('/', (req, res) => {
     </pre>`;
   res.send(info);
 });
+
+
+/**
+ * POST route to signup
+ * @params {string} url
+ * @params {function} postOrder
+ */
+app.post('/api/v1/auth/signup', validateUser, users.userSignUp);
 
 /**
  * GET route to get all oders from the DB
