@@ -6,10 +6,10 @@ export const validateStringLength = (string) => {
 };
 
 /**
- * Regex Source: * https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
+ *  regex: https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
  * returns a token for the new user to sign in
  * @param {string} email
- **/
+ */
 export const checkValidEmail = (email) => {
   const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const isValid = reg.test(String(email).toLowerCase());
@@ -118,8 +118,8 @@ export const validateUser = (req, res, next) => {
   }
   if (!validateUserText(username)) {
     return res.status(400).json({
-      message: 'invalid username',
-      error: 'only special character of _ is allowed, and length > 6 or <= 25',
+      error: 'invalid username',
+      message: 'only special character of _ is allowed, and length > 6 or <= 25',
     });
   }
   if (!validateString(firstname)) {
@@ -145,7 +145,7 @@ export const validateUser = (req, res, next) => {
   if (!validatePhoneNo(phoneNo)) {
     return res.status(400).json({
       error: 'phone number entered is invalid',
-      message: 'ensure value type is a string and 9digit or 11digits phone number ',
+      message: 'ensure value type is a string and 9digit or 11digits phone number',
     });
   }
   if (!checkValidEmail(email)) {

@@ -8,10 +8,13 @@ import validate from './middleware/validate';
 import { validateUser } from './middleware/userValidation';
 import Authenticate from './middleware/authenticate';
 import Users from './controllers/users';
+import db from './db/dbconnection';
 
 const auth = new Authenticate();
 const orders = new Orders();
 const users = new Users();
+
+db.tables.create();
 
 const app = express();
 

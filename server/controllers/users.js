@@ -31,18 +31,26 @@ export default class Users {
     return bcrypt.hashSync(process.env.USERCODE, salt);
   }
 
-/**
-   * 
+  /**
    * @param {object} req 
    * @param {object} res
-   * 
+   *
    */
   userSignUp(req, res) {
     const userType = this.hashUser();
-    const { email, username, password, deliveryAddress, phoneNo, firstname, lastname, imageUrl } = req.body;
+    const {
+      email,
+      username,
+      password,
+      deliveryAddress,
+      phoneNo,
+      firstname,
+      lastname,
+      imageUrl,
+    } = req.body;
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, (err, hash) => {
-        db.one('INSERT INTO users(firstname, lastname,phoneNo,deliveryAddress,imageurl, usertype, username,password, email) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id,username,imageurl,firstname, userType', [firstname, lastname, phoneNo, deliveryAddress, imageUrl, userType, username, hash, email])
+        db.one('INSERT INTO users(firstname, lastname,phoneNo,deliveryAddress,imageurl, usertype, username,password, email) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id,username,imageurl,firstname, usertype', [firstname, lastname, phoneNo, deliveryAddress, imageUrl, userType, username, hash, email])
           .then((data) => {
             const token = this.generateAuthToken(data);
             return res.header('x-auth', token)
@@ -62,7 +70,7 @@ export default class Users {
             return res.status(400).json({
               status: 'failure',
               message: 'signup unsuccessful',
-              errorcode: error.code,
+              errorcode: error,
             });
           })
           .catch(() => {

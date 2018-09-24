@@ -1,6 +1,6 @@
 import sql from './sql/helper';
 
-const sqlConstant = sql.tbles;
+const sqlConstant = sql.tables;
 
 export default class CreateTables {
   constructor(db) {
