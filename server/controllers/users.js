@@ -10,7 +10,9 @@ dotenv.config();
 export default class Users {
   constructor() {
     this.userSignUp = this.userSignUp.bind(this);
+    this.userSignIn = this.userSignIn.bind(this);
     this.generateAuthToken = this.generateAuthToken.bind(this);
+    this.saveUser = this.saveUser.bind(this);
   }
 
   /**
@@ -38,6 +40,15 @@ export default class Users {
    */
   userSignUp(req, res) {
     const userType = this.hashUser();
+    this.saveUser(req, res, userType);
+  }
+
+  /** this function is called by both the userSignup and adminSignup to save users
+   * @param {object} req 
+   * @param {object} res
+   *
+   */
+  saveUser(req, res, userType) {
     const {
       email,
       username,
@@ -82,5 +93,49 @@ export default class Users {
     });
   }
 
-
+  /**
+ * Method to sign Users in
+ * @param {object} req
+ * @param {object} res
+ */
+  userSignIn(req, res) {
+    const { username, password } = req.body;
+    db.one('SELECT * FROM users where username = $1', username)
+      .then((data) => {
+        bcrypt.compare(password, data.password, (err, result) => {
+          if (result) {
+            const user = {
+              id: data.id,
+              username: data.username,
+              firstname: data.firstname,
+              userCode: data.usertype,
+              imageUrl: data.imageurl,
+              address: data.deliveryaddress,
+            };
+            const token = this.generateAuthToken(user);
+            return res.header('x-auth')
+              .json({
+                status: 'Success',
+                message: 'you have successfully signed in',
+                token,
+              });
+          }
+          return res.status(400).json({
+            status: 'not authenticated',
+            message: 'invalid password',
+          });
+        })
+      })
+      .catch((err) => {
+        if (err.code === 0) {
+          return res.status(400).json({
+            message: 'invalid username',
+          });
+        }
+        return res.status(500).json({
+          message: 'server error',
+          err,
+        });
+      });
+  }
 }
