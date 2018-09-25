@@ -140,3 +140,49 @@ describe('/POST create new User', () => {
   });
 });
 
+/**
+ * @param {string} ROute to test
+ * @param {function} callback function to test route
+ */
+describe('/POST create new User', () => {
+  it('should login users that have signed up', (done) => {
+    const userDetail = {
+      username: 'christain5',
+      password: 'password@1',
+    };
+    request(app).post('/api/v1/auth/login')
+      .send(userDetail)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.message).toEqual('you have successfully signed in');
+        expect(res.body.status).toEqual('Success');
+      })
+      .end(done);
+  });
+  it('should reject users with invalid username', (done) => {
+    const userDetail = {
+      username: 'christain',
+      password: 'password@1',
+    };
+    request(app).post('/api/v1/auth/login')
+      .send(userDetail)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('invalid username');
+      })
+      .end(done);
+  });
+  it('should reject users with invalid password', (done) => {
+    const userDetail = {
+      username: 'christain5',
+      password: 'password@',
+    };
+    request(app).post('/api/v1/auth/login')
+      .send(userDetail)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('invalid password');
+      })
+      .end(done);
+  });
+});

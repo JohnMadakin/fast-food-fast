@@ -65,11 +65,15 @@ export const validateLoginDetail = (req, res, next) => {
         error: `${key} is an Invalid key. Keys should be sent as username and password`,
       });
     }
-    validateUsername(username);
-    validatePasswordLength(password);
+  }
+  if (!validateUserText(username)) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'invalid username',
+    });
   }
   return next();
-}
+};
 
 export const validateKeys = (key, validKeys) => {
   if (!validKeys.includes(key)) {

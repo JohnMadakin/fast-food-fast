@@ -5,7 +5,7 @@ import cors from 'cors';
 import config from './config/config';
 import Orders from './controllers/orders';
 import validate from './middleware/validate';
-import { validateUser } from './middleware/userValidation';
+import { validateUser, validateLoginDetail } from './middleware/userValidation';
 import Authenticate from './middleware/authenticate';
 import Users from './controllers/users';
 import db from './db/dbconnection';
@@ -44,6 +44,13 @@ app.get('/', (req, res) => {
  * @params {function} postOrder
  */
 app.post('/api/v1/auth/signup', validateUser, users.userSignUp);
+
+/**
+ * POST route to signin
+ * @params {string} url
+ * @params {function} postOrder
+ */
+app.post('/api/v1/auth/login', validateLoginDetail, users.userSignIn);
 
 /**
  * GET route to get all oders from the DB
