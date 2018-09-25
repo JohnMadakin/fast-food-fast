@@ -43,7 +43,7 @@ export default class Users {
     this.saveUser(req, res, userType);
   }
 
-  /**
+  /** this function is called by both the userSignup and adminSignup to save users
    * @param {object} req 
    * @param {object} res
    *
@@ -101,9 +101,6 @@ export default class Users {
   userSignIn(req, res) {
     const { username, password } = req.body;
     db.one('SELECT * FROM users where username = $1', username)
-      .then((data) => {
-        return data;
-      })
       .then((data) => {
         bcrypt.compare(password, data.password, (err, result) => {
           if (result) {

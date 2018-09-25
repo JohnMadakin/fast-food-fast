@@ -144,8 +144,8 @@ describe('/POST create new User', () => {
  * @param {string} ROute to test
  * @param {function} callback function to test route
  */
-describe('/POST create new User', () => {
-  it('should login users that have signed up', (done) => {
+describe('/POST login users', () => {
+  it('should login users', (done) => {
     const userDetail = {
       username: 'christain5',
       password: 'password@1',
