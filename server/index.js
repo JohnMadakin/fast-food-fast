@@ -5,7 +5,11 @@ import cors from 'cors';
 import config from './config/config';
 import Orders from './controllers/orders';
 import validate from './middleware/validate';
-import { validateUser, validateLoginDetail } from './middleware/userValidation';
+import {
+  validateUser,
+  validateLoginDetail,
+} from './middleware/userValidation';
+import { validateMenuRoute } from './middleware/validateRoutes';
 import Authenticate from './middleware/authenticate';
 import Users from './controllers/users';
 import db from './db/dbconnection';
@@ -58,6 +62,13 @@ app.post('/api/v1/auth/login', validateLoginDetail, users.userSignIn);
  * @params {function} postOrder
  */
 app.post('/api/v1/auth/admin', validateUser, users.adminSignUp);
+
+/**
+ * POST route to post menu to the DB
+ * @params {string} url
+ * @params {function} getAllOrders
+ */
+app.post('/api/v1/menu', auth.authenticateAdmin, validateMenuRoute, orders.postMenu);
 
 /**
  * GET route to get all oders from the DB

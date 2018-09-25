@@ -135,7 +135,7 @@ export default class Users {
               address: data.deliveryaddress,
             };
             const token = this.generateAuthToken(user);
-            return res.header('x-auth')
+            return res.header('x-auth', token)
               .json({
                 status: 'Success',
                 message: 'you have successfully signed in',

@@ -1,10 +1,42 @@
 import data from '../models/data';
 import config from '../config/config';
+import db from '../db/dbconnection';
+
 
 export default class Orders {
   constructor() {
     this.postOrder = this.postOrder.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
+  }
+
+  postMenu(req, res) {
+    const { name, price, calorie, menu, ingredients, description, imageUrl } = req.body;
+    const userId = parseInt(req.user.id, 0);
+    const validName = name.trim();
+    db.one('INSERT INTO food(userid,title, price,calorie,description,menu,imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id, title, price,calorie,menu,imageurl, ingredient, description', [userId, validName, price, calorie, description, menu, imageUrl, ingredients])
+      .then((result) => {
+        return res.status(201).json({
+          food: result,
+          status: 'Success',
+          message: 'you have successfully added food to the menu',
+        });
+      }, (err) => {
+        if (err.code == '23505') {
+          return res.status(400).json({
+            status: 'error',
+            message: 'food title already exist',
+          });
+        }
+        return res.status(400).json({
+          status: 'error',
+          message: 'food not saved',
+        });
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          message: 'Error adding menu',
+        });
+      });
   }
 
   /**

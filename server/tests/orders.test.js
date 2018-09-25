@@ -4,6 +4,250 @@ import request from 'supertest';
 import app from '../index';
 import allData from '../models/data';
 
+const admin = {
+  username: 'omare26',
+  firstname: 'dafe',
+  lastname: 'Bailey',
+  password: 'password@1',
+  deliveryAddress: '5 gbagada road, lagos',
+  phoneNo: '08023219131',
+  email: 'omare@yahoo.com',
+  imageUrl:  'http://googleimages.com/profile.jpeg',
+};
+const user = {
+  username: 'bolaji23',
+  firstname: 'bolaji',
+  lastname: 'Alao',
+  password: 'password@1',
+  deliveryAddress: '10 isheri, gbagada road, lagos',
+  phoneNo: '07023219131',
+  email: 'bolaji5@yahoo.com',
+  imageUrl:  'http://googleimages.com/profile.jpeg',
+};
+let adminToken;
+let userToken;
+
+before('register an admin', (done) => {
+  request(app).post('/api/v1/auth/admin')
+    .send(admin)
+    .end((err, res) => {
+      if (err) throw err;
+      const { token } = res.body;
+      adminToken = token;
+      done();
+    });
+});
+
+before('register a user', (done) => {
+  request(app).post('/api/v1/auth/signup')
+    .send(user)
+    .end((err, res) => {
+      if (err) throw err;
+      const { token } = res.body;
+      userToken = token;
+      done();
+    });
+});
+
+describe('POST food/menu to menu Route', () => {
+  const menu =  {
+    name: 'waffle',
+    price: 890,
+    calorie: 240,
+    menu: 'Burgers',
+    ingredients: 'wheat, sugar',
+    description: 'The best cracker',
+    imageUrl: 'http://googleimages.com/waffles.jpg',
+ };
+  it('should return 200 when a menu is posted', (done) => {
+    request(app).post('/api/v1/menu')
+      .send(menu)
+      .set('x-auth', adminToken)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body.status).toEqual('Success');
+        expect(res.body.message).toEqual('you have successfully added food to the menu');
+        expect(typeof res.body.food).toEqual('object');
+      })
+      .end(done);
+  });
+  it('should return 401 if an unauthorized user tries to post', (done) => {
+    request(app).post('/api/v1/menu')
+      .send(menu)
+      .set('x-auth', userToken)
+      .expect(401)
+      .expect((res) => {
+        expect(res.body.message).toEqual(`not authenticated, you are not authorized to visit this page`);
+      })
+      .end(done);
+  });
+  it('should return 400 when you try to post the same food twice', (done) => {
+    request(app).post('/api/v1/menu')
+      .send(menu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.status).toEqual('error');
+        expect(res.body.message).toEqual('food title already exist');
+      })
+      .end(done);
+  });
+  it('should return 400 if you post an invalid key', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: 780,
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: 'wheat, oil',
+      description: 'This is the best waffle',
+      imageUrl: 'http://googleimages.com/waffles.png',
+      color: 'yellow'
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu )
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('number of keys exceeded');
+      })
+      .end(done);
+  });
+  it('should return 400 if you post an limited keys', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: 780,
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: 'wheat, oil',
+      description: 'This is the best waffle',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu )
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('incomplete valid keys');
+      })
+      .end(done);
+  });
+  it('should return 400 if you post an invalid food name', (done) => {
+    const invalidMenu = {
+      name: 'waffle%%1!',
+      price: 890,
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: 'wheat, sugar',
+      description: 'The best cracker',
+      imageUrl: 'http://googleimages.com/waffles.jpg',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('food name has an invalid value');
+      })
+      .end(done);
+  });
+  it('should return 400 if you post an invalid number value', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: '89e0',
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: 'wheat, sugar',
+      description: 'The best cracker',
+      imageUrl: 'http://googleimages.com/waffles.jpg',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('price or calorie has an invalid value');
+      })
+      .end(done);
+  });
+  it('should return 400 if you post an invalid menu value', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: 780,
+      calorie: 240,
+      menu: 'Burger',
+      ingredients: 'wheat, sugar',
+      description: 'The best cracker',
+      imageUrl: 'http://googleimages.com/waffles.jpg',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('please enter a valid value for menu');
+      })
+      .end(done);
+  });
+  it('should return 400 if you post an invalid image url', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: 780,
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: 'wheat, sugar',
+      description: 'The best cracker',
+      imageUrl: 'http://googleimages.com/waffles.gif',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('imageurl has an invalid value');
+      })
+      .end(done);
+  });
+
+  it('should return 400 if you post an invalid description lenght', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: 780,
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: 'wheat, sugar',
+      description: 'T',
+      imageUrl: 'http://googleimages.com/waffles.png',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('decription has an invalid value');
+      })
+      .end(done);
+  });
+
+  it('should return 400 if you post an invalid ingredient value', (done) => {
+    const invalidMenu = {
+      name: 'waffle',
+      price: 780,
+      calorie: 240,
+      menu: 'Burgers',
+      ingredients: '%',
+      description: 'This is the best waffle',
+      imageUrl: 'http://googleimages.com/waffles.png',
+   };
+    request(app).post('/api/v1/menu')
+      .send(invalidMenu)
+      .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('Invalid ingredient format! please separate items with a comma');
+      })
+      .end(done);
+  }); 
+});
+
 describe('Get all Orders', () => {
  
   it('should get all the orders', (done) => {

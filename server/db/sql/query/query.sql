@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS FOOD(
     price INT NOT NULL,
     calorie INT,
     description TEXT NOT NULL,
-    menu VARCHAR(25) UNIQUE,
+    menu VARCHAR(25),
     imageUrl VARCHAR(100),
     ingredient VARCHAR(50),
     primary key(id),

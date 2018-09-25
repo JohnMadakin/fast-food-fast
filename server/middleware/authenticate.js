@@ -21,13 +21,8 @@ export default class Authenticate {
   }
 
   checkUserType(user, res) {
-    const { userType } = user;
-    if (!bcrypt.compareSync(userType, process.env.USERCODE)) {
-      return res.status(401)
-        .json({
-          message: 'not authenticated, you are not authorized to visit this page',
-        });
-    }
+    const { usertype } = user;
+    
     return true;
   }
 
@@ -36,15 +31,20 @@ export default class Authenticate {
     this.checkToken(token, res);
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
+      if (bcrypt.compareSync(process.env.ADMINCODE, decoded.usertype) === false) {
+        return res.status(401)
+          .json({
+            message: 'not authenticated, you are not authorized to visit this page',
+          });
+      }
       req.user = decoded;
-      this.checkUserType(req.user, res);
-      next();
+      return next();
     } catch (e) {
       return res.status(401).json({
+        status: 'auth error',
         message: e,
       });
     }
-    return true;
   }
 
   authenticateUser(req, res, next) {
