@@ -10,6 +10,7 @@ dotenv.config();
 export default class Users {
   constructor() {
     this.userSignUp = this.userSignUp.bind(this);
+    this.adminSignUp = this.adminSignUp.bind(this);
     this.userSignIn = this.userSignIn.bind(this);
     this.generateAuthToken = this.generateAuthToken.bind(this);
     this.saveUser = this.saveUser.bind(this);
@@ -21,8 +22,7 @@ export default class Users {
    * @returns {string} token
    */
   generateAuthToken(data) {
-    const { username, userType, id } = data.username;
-    return jwt.sign({ id, username, userType }, process.env.SECRET).toString();
+    return jwt.sign(data, process.env.SECRET).toString();
   }
 
   /**
@@ -34,6 +34,25 @@ export default class Users {
   }
 
   /**
+   * generates a hash for user type
+   */
+  hashAdmin() {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(process.env.ADMINCODE, salt);
+  }
+
+   /**
+    * signup route for admin
+   * @param {object} req
+   * @param {object} res
+   *
+   */
+  adminSignUp(req, res) {
+    const userType = this.hashAdmin();
+    this.saveUser(req, res, userType);
+  }
+
+  /** signup route for other users
    * @param {object} req 
    * @param {object} res
    *
@@ -43,7 +62,7 @@ export default class Users {
     this.saveUser(req, res, userType);
   }
 
-  /** this function is called by both the userSignup and adminSignup to save users
+  /**
    * @param {object} req 
    * @param {object} res
    *
@@ -75,7 +94,7 @@ export default class Users {
             if (error.code === '23505') {
               return res.status(400).json({
                 status: 'failure',
-                message: 'username or email is already taken',
+                message: 'username, email or phone number is already taken',
               });
             }
             return res.status(400).json({
@@ -101,6 +120,9 @@ export default class Users {
   userSignIn(req, res) {
     const { username, password } = req.body;
     db.one('SELECT * FROM users where username = $1', username)
+      .then((data) => {
+        return data;
+      })
       .then((data) => {
         bcrypt.compare(password, data.password, (err, result) => {
           if (result) {
