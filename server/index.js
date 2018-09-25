@@ -53,6 +53,13 @@ app.post('/api/v1/auth/signup', validateUser, users.userSignUp);
 app.post('/api/v1/auth/login', validateLoginDetail, users.userSignIn);
 
 /**
+ * POST route for admin signup
+ * @params {string} url
+ * @params {function} postOrder
+ */
+app.post('/api/v1/auth/admin', validateUser, users.adminSignUp);
+
+/**
  * GET route to get all oders from the DB
  * @params {string} url
  * @params {function} getAllOrders

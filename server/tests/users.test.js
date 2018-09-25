@@ -30,13 +30,13 @@ describe('/POST create new User', () => {
       })
       .end(done);
   });
-  it('should return 400 if username or email is taken', (done) =>{
+  it('should return 400 if username, email or phone no is taken', (done) =>{
     request(app).post('/api/v1/auth/signup')
       .send(user)
       .expect(400)
       .expect((res) => {
         expect(res.body.status).toEqual('failure');
-        expect(res.body.message).toEqual('username or email is already taken');
+        expect(res.body.message).toEqual('username, email or phone number is already taken');
       })
       .end(done);
   });
@@ -182,6 +182,39 @@ describe('/POST login users', () => {
       .expect(400)
       .expect((res) => {
         expect(res.body.message).toEqual('invalid password');
+      })
+      .end(done);
+  });
+});
+
+describe('/POST create new Admin User', () => {
+  const admin = {
+    username: 'dafe265',
+    firstname: 'dafe',
+    lastname: 'Bailey',
+    password: 'password@1',
+    deliveryAddress: '5 gbagada road, lagos',
+    phoneNo: '08023219130',
+    email: 'omar@yaho.com',
+    imageUrl:  'http://googleimages.com/profile.jpeg',
+  };
+  it('should register new admin users', (done) => {
+    request(app).post('/api/v1/auth/admin')
+      .send(admin)
+      .expect(201)
+      .expect((res) => {
+        expect(res.body.message).toEqual('you have successfully signed up');
+        expect(res.body.status).toEqual('Success');
+      })
+      .end(done);
+  });
+  it('should return 400 if username, email, phone num is taken', (done) =>{
+    request(app).post('/api/v1/auth/admin')
+      .send(admin)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.status).toEqual('failure');
+        expect(res.body.message).toEqual('username, email or phone number is already taken');
       })
       .end(done);
   });
