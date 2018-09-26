@@ -33,13 +33,11 @@ export const validateMenuRoute = (req, res, next) => {
     name,
     price,
     calorie,
-    menu,
     ingredients,
     description,
     imageUrl,
   } = req.body;
-  const validKeys = ['name', 'price', 'calorie', 'menu', 'ingredients', 'description', 'imageUrl'];
-  const validMenu = ['chicken', 'burgers', 'noddles', 'breverages'];
+  const validKeys = ['name', 'price', 'calorie', 'ingredients', 'description', 'imageUrl'];
   const inputs = Object.keys(req.body);
   if (inputs.length > validKeys.length) {
     return res.status(400).json({
@@ -64,7 +62,7 @@ export const validateMenuRoute = (req, res, next) => {
   if (!validateFoodName(name)) {
     return res.status(400).json({
       status: 'invalid data entry',
-      message: 'food name has an invalid value',
+      message: 'Menu name has an invalid value',
     });
   }
   if (!validateNumber(price) || !validateNumber(calorie)) {
@@ -73,12 +71,7 @@ export const validateMenuRoute = (req, res, next) => {
       message: 'price or calorie has an invalid value',
     });
   }
-  if (validateKeys(menu.toLowerCase(), validMenu) === false) {
-    return res.status(400).json({
-      status: 'invalid data entry',
-      message: 'please enter a valid value for menu',
-    });
-  }
+
   if (!validateIngredients(ingredients)) {
     return res.status(400).json({
       status: 'invalid data entry',

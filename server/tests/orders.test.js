@@ -49,12 +49,11 @@ before('register a user', (done) => {
     });
 });
 
-describe('POST food/menu to menu Route', () => {
+describe('POST menu to menu Route', () => {
   const menu =  {
     name: 'waffle',
     price: 890,
     calorie: 240,
-    menu: 'burgers',
     ingredients: 'wheat, sugar',
     description: 'The best cracker',
     imageUrl: 'http://googleimages.com/waffles.jpg',
@@ -66,8 +65,8 @@ describe('POST food/menu to menu Route', () => {
       .expect(201)
       .expect((res) => {
         expect(res.body.status).toEqual('Success');
-        expect(res.body.message).toEqual('you have successfully added food to the menu');
-        expect(typeof res.body.food).toEqual('object');
+        expect(res.body.message).toEqual('you have successfully added a menu');
+        expect(typeof res.body.menu).toEqual('object');
       })
       .end(done);
   });
@@ -81,14 +80,14 @@ describe('POST food/menu to menu Route', () => {
       })
       .end(done);
   });
-  it('should return 400 when you try to post the same food twice', (done) => {
+  it('should return 400 when you try to post the same menu twice', (done) => {
     request(app).post('/api/v1/menu')
       .send(menu)
       .set('x-auth', adminToken)
       .expect(400)
       .expect((res) => {
         expect(res.body.status).toEqual('error');
-        expect(res.body.message).toEqual('food title already exist');
+        expect(res.body.message).toEqual('Menu name already exist');
       })
       .end(done);
   });
@@ -97,7 +96,6 @@ describe('POST food/menu to menu Route', () => {
       name: 'waffle',
       price: 780,
       calorie: 240,
-      menu: 'Burgers',
       ingredients: 'wheat, oil',
       description: 'This is the best waffle',
       imageUrl: 'http://googleimages.com/waffles.png',
@@ -112,17 +110,16 @@ describe('POST food/menu to menu Route', () => {
       })
       .end(done);
   });
-  it('should return 400 if you post an limited keys', (done) => {
+  it('should return 400 if you post limited keys', (done) => {
     const invalidMenu = {
       name: 'waffle',
       price: 780,
       calorie: 240,
-      menu: 'Burgers',
       ingredients: 'wheat, oil',
       description: 'This is the best waffle',
    };
     request(app).post('/api/v1/menu')
-      .send(invalidMenu )
+      .send(invalidMenu)
       .set('x-auth', adminToken)
       .expect(400)
       .expect((res) => {
@@ -130,12 +127,11 @@ describe('POST food/menu to menu Route', () => {
       })
       .end(done);
   });
-  it('should return 400 if you post an invalid food name', (done) => {
+  it('should return 400 if you post an invalid menu name', (done) => {
     const invalidMenu = {
       name: 'waffle%%1!',
       price: 890,
       calorie: 240,
-      menu: 'Burgers',
       ingredients: 'wheat, sugar',
       description: 'The best cracker',
       imageUrl: 'http://googleimages.com/waffles.jpg',
@@ -145,7 +141,7 @@ describe('POST food/menu to menu Route', () => {
       .set('x-auth', adminToken)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).toEqual('food name has an invalid value');
+        expect(res.body.message).toEqual('Menu name has an invalid value');
       })
       .end(done);
   });
@@ -154,7 +150,6 @@ describe('POST food/menu to menu Route', () => {
       name: 'waffle',
       price: '89e0',
       calorie: 240,
-      menu: 'Burgers',
       ingredients: 'wheat, sugar',
       description: 'The best cracker',
       imageUrl: 'http://googleimages.com/waffles.jpg',
@@ -168,31 +163,11 @@ describe('POST food/menu to menu Route', () => {
       })
       .end(done);
   });
-  it('should return 400 if you post an invalid menu value', (done) => {
-    const invalidMenu = {
-      name: 'waffle',
-      price: 780,
-      calorie: 240,
-      menu: 'Burger',
-      ingredients: 'wheat, sugar',
-      description: 'The best cracker',
-      imageUrl: 'http://googleimages.com/waffles.jpg',
-   };
-    request(app).post('/api/v1/menu')
-      .send(invalidMenu)
-      .set('x-auth', adminToken)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.message).toEqual('please enter a valid value for menu');
-      })
-      .end(done);
-  });
   it('should return 400 if you post an invalid image url', (done) => {
     const invalidMenu = {
       name: 'waffle',
       price: 780,
       calorie: 240,
-      menu: 'Burgers',
       ingredients: 'wheat, sugar',
       description: 'The best cracker',
       imageUrl: 'http://googleimages.com/waffles.gif',
@@ -212,7 +187,6 @@ describe('POST food/menu to menu Route', () => {
       name: 'waffle',
       price: 780,
       calorie: 240,
-      menu: 'Burgers',
       ingredients: 'wheat, sugar',
       description: 'T',
       imageUrl: 'http://googleimages.com/waffles.png',
@@ -232,7 +206,6 @@ describe('POST food/menu to menu Route', () => {
       name: 'waffle',
       price: 780,
       calorie: 240,
-      menu: 'Burgers',
       ingredients: '%',
       description: 'This is the best waffle',
       imageUrl: 'http://googleimages.com/waffles.png',
@@ -420,8 +393,7 @@ describe('GET menu route', () => {
           imageurl: 'http://googleimages.com/waffles.jpg',
         };
         expect(typeof res.body).toBe('object');
-        expect(res.body.burgers[0]).toEqual(output);
-        expect(res.body.burgers.length).toEqual(1);
+        expect(res.body.menu.length).toEqual(1);
       })
       .end(done);
   });

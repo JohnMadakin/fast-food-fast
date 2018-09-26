@@ -10,26 +10,26 @@ export default class Orders {
   }
 
   postMenu(req, res) {
-    const { name, price, calorie, menu, ingredients, description, imageUrl } = req.body;
+    const { name, price, calorie,ingredients, description, imageUrl } = req.body;
     const userId = parseInt(req.user.id, 0);
     const validName = name.trim();
-    db.one('INSERT INTO food(userid,title, price,calorie,description,menu,imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id, title, price,calorie,menu,imageurl, ingredient, description', [userId, validName, price, calorie, description, menu, imageUrl, ingredients])
+    db.one('INSERT INTO MENU(userid,title, price,calorie,description, imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7) RETURNING id, title, price,calorie,imageurl, ingredient, description', [userId, validName, price, calorie, description, imageUrl, ingredients])
       .then((result) => {
         return res.status(201).json({
-          food: result,
+          menu: result,
           status: 'Success',
-          message: 'you have successfully added food to the menu',
+          message: 'you have successfully added a menu',
         });
       }, (err) => {
         if (err.code == '23505') {
           return res.status(400).json({
             status: 'error',
-            message: 'food title already exist',
+            message: 'Menu name already exist',
           });
         }
         return res.status(400).json({
           status: 'error',
-          message: 'food not saved',
+          message: 'Menu not saved',
         });
       })
       .catch((err) => {
@@ -93,31 +93,11 @@ export default class Orders {
    * @params {object} res
    */
   getMenu(req, res) {
-    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl, menu FROM FOOD')
+    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl FROM MENU')
       .then((result) => {
-        const burgers = [];
-        const noddles = [];
-        const chicken = [];
-        for (let i = 0; i < result.length; i++) {
-          if (result[i].menu === 'burgers') {
-            delete result[i].menu;
-            burgers.push(result[i]);
-          }
-          if (result[i].menu === 'noddles') {
-            delete result[i].menu;
-            noddles.push(result[i]);
-          }
-          if (result[i].menu === 'chicken') {
-            delete result[i].menu;
-            chicken.push(result[i]);
-          }
-        }
-        const newMenu = {
-          burgers,
-          noddles,
-          chicken,
-        };
-        return res.status(200).json(newMenu);
+        return res.status(200).json({
+          menu: result,
+        });
       })
       .catch((error) => {
         return res.status(500).json({
@@ -160,9 +140,9 @@ export default class Orders {
       .then((itemorderid) => {
         for (let i = 0; i < orders.length; i++) {
           const { itemName, quantity } = orders[i];
-          db.one('SELECT id from FOOD where title = $1', itemName)
-            .then((foodid) => {
-              db.none('INSERT INTO ORDERITEMS(ordersid,foodid, quantity) VALUES($1,$2,$3)', [itemorderid.id, foodid.id, quantity])
+          db.one('SELECT id FROM MENU where title = $1', itemName)
+            .then((menuid) => {
+              db.none('INSERT INTO ORDERITEMS(ordersid,menuid, quantity) VALUES($1,$2,$3)', [itemorderid.id, menuid.id, quantity])
             },(e)=>{
               return res.status(404).json({
                 message: `${itemName} not found`,
