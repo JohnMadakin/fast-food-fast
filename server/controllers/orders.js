@@ -9,7 +9,7 @@ export default class Orders {
     this.getAllMenu = this.getAllMenu.bind(this);
   }
 
-  postMenu(req, res) {()
+  postMenu(req, res) {
     const { name, price, calorie,ingredients, description, imageUrl } = req.body;
     const userId = parseInt(req.user.id, 0);
     const validName = name.trim();
