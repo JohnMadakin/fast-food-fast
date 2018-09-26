@@ -77,7 +77,7 @@ app.post('/api/v1/menu', auth.authenticateAdmin, validateMenuRoute, orders.postM
  * @params {string} url
  * @params {function} getOrder
  */
-app.get('/api/v1/menu', orders.getMenu);
+app.get('/api/v1/menu', orders.getAllMenu);
 
 /**
  * GET route to get all oders from the DB

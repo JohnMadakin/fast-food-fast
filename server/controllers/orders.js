@@ -92,7 +92,7 @@ export default class Orders {
    * @params {object} req
    * @params {object} res
    */
-  getMenu(req, res) {
+  getAllMenu(req, res) {
     db.any('SELECT title as name, price, calorie, description, ingredient, imageurl FROM MENU')
       .then((result) => {
         return res.status(200).json({
