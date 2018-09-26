@@ -1,14 +1,13 @@
 import {
   validateKeys,
-  validateKeysLength,
   validateString,
   validateImageUrl,
   validateText,
 } from './userValidation';
 
 const validateNumber = (number) => {
-  const validator = `${number}`;
-  if (validator.length > 6 || typeof number !== 'number') {
+  const validNum = /^[0-9]+$/;
+  if (!validNum.test(number)) {
     return false;
   }
   return true;
@@ -27,7 +26,7 @@ const validateFoodName = (string) => {
   if (string.length < 2 || string.length > 25) return false;
   const validString = /^[a-zA-Z  -]+$/;
   return string.trim().match(validString);
-}
+};
 
 export const validateMenuRoute = (req, res, next) => {
   const {
@@ -102,94 +101,61 @@ export const validateMenuRoute = (req, res, next) => {
 };
 
 
-const validateStatus = (status, validStatus, res)  => {
-  if (!validStatus.includes(status)) {
-    return res.status(400).json({
-      status: 'Failure',
-      message: 'Invalid data entry for status',
-    });
-  } 
-  return true;
-}
-
-const validatePayment = (payment, req, res, key) => {
+export const validateOrders = (req, res, next) => {
+  const { orders, status, payment, deliveryAddress } = req.body;
+  const validKeys = ['orders', 'status', 'payment', 'deliveryAddress'];
+  const inputs = Object.keys(req.body);
+  for (let i = 0; i < inputs.length; i++) {
+    if (validateKeys(inputs[i], validKeys) === false) {
+      return res.status(400).json({
+        status: 'invalid key',
+        message: 'please enter valid keys',
+      });
+    }
+  }
   if (payment !== 'payondelivery') {
     return res.status(400).json({
       status: 'Failure',
-      message: `Invalid data entry! payment values can't be ${req.body[key]}`,
+      message: `Invalid data entry! payment values can't be ${req.body.payment}`,
     });
   }
-  return true;
-}
-
-const validateAddress = (deliveryAddress, res) => {
   if (!validateText(deliveryAddress)) {
     return res.status(400).json({
       status: 'Failure',
       message: 'Invalid data entry! Check your Delivery Address field',
     });
   }
-  return true;
-}
-
-const validateItemName = (name,res) => {
-  if (validateString(name)) {
+  if (!Array.isArray(req.body.orders)) {
     return res.status(400).json({
-      status: 'failure',
-      message: 'Invalid Item Name, check your orders items',
+      status: "Failure",
+      message: `Invalid data entry! orders should be of type array`,
     });
   }
-  return true;
-}
-
-export const validateOrdersItems = (orders, res) => {
+  if (status !== 'pending') {
+    return res.status(400).json({
+      status: 'Failure',
+      message: 'Invalid data entry for status',
+    });
+  }
   for (let order of orders){
-    validateItemName(order.itemName);
-    if(typeof orders.price !== 'number' || !validateNumber(order.price) ){
+    if (validateString(order.itemname)) {
       return res.status(400).json({
         status: 'failure',
-        message: `Invalid price value, check your orders items`,
+        message: 'Invalid Item Name, check your orders items',
+      });
+    }    
+    if(typeof order.price !== 'number' || !validateNumber(order.price)){
+      return res.status(400).json({
+        status: 'failure',
+        message: 'Invalid price value, check your orders items',
       });
     }
-    if(typeof orders.quantity !== 'number' || !validateNumber(order.quantity) ){
+    if(typeof order.quantity !== 'number' || !validateNumber(order.quantity) ){
       return res.status(400).json({
         status: 'failure',
         message: `Invalid Quantity value, check your orders items`,
       });
     }
-  }
-  return true;
-}
-
-
-
-   
-const validateOrders = (req, res, next) => {
-  const { userId, orders, status, payment, deliveryAddress } = req.body;
-  const validKeys = ['userId', 'orders', 'status', 'payment', 'deliveryAddress'];
-  const validStatus = ['pending', 'confirmed', 'accepted', 'declined'];
-  const inputs = Object.keys(res.body);
-  validateKeys(validKeys, inputs, res);
-  for (let key in inputs ) {
-    if (key === 'userId'){
-      validateUserID(userId,req,res)
-    }
-    if (key === 'status') {
-      validateStatus(status,validStatus,res);
-    }
-    if (key === 'payment') {
-      validatePayment(payment,req,res,key);
-    }
-    if (key === 'deliveryAddress') {
-      validateAddress(deliveryAddress, req, res);
-    }
-    if (key === 'orders' && !Array.isArray(req.body[key])) {
-      return res.status(400).json({
-        status: "Failure",
-        message: `Invalid data entry! orders should be of type array`,
-      });
-    }
-  }
-  validateOrdersItems(orders, res);
+  }  
   return next();
-}
+};

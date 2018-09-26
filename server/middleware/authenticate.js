@@ -10,25 +10,14 @@ export default class Authenticate {
     this.authenticateUser = this.authenticateUser.bind(this);
   }
 
-  checkToken(token, res) {
+  authenticateAdmin(req, res, next) {
+    const token = req.header('x-auth');
     if (!token) {
       return res.status(401)
         .json({
           message: 'not authenticated, please sign in',
         });
     }
-    return true;
-  }
-
-  checkUserType(user, res) {
-    const { usertype } = user;
-    
-    return true;
-  }
-
-  authenticateAdmin(req, res, next) {
-    const token = req.header('x-auth');
-    this.checkToken(token, res);
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
       if (bcrypt.compareSync(process.env.ADMINCODE, decoded.usertype) === false) {
@@ -49,13 +38,25 @@ export default class Authenticate {
 
   authenticateUser(req, res, next) {
     const token = req.header('x-auth');
-    this.checkToken(token, res);
+    if (!token) {
+      return res.status(401)
+        .json({
+          message: 'not authenticated, please sign in',
+        });
+    }
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
+      if (bcrypt.compareSync(process.env.USERCODE, decoded.usertype) === false) {
+        return res.status(401)
+          .json({
+            message: 'not authenticated, you are not authorized to visit this page',
+          });
+      }
       req.user = decoded;
       next();
     } catch (e) {
       return res.status(401).json({
+        status: 'auth error',
         message: e,
       });
     }

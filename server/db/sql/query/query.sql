@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS ORDERS(
     paymentMethod varchar(25),
     orderStatus varchar(25),
     deliveryAddress VARCHAR(100),
+    total INT NOT NULL,
     FOREIGN KEY (userID) REFERENCES USERS(id),
     date_created timestamp default  now() 
 );
