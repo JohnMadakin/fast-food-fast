@@ -6,10 +6,10 @@ export default class Orders {
   constructor() {
     this.postOrder = this.postOrder.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
-    this.getMenu = this.getMenu.bind(this);
+    this.getAllMenu = this.getAllMenu.bind(this);
   }
 
-  postMenu(req, res) {
+  postMenu(req, res) {()
     const { name, price, calorie,ingredients, description, imageUrl } = req.body;
     const userId = parseInt(req.user.id, 0);
     const validName = name.trim();
