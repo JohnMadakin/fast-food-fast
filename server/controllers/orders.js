@@ -6,6 +6,7 @@ export default class Orders {
   constructor() {
     this.postOrder = this.postOrder.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
+    this.getMenu = this.getMenu.bind(this);
   }
 
   postMenu(req, res) {
@@ -84,6 +85,47 @@ export default class Orders {
     return res.status(500).json({
       error: 'Error fetching Data from the data structure'
     });
+  }
+
+  /**
+   * A method to get all available menu
+   * @params {object} req
+   * @params {object} res
+   */
+  getMenu(req, res) {
+    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl, menu FROM FOOD')
+      .then((result) => {
+        const burgers = [];
+        const noddles = [];
+        const chicken = [];
+        for (let i = 0; i < result.length; i++) {
+          if (result[i].menu === 'burgers') {
+            delete result[i].menu;
+            burgers.push(result[i]);
+          }
+          if (result[i].menu === 'noddles') {
+            delete result[i].menu;
+            noddles.push(result[i]);
+          }
+          if (result[i].menu === 'chicken') {
+            delete result[i].menu;
+            chicken.push(result[i]);
+          }
+        }
+        const newMenu = {
+          burgers,
+          noddles,
+          chicken,
+        };
+        return res.status(200).json(newMenu);
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'error getting orders',
+          error,
+        });
+      });
   }
 
  /**

@@ -54,7 +54,7 @@ describe('POST food/menu to menu Route', () => {
     name: 'waffle',
     price: 890,
     calorie: 240,
-    menu: 'Burgers',
+    menu: 'burgers',
     ingredients: 'wheat, sugar',
     description: 'The best cracker',
     imageUrl: 'http://googleimages.com/waffles.jpg',
@@ -249,7 +249,6 @@ describe('POST food/menu to menu Route', () => {
 });
 
 describe('Get all Orders', () => {
- 
   it('should get all the orders', (done) => {
     request(app).get('/api/v1/orders')
       .expect(200)
@@ -405,6 +404,25 @@ describe('POST order Route', () => {
       })
       .end(done);
   });
-  
 });
 
+describe('GET menu route', () => {
+  it('should return 200 and list of menu', (done) => {
+    request(app).get('/api/v1/menu')
+      .expect(200)
+      .expect((res) => {
+        const output = {
+          name: 'waffle',
+          price: 890,
+          calorie: 240,
+          description: 'The best cracker',
+          ingredient: 'wheat, sugar',
+          imageurl: 'http://googleimages.com/waffles.jpg',
+        };
+        expect(typeof res.body).toBe('object');
+        expect(res.body.burgers[0]).toEqual(output);
+        expect(res.body.burgers.length).toEqual(1);
+      })
+      .end(done);
+  });
+});
