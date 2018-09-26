@@ -24,5 +24,6 @@ const connect = {
 
 const db = pgp(connect || process.env.DATABASE_URL || process.env.TEST_DB);
 
+
 export default db;
 

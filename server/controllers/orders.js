@@ -1,5 +1,4 @@
 import data from '../models/data';
-import config from '../config/config';
 import db from '../db/dbconnection';
 
 
@@ -87,39 +86,61 @@ export default class Orders {
     });
   }
 
-  saveOrder(order) {
-    return data.ordersData.push(order);
+ /**
+   * A method to calculate the total amount of  an order
+   * @params {object} req
+   * @params {object} res
+   */
+  calculateTotal(orders) {
+    const init = 0;
+    const total = orders.reduce((acc, curr) => {
+      return (acc + (curr.price * curr.quantity));
+    }, init);
+    return total;
   }
-  /**
+
+
+ /**
    * A method to post an order
    * @params {object} req
    * @params {object} res
    */
-
-  postOrder(req,res) {
-    const {userId, title, description, price, ingredient, calorie, payment, status, imageUrl } = req.body;
-    const id = data.ordersData.length * 1 + 1;
-    const order = {
-      id,
-      userId,
-      title,
-      description,
-      ingredient,
-      calorie,
-      price,
+  postOrder(req, res) {
+    const {
+      orders,
       payment,
       status,
-      imageUrl: `${config.origin}/server/public/${imageUrl}`,
-    };
-    this.saveOrder(order);
-    if (data.ordersData.length === id) {
-      return res.status(200).json({
-        order,
+      deliveryAddress,
+    } = req.body;
+    const userId = req.user.id;
+    const total = this.calculateTotal(orders);
+    db.one('INSERT INTO ORDERS (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
+      .then((itemorderid) => {
+        for (let i = 0; i < orders.length; i++) {
+          const { itemName, quantity } = orders[i];
+          db.one('SELECT id from FOOD where title = $1', itemName)
+            .then((foodid) => {
+              db.none('INSERT INTO ORDERITEMS(ordersid,foodid, quantity) VALUES($1,$2,$3)', [itemorderid.id, foodid.id, quantity])
+            },(e)=>{
+              return res.status(404).json({
+                message: `${itemName} not found`,
+              });
+            });
+        }
+      })
+      .then((data) => {
+        return res.status(200).json({
+          status: 'Success',
+          message: 'you have successfully placed your orders',
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'order not placed',
+          error,
+        });
       });
-    }
-    return res.status(500).json({
-      error: 'Error Saving your order',
-    });
   }
 
   /**
