@@ -73,6 +73,13 @@ app.post('/api/v1/auth/admin', validateUser, users.adminSignUp);
 app.post('/api/v1/menu', auth.authenticateAdmin, validateMenuRoute, orders.postMenu);
 
 /**
+ * GET route to get menu
+ * @params {string} url
+ * @params {function} getOrder
+ */
+app.get('/api/v1/menu', orders.getAllMenu);
+
+/**
  * GET route to get all oders from the DB
  * @params {string} url
  * @params {function} getAllOrders

@@ -1,4 +1,4 @@
-DROP  TABLE IF EXISTs Food;
+DROP  TABLE IF EXISTs MENU;
 DROP  TABLE IF EXISTs ORDERITEMS;
 DROP TABLE IF EXISTs ORDERS;
 DROP TABLE IF EXISTs USERS;
@@ -18,38 +18,35 @@ CREATE TABLE IF NOT EXISTS USERS(
 
 CREATE TABLE IF NOT EXISTS ORDERS(
     id SERIAL UNIQUE,
-    userID INT NOT NULL,
+    userid INT NOT NULL,
     paymentMethod varchar(25),
     orderStatus varchar(25),
     deliveryAddress VARCHAR(100),
     total INT NOT NULL,
-    FOREIGN KEY (userID) REFERENCES USERS(id),
+    FOREIGN KEY (userid) REFERENCES USERS(id),
     date_created timestamp default  now() 
 );
 
 CREATE TABLE IF NOT EXISTS ORDERITEMS (
   id SERIAL UNIQUE,
-  ordersId INT NOT NULL REFERENCES ORDERS(ID) ON DELETE CASCADE,
-  foodID INT NOT NULL,
+  ordersId INT NOT NULL REFERENCES ORDERS(id) ON DELETE CASCADE,
+  menuid INT NOT NULL,
   quantity INT NOT NULL,
   FOREIGN KEY (ordersID) REFERENCES ORDERS(id),
   date_created timestamp default  now() 
 
 );
 
-CREATE TABLE IF NOT EXISTS FOOD(
+CREATE TABLE IF NOT EXISTS MENU(
     id SERIAL UNIQUE,
     userid INT NOT NULL,
     title VARCHAR(25) NOT NULL UNIQUE,
     price INT NOT NULL,
     calorie INT,
     description TEXT NOT NULL,
-    menu VARCHAR(25),
     imageUrl VARCHAR(100),
     ingredient VARCHAR(50),
     primary key(id),
-    FOREIGN KEY (userId) REFERENCES USERS(ID),
+    FOREIGN KEY (userId) REFERENCES USERS(id),
     date_created timestamp default now() 
 );
-
-

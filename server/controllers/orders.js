@@ -6,29 +6,30 @@ export default class Orders {
   constructor() {
     this.postOrder = this.postOrder.bind(this);
     this.updateOrder = this.updateOrder.bind(this);
+    this.getAllMenu = this.getAllMenu.bind(this);
   }
 
   postMenu(req, res) {
-    const { name, price, calorie, menu, ingredients, description, imageUrl } = req.body;
+    const { name, price, calorie,ingredients, description, imageUrl } = req.body;
     const userId = parseInt(req.user.id, 0);
     const validName = name.trim();
-    db.one('INSERT INTO food(userid,title, price,calorie,description,menu,imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id, title, price,calorie,menu,imageurl, ingredient, description', [userId, validName, price, calorie, description, menu, imageUrl, ingredients])
+    db.one('INSERT INTO menu(userid,title, price,calorie,description, imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7) RETURNING id, title, price,calorie,imageurl, ingredient, description', [userId, validName, price, calorie, description, imageUrl, ingredients])
       .then((result) => {
         return res.status(201).json({
-          food: result,
+          menu: result,
           status: 'Success',
-          message: 'you have successfully added food to the menu',
+          message: 'you have successfully added a menu',
         });
       }, (err) => {
         if (err.code == '23505') {
           return res.status(400).json({
             status: 'error',
-            message: 'food title already exist',
+            message: 'Menu name already exist',
           });
         }
         return res.status(400).json({
           status: 'error',
-          message: 'food not saved',
+          message: 'Menu not saved',
         });
       })
       .catch((err) => {
@@ -86,6 +87,27 @@ export default class Orders {
     });
   }
 
+  /**
+   * A method to get all available menu
+   * @params {object} req
+   * @params {object} res
+   */
+  getAllMenu(req, res) {
+    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl FROM menu')
+      .then((result) => {
+        return res.status(200).json({
+          menu: result,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'error getting orders',
+          error,
+        });
+      });
+  }
+
  /**
    * A method to calculate the total amount of  an order
    * @params {object} req
@@ -114,13 +136,13 @@ export default class Orders {
     } = req.body;
     const userId = req.user.id;
     const total = this.calculateTotal(orders);
-    db.one('INSERT INTO ORDERS (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
+    db.one('INSERT INTO orders (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
       .then((itemorderid) => {
         for (let i = 0; i < orders.length; i++) {
           const { itemName, quantity } = orders[i];
-          db.one('SELECT id from FOOD where title = $1', itemName)
-            .then((foodid) => {
-              db.none('INSERT INTO ORDERITEMS(ordersid,foodid, quantity) VALUES($1,$2,$3)', [itemorderid.id, foodid.id, quantity])
+          db.one('SELECT id FROM menu where title = $1', itemName)
+            .then((menuid) => {
+              db.none('INSERT INTO ORDERITEMS(ordersid,menuid, quantity) VALUES($1,$2,$3)', [itemorderid.id, menuid.id, quantity])
             },(e)=>{
               return res.status(404).json({
                 message: `${itemName} not found`,
