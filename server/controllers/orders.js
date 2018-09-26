@@ -13,7 +13,7 @@ export default class Orders {
     const { name, price, calorie,ingredients, description, imageUrl } = req.body;
     const userId = parseInt(req.user.id, 0);
     const validName = name.trim();
-    db.one('INSERT INTO MENU(userid,title, price,calorie,description, imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7) RETURNING id, title, price,calorie,imageurl, ingredient, description', [userId, validName, price, calorie, description, imageUrl, ingredients])
+    db.one('INSERT INTO menu(userid,title, price,calorie,description, imageurl, ingredient) values($1,$2,$3,$4,$5,$6,$7) RETURNING id, title, price,calorie,imageurl, ingredient, description', [userId, validName, price, calorie, description, imageUrl, ingredients])
       .then((result) => {
         return res.status(201).json({
           menu: result,
@@ -93,7 +93,7 @@ export default class Orders {
    * @params {object} res
    */
   getAllMenu(req, res) {
-    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl FROM MENU')
+    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl FROM menu')
       .then((result) => {
         return res.status(200).json({
           menu: result,
@@ -136,11 +136,11 @@ export default class Orders {
     } = req.body;
     const userId = req.user.id;
     const total = this.calculateTotal(orders);
-    db.one('INSERT INTO ORDERS (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
+    db.one('INSERT INTO orders (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
       .then((itemorderid) => {
         for (let i = 0; i < orders.length; i++) {
           const { itemName, quantity } = orders[i];
-          db.one('SELECT id FROM MENU where title = $1', itemName)
+          db.one('SELECT id FROM menu where title = $1', itemName)
             .then((menuid) => {
               db.none('INSERT INTO ORDERITEMS(ordersid,menuid, quantity) VALUES($1,$2,$3)', [itemorderid.id, menuid.id, quantity])
             },(e)=>{
