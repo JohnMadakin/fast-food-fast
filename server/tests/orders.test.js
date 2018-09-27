@@ -400,8 +400,8 @@ describe('GET menu route', () => {
 describe('Get all Orders', () => {
   it('should get all the orders', (done) => {
     request(app).get('/api/v1/orders')
+    .set('x-auth', adminToken)
       .expect(200)
-      .set('x-auth', adminToken)
       .expect((res) => {
         const { items } = res.body;
         expect(items.length).toBeGreaterThan(0);
