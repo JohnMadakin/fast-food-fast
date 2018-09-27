@@ -377,20 +377,6 @@ describe('POST order Route', () => {
   });
 });
 
-describe('Get all Orders', () => {
-  it('should get all the orders', (done) => {
-    request(app).get('/api/v1/orders')
-      .set('x-auth',adminToken)
-      .expect(200)
-      .expect((res) => {
-        const { items } = res.body;
-        expect(items.length).toBeGreaterThan(0);
-        expect(items[0].ordersid).toEqual(1);
-      })
-      .end(done);
-  });
-});
-
 describe('GET menu route', () => {
   it('should return 200 and list of menu', (done) => {
     request(app).get('/api/v1/menu')
