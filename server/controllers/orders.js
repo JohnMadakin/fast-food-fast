@@ -123,10 +123,10 @@ export default class Orders {
 
 
  /**
-   * A method to post an order
-   * @params {object} req
-   * @params {object} res
-   */
+  * A method to post an order
+  * @params {object} req
+  * @params {object} res
+  */
   postOrder(req, res) {
     const {
       orders,
@@ -135,31 +135,37 @@ export default class Orders {
       deliveryAddress,
     } = req.body;
     const userId = req.user.id;
-    const total = this.calculateTotal(orders);
-    db.one('INSERT INTO orders (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
-      .then((itemorderid) => {
-        for (let i = 0; i < orders.length; i++) {
-          const { itemName, quantity } = orders[i];
-          db.one('SELECT id FROM menu where title = $1', itemName)
-            .then((menuid) => {
-              db.none('INSERT INTO ORDERITEMS(ordersid,menuid, quantity) VALUES($1,$2,$3)', [itemorderid.id, menuid.id, quantity])
-            },(e)=>{
-              return res.status(404).json({
-                message: `${itemName} not found`,
-              });
+    let total = 0;
+    let userOrderId = 0;
+    db.task((t) => {
+      return t.batch(orders.map(order => t.one('SELECT id, price from MENU WHERE id = $1', order.itemid)))
+        .then((result) => {
+          orders.forEach((order, i) => {
+          order.price = result[i].price;
+          })
+          total = this.calculateTotal(orders);
+          return t.one('INSERT INTO orders (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
+            .then((mydata) => {
+              userOrderId = mydata.id;
+              return t.batch(orders.map(order => t.none('INSERT INTO ORDERITEMS(ordersid, menuid, quantity) VALUES($1,$2,$3)', [mydata.id, order.itemid, order.quantity])))
             });
-        }
-      })
-      .then((data) => {
-        return res.status(200).json({
+        });
+    })
+      .then(() => {
+        return res.status(201).json({
+          orders: {
+            ordersid: userOrderId,
+            items: orders,
+          },
+          total,
           status: 'Success',
           message: 'you have successfully placed your orders',
         });
       })
       .catch((error) => {
-        return res.status(500).json({
+        return res.status(400).json({
           status: 'error',
-          message: 'order not placed',
+          message: 'Invalid menuId, check that your itemsId is valid',
           error,
         });
       });

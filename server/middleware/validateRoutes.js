@@ -131,18 +131,12 @@ export const validateOrders = (req, res, next) => {
     });
   }
   for (let order of orders){
-    if (validateString(order.itemname)) {
+    if (typeof order.itemid !== 'number' || !validateNumber(order.itemid)) {
       return res.status(400).json({
         status: 'failure',
-        message: 'Invalid Item Name, check your orders items',
+        message: 'Invalid ItemId, check your orders items',
       });
     }    
-    if(typeof order.price !== 'number' || !validateNumber(order.price)){
-      return res.status(400).json({
-        status: 'failure',
-        message: 'Invalid price value, check your orders items',
-      });
-    }
     if(typeof order.quantity !== 'number' || !validateNumber(order.quantity) ){
       return res.status(400).json({
         status: 'failure',
