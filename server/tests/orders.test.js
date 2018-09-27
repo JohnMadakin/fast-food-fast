@@ -273,19 +273,18 @@ describe('Get single order based on ID', () => {
 describe('POST order Route', () => {
   const order = {
     orders: [{
-      itemName: 'waffle',
-      price: 890,
+      itemid: 1,
       quantity: 3,
     }],
     status: 'pending',
     payment: 'payondelivery',
     deliveryAddress: '234 ikorodu road, anthony, Lagos',
   };
-  it('should return 200 when an order is posted', (done) => {
+  it('should return 200 when a new order is posted', (done) => {
     request(app).post('/api/v1/orders')
       .send(order)
       .set('x-auth', userToken)
-      .expect(200)
+      .expect(201)
       .expect((res) => {
         expect(typeof res.body).toBe('object');
         expect(res.body.status).toEqual('Success');
@@ -305,19 +304,30 @@ describe('POST order Route', () => {
       .end(done);
   });
 
-  it('should return 400 if order price is invalid', (done) => {
-    order.orders[0].price = '19002';
+  it('should return 400 if itemid is invalid', (done) => {
+    order.orders[0].itemid = '19002';
     request(app).post('/api/v1/orders')
       .send(order)
       .set('x-auth', userToken)
       .expect(400)
       .expect((res) => {
-        expect(res.body.message).toEqual('Invalid price value, check your orders items');
+        expect(res.body.message).toEqual('Invalid ItemId, check your orders items');
+      })
+      .end(done);
+  });
+  it('should return 400 if itemid is not a valid menuid stored in the DB', (done) => {
+    order.orders[0].itemid = 5;
+    request(app).post('/api/v1/orders')
+      .send(order)
+      .set('x-auth', userToken)
+      .expect(400)
+      .expect((res) => {
+        expect(res.body.message).toEqual('Invalid menuId, check that your itemsId is valid');
       })
       .end(done);
   });
   it('should return 400 if order quantity is invalid', (done) => {
-    order.orders[0].price = 890;
+    order.orders[0].itemid = 1;
     order.orders[0].quantity = '10';
     request(app).post('/api/v1/orders')
       .send(order)
