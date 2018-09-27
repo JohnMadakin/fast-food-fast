@@ -242,6 +242,7 @@ describe('POST order Route', () => {
     deliveryAddress: '234 ikorodu road, anthony, Lagos',
   };
   it('should return 200 when a new order is posted', (done) => {
+    console.log(userToken);
     request(app).post('/api/v1/orders')
       .send(order)
       .set('x-auth', userToken)
@@ -255,6 +256,7 @@ describe('POST order Route', () => {
       .end(done);
   });
   it('should return 401 when you post without a valid token', (done) => {
+    console.log(adminToken);
     request(app).post('/api/v1/orders')
       .send(order)
       .set('x-auth', adminToken)
@@ -354,6 +356,7 @@ describe('POST order Route', () => {
 
 describe('Get single order based on ID', () => {
   it('should return 200 if ID is found', (done) => {
+    console.log(userToken);
     request(app).get(`/api/v1/orders/${orderId}`)
       .set('x-auth', adminToken)
       .expect(200)
