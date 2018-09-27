@@ -91,7 +91,7 @@ app.get('/api/v1/orders', orders.getAllOrders);
  * @params {string} url
  * @params {function} getOrder
  */
-app.get('/api/v1/orders/:id', orders.getOrder);
+app.get('/api/v1/orders/:id', auth.authenticateAdmin, orders.getOrder);
 
 /**
  * POST route to post an order to the DB
