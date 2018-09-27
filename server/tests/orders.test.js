@@ -26,6 +26,7 @@ const user = {
 };
 let adminToken;
 let userToken;
+let orderId;
 
 before('register an admin', (done) => {
   request(app).post('/api/v1/auth/admin')
@@ -58,6 +59,14 @@ describe('POST menu to menu Route', () => {
     description: 'The best cracker',
     imageUrl: 'http://googleimages.com/waffles.jpg',
  };
+ const menu2 =  {
+  name: 'fish',
+  price: 890,
+  calorie: 240,
+  ingredients: 'wheat, sugar',
+  description: 'The best cracker',
+  imageUrl: 'http://googleimages.com/waffles.jpg',
+};
   it('should return 200 when a menu is posted', (done) => {
     request(app).post('/api/v1/menu')
       .send(menu)
@@ -70,6 +79,7 @@ describe('POST menu to menu Route', () => {
       })
       .end(done);
   });
+
   it('should return 401 if an unauthorized user tries to post', (done) => {
     request(app).post('/api/v1/menu')
       .send(menu)
@@ -221,55 +231,6 @@ describe('POST menu to menu Route', () => {
   }); 
 });
 
-describe('Get all Orders', () => {
-  it('should get all the orders', (done) => {
-    request(app).get('/api/v1/orders')
-      .expect(200)
-      .expect((res) => {
-        const { data } = res.body;
-        expect(data.length).toBeGreaterThan(0);
-        expect(data.length).toBe(2);
-      })
-      .end(done);
-  });
-});
-describe('Get single order based on ID', () => {
-  it('should return 200 if ID is found', (done) => {
-    const id = 1;
-    request(app).get(`/api/v1/orders/${id}`)
-      .expect(200)
-      .expect((res) => {
-        const { order } = res.body;
-        const { ordersData } = allData;
-        expect(order).toEqual(ordersData[0]);
-        expect(typeof order).toBe('object');
-      })
-      .end(done);
-  });
-  it('should return 404 if ID is not found', (done) => {
-    const id = 100;
-    const msg = 'order not found';
-    request(app).get(`/api/v1/orders/${id}`)
-      .expect(404)
-      .expect((res) => {
-        const { error } = res.body;
-        expect(error).toBe(msg);
-      })
-      .end(done);
-  });
-  it('should return 400 if ID is invalid', (done) => {
-    const id = 'akkjl23';
-    const msg = 'Invalid order Id';
-    request(app).get(`/api/v1/orders/${id}`)
-      .expect(400)
-      .expect((res) => {
-        const { error } = res.body;
-        expect(error).toBe(msg);
-      })
-      .end(done);
-  });
-});
-
 describe('POST order Route', () => {
   const order = {
     orders: [{
@@ -281,11 +242,13 @@ describe('POST order Route', () => {
     deliveryAddress: '234 ikorodu road, anthony, Lagos',
   };
   it('should return 200 when a new order is posted', (done) => {
+    console.log(userToken);
     request(app).post('/api/v1/orders')
       .send(order)
       .set('x-auth', userToken)
       .expect(201)
       .expect((res) => {
+        orderId = res.body.orders.ordersid;
         expect(typeof res.body).toBe('object');
         expect(res.body.status).toEqual('Success');
         expect(res.body.message).toEqual('you have successfully placed your orders');
@@ -293,6 +256,7 @@ describe('POST order Route', () => {
       .end(done);
   });
   it('should return 401 when you post without a valid token', (done) => {
+    console.log(adminToken);
     request(app).post('/api/v1/orders')
       .send(order)
       .set('x-auth', adminToken)
@@ -389,19 +353,49 @@ describe('POST order Route', () => {
   });
 });
 
+
+describe('Get single order based on ID', () => {
+  it('should return 200 if ID is found', (done) => {
+    console.log(userToken);
+    request(app).get(`/api/v1/orders/${orderId}`)
+      .set('x-auth', adminToken)
+      .expect(200)
+      .expect((res) => {
+        const { status, message } = res.body;
+        expect(status).toEqual('Success');
+        expect(message).toEqual('Get order Successfull');
+      })
+      .end(done);
+  });
+  it('should return 401 if no token is found in the header', (done) => {
+    request(app).get(`/api/v1/orders/${orderId}`)
+      .expect(401)
+      .expect((res) => {
+        const { message } = res.body;
+        expect(message).toEqual('not authenticated, please sign in');
+      })
+      .end(done);
+  });
+  it('should return 400 if ID is invalid', (done) => {
+    const id = 'akkjl23';
+    const msg = 'Invalid order Id';
+    request(app).get(`/api/v1/orders/${id}`)
+    .set('x-auth', adminToken)
+      .expect(400)
+      .expect((res) => {
+        const { error } = res.body;
+        expect(error).toBe(msg);
+      })
+      .end(done);
+  });
+});
+
+
 describe('GET menu route', () => {
   it('should return 200 and list of menu', (done) => {
     request(app).get('/api/v1/menu')
       .expect(200)
       .expect((res) => {
-        const output = {
-          name: 'waffle',
-          price: 890,
-          calorie: 240,
-          description: 'The best cracker',
-          ingredient: 'wheat, sugar',
-          imageurl: 'http://googleimages.com/waffles.jpg',
-        };
         expect(typeof res.body).toBe('object');
         expect(res.body.menu.length).toEqual(1);
       })
