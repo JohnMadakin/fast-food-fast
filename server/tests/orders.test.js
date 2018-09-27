@@ -221,18 +221,6 @@ describe('POST menu to menu Route', () => {
   }); 
 });
 
-describe('Get all Orders', () => {
-  it('should get all the orders', (done) => {
-    request(app).get('/api/v1/orders')
-      .expect(200)
-      .expect((res) => {
-        const { data } = res.body;
-        expect(data.length).toBeGreaterThan(0);
-        expect(data.length).toBe(2);
-      })
-      .end(done);
-  });
-});
 describe('Get single order based on ID', () => {
   it('should return 200 if ID is found', (done) => {
     const id = 1;
@@ -404,6 +392,20 @@ describe('GET menu route', () => {
         };
         expect(typeof res.body).toBe('object');
         expect(res.body.menu.length).toEqual(1);
+      })
+      .end(done);
+  });
+});
+
+describe('Get all Orders', () => {
+  it('should get all the orders', (done) => {
+    request(app).get('/api/v1/orders')
+      .expect(200)
+      .set('x-auth', adminToken)
+      .expect((res) => {
+        const { items } = res.body;
+        expect(items.length).toBeGreaterThan(0);
+        expect(items[0].ordersid).toEqual(1);
       })
       .end(done);
   });
