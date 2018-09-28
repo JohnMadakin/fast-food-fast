@@ -93,6 +93,18 @@ export const validateMenuRoute = (req, res, next) => {
   return next();
 };
 
+export const validateOrderStatus = (req, res, next) => {
+  const { status } = req.body;
+  const validStatus = ['accepted', 'rejected', 'completed'];
+  if (!validStatus.includes(status)) {
+    return res.status(400).json({
+      status: 'invalid status value',
+      message: 'please enter valid status',
+    });
+  }
+  next();
+}
+
 export const validateUserOrderId = (req,res,next) => {
   const id = parseInt(req.params.id, 0);
   const userid = req.user.id;

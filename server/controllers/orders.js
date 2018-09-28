@@ -80,7 +80,7 @@ userOrders (req, res) {
  */
 getAllOrders(req, res) {
   const query = `SELECT * FROM orders`;
-  db.map(query, [], a => a.json)
+  db.any(query)
     .then((items) => {
       return res.status(200).json({
         items,
@@ -216,14 +216,27 @@ getAllOrders(req, res) {
    */
   updateOrder(req, res) {
     const { id } = req.params;
-    const orderIndex = data.ordersData.findIndex(order => order.id === parseInt(id, 0));
-    if (orderIndex !== -1) {
-      return res.status(200).json({
-        message: 'Resource Updated Successfully!',
-      });
-    }
-    return res.status(404).json({
-      error: 'Resource Not found!',
-    });
+    const { status } = req.body;
+    db.one('UPDATE orders SET orderStatus = $1 WHERE id = $2 RETURNING id', [status, id])
+      .then((result) => {
+        if (!result) {
+          return res.status(404).json({
+            status: 'error',
+            message: 'order not found',
+          });
+        }
+        return res.status(200).json({
+          status: 'success',
+          message: 'order updated',
+        });
+      })
+      .catch(e => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'could not update',
+          e,
+        });
+      })
   }
+
 }
