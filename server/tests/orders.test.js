@@ -1,5 +1,6 @@
 import expect from 'expect';
 import request from 'supertest';
+import jwt from 'jsonwebtoken';
 
 import app from '../index';
 import allData from '../models/data';
@@ -24,32 +25,21 @@ const user = {
   email: 'bolaji5@yahoo.com',
   imageUrl:  'http://googleimages.com/profile.jpeg',
 };
-let adminToken;
-let userToken;
 
-before('register an admin', (done) => {
-  request(app).post('/api/v1/auth/admin')
-    .send(admin)
-    .end((err, res) => {
-      if (err) throw err;
-      const { token } = res.body;
-      adminToken = token;
-      done();
+let menuid;
+
+
+describe('POST menu Route', () => {
+  let adminToken;
+  let userToken = jwt.sign('2', process.env.SECRET).toString();
+  before('register a user', (done) => {
+    request(app).post('/api/v1/auth/admin')
+      .send(admin)
+      .end((err, res) => {
+        adminToken = res.body.token;
+        done();
     });
-});
-
-before('register a user', (done) => {
-  request(app).post('/api/v1/auth/signup')
-    .send(user)
-    .end((err, res) => {
-      if (err) throw err;
-      const { token } = res.body;
-      userToken = token;
-      done();
-    });
-});
-
-describe('POST menu to menu Route', () => {
+  });
   const menu =  {
     name: 'waffle',
     price: 890,
@@ -64,6 +54,7 @@ describe('POST menu to menu Route', () => {
       .set('x-auth', adminToken)
       .expect(201)
       .expect((res) => {
+        menuid = res.body.menu.id;
         expect(res.body.status).toEqual('Success');
         expect(res.body.message).toEqual('you have successfully added a menu');
         expect(typeof res.body.menu).toEqual('object');
@@ -80,17 +71,7 @@ describe('POST menu to menu Route', () => {
       })
       .end(done);
   });
-  it('should return 400 when you try to post the same menu twice', (done) => {
-    request(app).post('/api/v1/menu')
-      .send(menu)
-      .set('x-auth', adminToken)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.status).toEqual('error');
-        expect(res.body.message).toEqual('Menu name already exist');
-      })
-      .end(done);
-  });
+
   it('should return 400 if you post an invalid key', (done) => {
     const invalidMenu = {
       name: 'waffle',
@@ -221,54 +202,6 @@ describe('POST menu to menu Route', () => {
   }); 
 });
 
-describe('Get all Orders', () => {
-  it('should get all the orders', (done) => {
-    request(app).get('/api/v1/orders')
-      .expect(200)
-      .expect((res) => {
-        const { data } = res.body;
-        expect(data.length).toBeGreaterThan(0);
-        expect(data.length).toBe(2);
-      })
-      .end(done);
-  });
-});
-describe('Get single order based on ID', () => {
-  it('should return 200 if ID is found', (done) => {
-    const id = 1;
-    request(app).get(`/api/v1/orders/${id}`)
-      .expect(200)
-      .expect((res) => {
-        const { order } = res.body;
-        const { ordersData } = allData;
-        expect(order).toEqual(ordersData[0]);
-        expect(typeof order).toBe('object');
-      })
-      .end(done);
-  });
-  it('should return 404 if ID is not found', (done) => {
-    const id = 100;
-    const msg = 'order not found';
-    request(app).get(`/api/v1/orders/${id}`)
-      .expect(404)
-      .expect((res) => {
-        const { error } = res.body;
-        expect(error).toBe(msg);
-      })
-      .end(done);
-  });
-  it('should return 400 if ID is invalid', (done) => {
-    const id = 'akkjl23';
-    const msg = 'Invalid order Id';
-    request(app).get(`/api/v1/orders/${id}`)
-      .expect(400)
-      .expect((res) => {
-        const { error } = res.body;
-        expect(error).toBe(msg);
-      })
-      .end(done);
-  });
-});
 
 describe('POST order Route', () => {
   const order = {
@@ -280,6 +213,16 @@ describe('POST order Route', () => {
     payment: 'payondelivery',
     deliveryAddress: '234 ikorodu road, anthony, Lagos',
   };
+  let userToken; 
+  let adminToken = jwt.sign('2', process.env.SECRET).toString();
+  before('signin a user', (done) => {
+    request(app).post('/api/v1/auth/signup')
+      .send(user)
+      .end((err, response) => {
+        userToken = response.body.token;
+        done();
+      });
+  });
   it('should return 200 when a new order is posted', (done) => {
     request(app).post('/api/v1/orders')
       .send(order)
@@ -389,19 +332,37 @@ describe('POST order Route', () => {
   });
 });
 
+describe('GET all orders route', () => {
+  let adToken;
+  let loginAdmin = {
+    username: 'omare26',
+    password: 'password@1',
+  }
+  before('signin a user', (done) => {
+    request(app).post('/api/v1/auth/login')
+      .send(loginAdmin)
+      .end((err, response) => {
+        adToken = response.body.token;
+        done();
+      });
+  });
+
+  it('should return 200 and list of menu', (done) => {
+    request(app).get('/api/v1/orders')
+    .set('x-auth',adToken)
+      .expect(200)
+      .expect((res) => {
+        expect(typeof res.body).toBe('object');
+      })
+      .end(done);
+  });
+});
+
 describe('GET menu route', () => {
   it('should return 200 and list of menu', (done) => {
     request(app).get('/api/v1/menu')
       .expect(200)
       .expect((res) => {
-        const output = {
-          name: 'waffle',
-          price: 890,
-          calorie: 240,
-          description: 'The best cracker',
-          ingredient: 'wheat, sugar',
-          imageurl: 'http://googleimages.com/waffles.jpg',
-        };
         expect(typeof res.body).toBe('object');
         expect(res.body.menu.length).toEqual(1);
       })

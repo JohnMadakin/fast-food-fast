@@ -39,24 +39,28 @@ export default class Orders {
       });
   }
 
-  /**
+   /**
  * A method to get all oders from the DB
  * @params {object} req
  * @params {object} res
  */
-  getAllOrders(req, res) {
-    const allOrders = [...data.ordersData];
-    if (allOrders.length >= 0) {
-      return res.status(200).json(
-        {
-          data: allOrders,
-        },
-      );
-    }
-    return res.status(500).json({
-      error: 'Error fetching Data from the data structure'
+getAllOrders(req, res) {
+  const query = `SELECT * FROM orders`;
+  db.map(query, [], a => a.json)
+    .then((items) => {
+      return res.status(200).json({
+        items,
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        status: 'error',
+        message: 'error getting orders',
+        error,
+      });
     });
-  }
+}
+
 
  /**
  * A method to get order by id

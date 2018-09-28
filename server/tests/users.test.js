@@ -194,7 +194,7 @@ describe('/POST create new Admin User', () => {
     lastname: 'Bailey',
     password: 'password@1',
     deliveryAddress: '5 gbagada road, lagos',
-    phoneNo: '08023219130',
+    phoneNo: '07023219130',
     email: 'omar@yaho.com',
     imageUrl:  'http://googleimages.com/profile.jpeg',
   };

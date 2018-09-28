@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -20,7 +19,7 @@ export default class Authenticate {
     }
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
-      if (bcrypt.compareSync(process.env.ADMINCODE, decoded.usertype) === false) {
+      if ( process.env.ADMINCODE !== decoded.usertype) {
         return res.status(401)
           .json({
             message: 'not authenticated, you are not authorized to visit this page',
@@ -46,7 +45,7 @@ export default class Authenticate {
     }
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
-      if (bcrypt.compareSync(process.env.USERCODE, decoded.usertype) === false) {
+      if (process.env.USERCODE !== decoded.usertype) {
         return res.status(401)
           .json({
             message: 'not authenticated, you are not authorized to visit this page',

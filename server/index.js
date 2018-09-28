@@ -84,7 +84,7 @@ app.get('/api/v1/menu', orders.getAllMenu);
  * @params {string} url
  * @params {function} getAllOrders
  */
-app.get('/api/v1/orders', orders.getAllOrders);
+app.get('/api/v1/orders', auth.authenticateAdmin, orders.getAllOrders);
 
 /**
  * GET route to get an order based on the orderId
