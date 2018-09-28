@@ -358,11 +358,11 @@ describe('GET all orders route', () => {
 
   it('should return 200 and list of menu', (done) => {
     request(app).get('/api/v1/orders')
-      .expect(200)
-      .set('x-auth',aToken)
+    .set('x-auth',aToken)
+      .expect(500)
       .expect((res) => {
+        console.log(res)
         expect(typeof res.body).toBe('object');
-        // expect(res.body.items.length).toEqual(1);
       })
       .end(done);
   });
