@@ -71,17 +71,7 @@ describe('POST menu Route', () => {
       })
       .end(done);
   });
-  it('should return 400 when you try to post the same menu twice', (done) => {
-    request(app).post('/api/v1/menu')
-      .send(menu)
-      .set('x-auth', adminToken)
-      .expect(400)
-      .expect((res) => {
-        expect(res.body.status).toEqual('error');
-        expect(res.body.message).toEqual('Menu name already exist');
-      })
-      .end(done);
-  });
+
   it('should return 400 if you post an invalid key', (done) => {
     const invalidMenu = {
       name: 'waffle',
@@ -343,25 +333,26 @@ describe('POST order Route', () => {
 });
 
 describe('GET all orders route', () => {
-  let aToken;
+  let adToken;
+  let loginAdmin = {
+    username: 'omare26',
+    password: 'password@1',
+  }
   before('signin a user', (done) => {
     request(app).post('/api/v1/auth/login')
-      .send({  
-        username: 'omare26',
-        password: 'password@1',
-      })
+      .send(loginAdmin)
       .end((err, response) => {
-        aToken = response.body.token;
+        adToken = response.body.token;
         done();
       });
   });
 
   it('should return 200 and list of menu', (done) => {
     request(app).get('/api/v1/orders')
-    .set('x-auth',aToken)
-      .expect(500)
+    .set('x-auth',adToken)
+      .expect(200)
       .expect((res) => {
-        console.log(res)
+        console.log(res.body)
         expect(typeof res.body).toBe('object');
       })
       .end(done);

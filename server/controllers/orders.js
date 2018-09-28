@@ -45,7 +45,7 @@ export default class Orders {
  * @params {object} res
  */
 getAllOrders(req, res) {
-  const query = `SELECT json_build_object('ordersid',orders.id, 'total',orders.total,'status', orders.orderstatus, 'address',orders.deliveryaddress,'payment', orders.paymentmethod, 'items',(SELECT json_agg(json_build_object('quantity', orderitems.quantity, 'itemsid', orderitems.id)) FROM orderitems WHERE orders.id =orderitems.ordersId)) json FROM orders`;
+  const query = `SELECT * FROM orders`;
   db.map(query, [], a => a.json)
     .then((items) => {
       return res.status(200).json({
