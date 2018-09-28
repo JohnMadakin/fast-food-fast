@@ -26,6 +26,7 @@ const user = {
 };
 let adminToken;
 let userToken;
+let menuid;
 
 before('register an admin', (done) => {
   request(app).post('/api/v1/auth/admin')
@@ -64,6 +65,7 @@ describe('POST menu to menu Route', () => {
       .set('x-auth', adminToken)
       .expect(201)
       .expect((res) => {
+        menuid = res.body.menu.id;
         expect(res.body.status).toEqual('Success');
         expect(res.body.message).toEqual('you have successfully added a menu');
         expect(typeof res.body.menu).toEqual('object');
@@ -377,23 +379,27 @@ describe('POST order Route', () => {
   });
 });
 
+describe('GET all orders route', () => {
+  it('should return 200 and list of menu', (done) => {
+    request(app).get('/api/v1/orders')
+      .expect(200)
+      .set('x-auth', adminToken)
+      .expect((res) => {
+        expect(typeof res.body).toBe('object');
+        expect(res.body.items.length).toEqual(1);
+      })
+      .end(done);
+  });
+});
+
 describe('GET menu route', () => {
   it('should return 200 and list of menu', (done) => {
     request(app).get('/api/v1/menu')
       .expect(200)
       .expect((res) => {
-        const output = {
-          name: 'waffle',
-          price: 890,
-          calorie: 240,
-          description: 'The best cracker',
-          ingredient: 'wheat, sugar',
-          imageurl: 'http://googleimages.com/waffles.jpg',
-        };
         expect(typeof res.body).toBe('object');
         expect(res.body.menu.length).toEqual(1);
       })
       .end(done);
   });
 });
-
