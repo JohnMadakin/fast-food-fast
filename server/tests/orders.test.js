@@ -406,3 +406,46 @@ describe('GET order history', () => {
       .end(done);
   });
 });
+
+describe('update order status', () => {
+  const orderId = 1;
+  let adToken;
+  let userToken = jwt.sign('2', process.env.SECRET).toString();
+  const loginAdmin = {
+    username: 'omare26',
+    password: 'password@1',
+  }
+  before('signin a user', (done) => {
+    request(app).post('/api/v1/auth/login')
+      .send(loginAdmin)
+      .end((err, response) => {
+        adToken = response.body.token;
+        done();
+      });
+  });
+
+  it('should return 200 if order is updated', (done) => {
+    request(app).patch(`/api/v1/orders/${orderId}`)
+      .set('x-auth', adToken)
+      .send({status: 'accepted'})
+      .expect(200)
+      .expect((res) => {
+        const { status, message } = res.body;
+        expect(status).toEqual('success');
+        expect(message).toEqual('order updated');
+      })
+      .end(done);
+  });
+  it('should return 400 if invalid status order is sent', (done) => {
+    request(app).patch(`/api/v1/orders/${orderId}`)
+      .set('x-auth', adToken)
+      .send({status: 'slhas'})
+      .expect(400)
+      .expect((res) => {
+        const { status, message } = res.body;
+        expect(status).toEqual('invalid status value');
+        expect(message).toEqual('please enter valid status');
+      })
+      .end(done);
+  });
+});
