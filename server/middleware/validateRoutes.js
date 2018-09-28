@@ -93,6 +93,22 @@ export const validateMenuRoute = (req, res, next) => {
   return next();
 };
 
+export const validateUserOrder = (req,res,next) => {
+  const id = parseInt(req.params.id, 0);
+  const userid = req.user.id;
+  if (!id) {
+    return res.status(400).json({
+      error: 'Invalid order Id',
+    });
+  }
+  if (id !== userid) {
+    return res.status(401).json({
+      status: 'error',
+      message: 'you are not authorised',
+    });
+  }
+  next();
+};
 
 export const validateOrders = (req, res, next) => {
   const { orders, status, payment, deliveryAddress } = req.body;

@@ -11,6 +11,7 @@ import {
 import {
   validateMenuRoute,
   validateOrders,
+  validateUserOrder,
 } from './middleware/validateRoutes';
 import Authenticate from './middleware/authenticate';
 import Users from './controllers/users';
@@ -91,7 +92,14 @@ app.get('/api/v1/orders', auth.authenticateAdmin, orders.getAllOrders);
  * @params {string} url
  * @params {function} getOrder
  */
-app.get('/api/v1/orders/:id', auth.authenticateAdmin, orders.getOrder);
+app.get('/api/v1/orders/:id', orders.getOrder);
+
+/**
+ * GET route to get the history of user orders
+ * @params {string} url
+ * @params {function} getOrder
+ */
+app.get('/api/v1/users/:id/orders', auth.authenticateUser, validateUserOrder, orders.userOrders);
 
 /**
  * POST route to post an order to the DB

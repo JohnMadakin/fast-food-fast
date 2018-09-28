@@ -9,6 +9,11 @@ export default class Orders {
     this.getAllMenu = this.getAllMenu.bind(this);
   }
 
+   /**
+ * A method for Post menu
+ * @params {object} req
+ * @params {object} res
+ */
   postMenu(req, res) {
     const { name, price, calorie,ingredients, description, imageUrl } = req.body;
     const userId = parseInt(req.user.id, 0);
@@ -39,6 +44,35 @@ export default class Orders {
       });
   }
 
+  /**
+ * A method for users to get history of their orders
+ * @params {object} req
+ * @params {object} res
+ */
+userOrders (req, res) {
+  const {id} = req.user;
+  db.any('SELECT * FROM orders WHERE userid = $1', id)
+    .then((item) => {
+      if(item.length < 1) {
+        return res.status(404).json({
+          message: 'order not found',
+        });
+      }
+      return res.status(200).json({
+        item,
+        status: 'Success',
+        message: 'Get order Successfull',
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        status: 'error',
+        message: 'error getting orders',
+        error,
+      });
+    });
+}
+
    /**
  * A method to get all oders from the DB
  * @params {object} req
@@ -67,37 +101,29 @@ getAllOrders(req, res) {
  * @params {object} req
  * @params {object} res
  */
-getOrder(req, res) {
-  const id = parseInt(req.params.id, 0);
-  if (!id) {
-    return res.status(400).json({
-      error: 'Invalid order Id',
+  getOrder(req, res) {
+    const id = parseInt(req.params.id, 0);
+    if (!id) {
+      return res.status(400).json({
+        error: 'Invalid order Id',
+      });
+    }
+    const allOrders = [...data.ordersData];
+    const foundOrder = allOrders.filter(order => order.id === id);
+    if (foundOrder.length === 1) {
+      return res.status(200).json({
+        order: foundOrder[0],
+      });
+    }
+    if (foundOrder.length === 0) {
+      return res.status(404).json({
+        error: 'order not found',
+      });
+    }
+    return res.status(500).json({
+      error: 'Error fetching Data from the data structure'
     });
   }
-  db.any('SELECT * FROM orders WHERE id = $1', id)
-    .then((item) => {
-      if (item.length < 1) {
-        return res.status(404).json({
-          item,
-          status: 'error',
-          message: 'order not found',
-        });
-      }
-      return res.status(200).json({
-        item,
-        status: 'Success',
-        message: 'Get order Successfull',
-      });
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        status: 'error',
-        message: 'error getting orders',
-        error,
-      });
-    });
-}
-
 
   /**
    * A method to get all available menu

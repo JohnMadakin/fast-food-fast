@@ -27,7 +27,6 @@ const user = {
 };
 
 let menuid;
-let myOrder;
 
 
 describe('POST menu Route', () => {
@@ -370,42 +369,40 @@ describe('GET menu route', () => {
       .end(done);
   });
 });
-
-
-describe('Get single order based on ID', () => {
-  const orderId = 1;
-  let adToken;
-  const loginAdmin = {
-    username: 'omare26',
+describe('GET order history', () => {
+  let usToken;
+  let loginUser = {
+    username: 'bolaji23',
     password: 'password@1',
   }
   before('signin a user', (done) => {
     request(app).post('/api/v1/auth/login')
-      .send(loginAdmin)
+      .send(loginUser)
       .end((err, response) => {
-        adToken = response.body.token;
+        usToken = response.body.token;
         done();
       });
   });
-  it('should return 200 if ID is found', (done) => {
-    request(app).get(`/api/v1/orders/${orderId}`)
-      .set('x-auth', adToken)
+  it('should return 200 and list of menu', (done) => {
+    const id = 2;
+    request(app).get(`/api/v1/users/${id}/orders`)
+    .set('x-auth', usToken)
       .expect(200)
       .expect((res) => {
-        const { status, message } = res.body;
-        expect(status).toEqual('Success');
-        expect(message).toEqual('Get order Successfull');
+        expect(typeof res.body.item).toBe('object');
+        expect(res.body.status).toEqual('Success');
       })
       .end(done);
   });
-  it('should return 401 if no token is found in the header', (done) => {
-    request(app).get(`/api/v1/orders/${orderId}`)
+  it('should return 401 if another user tries to get orders not belonging to that user', (done) => {
+    const id = 1;
+    request(app).get(`/api/v1/users/${id}/orders`)
+    .set('x-auth', usToken)
       .expect(401)
       .expect((res) => {
-        const { message } = res.body;
-        expect(message).toEqual('not authenticated, please sign in');
+        expect(res.body.status).toEqual('error');
+        expect(res.body.message).toEqual('you are not authorised');
       })
       .end(done);
   });
-
 });
