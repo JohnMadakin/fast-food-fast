@@ -93,7 +93,7 @@ export const validateMenuRoute = (req, res, next) => {
   return next();
 };
 
-export const validateUserOrder = (req,res,next) => {
+export const validateUserOrderId = (req,res,next) => {
   const id = parseInt(req.params.id, 0);
   const userid = req.user.id;
   if (!id) {

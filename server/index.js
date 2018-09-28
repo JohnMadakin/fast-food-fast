@@ -11,7 +11,7 @@ import {
 import {
   validateMenuRoute,
   validateOrders,
-  validateUserOrder,
+  validateUserOrderId,
 } from './middleware/validateRoutes';
 import Authenticate from './middleware/authenticate';
 import Users from './controllers/users';
@@ -99,7 +99,7 @@ app.get('/api/v1/orders/:id', orders.getOrder);
  * @params {string} url
  * @params {function} getOrder
  */
-app.get('/api/v1/users/:id/orders', auth.authenticateUser, validateUserOrder, orders.userOrders);
+app.get('/api/v1/users/:id/orders', auth.authenticateUser, validateUserOrderId, orders.userOrders);
 
 /**
  * POST route to post an order to the DB
