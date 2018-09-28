@@ -48,7 +48,7 @@ export default class Users {
    *
    */
   adminSignUp(req, res) {
-    const userType = this.hashAdmin();
+    const userType = process.env.ADMINCODE;
     this.saveUser(req, res, userType);
   }
 
@@ -58,7 +58,7 @@ export default class Users {
    *
    */
   userSignUp(req, res) {
-    const userType = this.hashUser();
+    const userType = process.env.USERCODE;
     this.saveUser(req, res, userType);
   }
 
@@ -80,7 +80,7 @@ export default class Users {
     } = req.body;
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, (err, hash) => {
-        db.one('INSERT INTO users(firstname, lastname,phoneNo,deliveryAddress,imageurl, usertype, username,password, email) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id,username,imageurl,firstname, usertype', [firstname, lastname, phoneNo, deliveryAddress, imageUrl, userType, username, hash, email])
+        db.one('INSERT INTO users(firstname, lastname,phoneNo,deliveryAddress,imageurl, usertype, username,password, email) values($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id,username,imageurl,firstname, usertype, deliveryaddress as address', [firstname, lastname, phoneNo, deliveryAddress, imageUrl, userType, username, hash, email])
           .then((data) => {
             const token = this.generateAuthToken(data);
             return res.header('x-auth', token)
@@ -130,7 +130,7 @@ export default class Users {
               id: data.id,
               username: data.username,
               firstname: data.firstname,
-              userCode: data.usertype,
+              usertype: data.usertype,
               imageUrl: data.imageurl,
               address: data.deliveryaddress,
             };
