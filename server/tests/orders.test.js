@@ -27,6 +27,7 @@ const user = {
 };
 
 let menuid;
+let myOrder;
 
 
 describe('POST menu Route', () => {
@@ -368,4 +369,43 @@ describe('GET menu route', () => {
       })
       .end(done);
   });
+});
+
+
+describe('Get single order based on ID', () => {
+  const orderId = 1;
+  let adToken;
+  const loginAdmin = {
+    username: 'omare26',
+    password: 'password@1',
+  }
+  before('signin a user', (done) => {
+    request(app).post('/api/v1/auth/login')
+      .send(loginAdmin)
+      .end((err, response) => {
+        adToken = response.body.token;
+        done();
+      });
+  });
+  it('should return 200 if ID is found', (done) => {
+    request(app).get(`/api/v1/orders/${orderId}`)
+      .set('x-auth', adToken)
+      .expect(200)
+      .expect((res) => {
+        const { status, message } = res.body;
+        expect(status).toEqual('Success');
+        expect(message).toEqual('Get order Successfull');
+      })
+      .end(done);
+  });
+  it('should return 401 if no token is found in the header', (done) => {
+    request(app).get(`/api/v1/orders/${orderId}`)
+      .expect(401)
+      .expect((res) => {
+        const { message } = res.body;
+        expect(message).toEqual('not authenticated, please sign in');
+      })
+      .end(done);
+  });
+
 });
