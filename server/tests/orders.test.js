@@ -352,7 +352,6 @@ describe('GET all orders route', () => {
     .set('x-auth',adToken)
       .expect(200)
       .expect((res) => {
-        console.log(res.body)
         expect(typeof res.body).toBe('object');
       })
       .end(done);
