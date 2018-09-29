@@ -30,19 +30,7 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-
-app.get('/', (req, res) => {
-  const info = `
-    <pre>
-        Welcome to the fast food fast Lite API
-        The following endpoints are available:
-
-       All Routes are available
-       
-    </pre>`;
-  res.send(info);
-});
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 
 /**
