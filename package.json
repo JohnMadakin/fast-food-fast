@@ -34,7 +34,8 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.3.0",
-    "pg-promise": "^8.4.6"
+    "pg-promise": "^8.4.6",
+    "swagger-ui-express": "^4.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -48,6 +49,7 @@
     "mocha": "^5.2.0",
     "nodemon": "^1.18.4",
     "nyc": "^13.0.1",
-    "supertest": "^3.3.0"
+    "supertest": "^3.3.0",
+    "swagger-node-express": "^2.1.3"
   }
 }

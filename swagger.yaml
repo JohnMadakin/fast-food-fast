@@ -1,0 +1,184 @@
+swagger: "2.0"
+info:
+  description: "Fast-Food-Fast​ is a food delivery service web app for a restaurant. The api is hosted on heroku [https://edafe-fast-food-fast.herokuapp.com/]"
+  version: "1.0.0"
+  title: "Fast Food Fast"
+  contact:
+    email: "edafeadjeke@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "heroku.com"
+basePath: "/api/v1"
+tags:
+- name: "menu"
+  description: "The best menu you can serve your customers"
+- name: "orders"
+  description: "place orders of multiple menu"
+- name: "auth"
+  description: "Admin can manage the app"
+schemes:
+- "https"
+- "http"
+paths:
+  /menu:
+    post:
+      tags:
+      - "menu"
+      summary: "Add a new a new menu"
+      description: ""
+      operationId: "postMenu"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Menu(food) items that needs to be added to your app."
+        required: true
+        schema:
+          $ref: "#/definitions/Pet"
+      responses:
+        200:
+          description: "you have successfully added a menu"
+        400:
+          description: "menu not saved"
+
+    get:
+      tags:
+      - "menu"
+      summary: "Get a list of all the menu available"
+      description: ""
+      operationId: "getMenu"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Menu(food) items that needs to be added to your app."
+        required: true
+        schema:
+          $ref: "#/definitions/Pet"
+      responses:
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "Invalid menuId, check that your itemsId is valid"
+ 
+  /orders:
+    post:
+      tags:
+      - "orders"
+      summary: "Post orders of available menu items"
+      description: "Orders can contain multiple items"
+      operationId: "postOrders"
+      produces:
+      - "application/json"
+     parameters:
+      - in: "body"
+        name: "body"
+        description: "Menu(food) items that needs to be added to your app."
+        required: true
+        schema:
+          $ref: "#/definitions/Pet"
+      responses:
+        200:
+          description: "you have successfully placed your orders"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Pet"
+        400:
+          description: "Invalid status value"
+      security:
+      - api_key: []
+  /orders:
+   get:
+      tags:
+      - "orders"
+      summary: "get all orders"
+      description: "Gets the order and items information"
+      operationId: "getOrders"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "tags"
+        in: "query"
+        description: "Tags to filter by"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Pet"
+        400:
+          description: "Invalid tag value"
+      security:
+      - petstore_auth:
+        - "write:pets"
+        - "read:pets"
+      deprecated: true
+  /orders/{orderId}:
+    get:
+      tags:
+      - "orders"
+      summary: "Get order by ID"
+      description: "Returns a single order"
+      operationId: "getOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "orderId"
+        in: "path"
+        description: "ID of order to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Pet"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "order not found"
+      security:
+      - api_key: []
+      
+   /users/{userId}/orders:
+    get:
+      tags:
+      - "orders"
+      summary: "Get order by user ID"
+      description: "Returns a single order belonging to a user"
+      operationId: "getOrder"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "orderId"
+        in: "path"
+        description: "ID of order to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Pet"
+        400:
+          description: "Invalid ID supplied"
+        404:
+          description: "order not found"
+      security:
+      - api_key: [] 
