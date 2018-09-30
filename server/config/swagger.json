@@ -1,0 +1,562 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description":  "Fast-Food-Fast​ is a food delivery service web app for a restaurant. The api is hosted on heroku [https://edafe-fast-food-fast.herokuapp.com/]",
+    "version": "1.0.0",
+    "title": "Fast food fast",
+    "contact": {
+      "email": "johnmadakin@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "https://edafe-fast-food-fast.herokuapp.com",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "menu",
+      "description": "The best menu you can serve your customers"
+    },
+    {
+      "name": "orders",
+      "description": "place orders of multiple menu"
+    },
+    {
+      "name": "user",
+      "description": "Users can signup and sign in"
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/menu": {
+      "get": {
+        "tags": [
+          "menu"
+        ],
+        "summary": "Get menu",
+        "description": "Get all Menu",
+        "operationId": "getAllMenu",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "default": "available"
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Menu"
+              }
+            }
+          },
+          "500": {
+            "description": "error getting menu"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "menu"
+        ],
+        "summary": "Add a new a new menu",
+        "description": "",
+        "operationId": "postMenu",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "adds a new menu",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Menu"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "you have successfully added a menu"
+          },
+          "400": {
+            "description": "Menu not saved"
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "type:jwt",
+              "name:x-auth"
+            ]
+          }
+        ]
+      }
+    },
+    "/orders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get all orders",
+        "description": "Get allorders",
+        "operationId": "getAllOrders",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+              "default": "available"
+            }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          },
+          "500": {
+            "description": "error getting orders"
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "type:jwt",
+              "name:x-auth"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Add a new a new order",
+        "description": "",
+        "operationId": "postOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "adds a new order",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "you have successfully added an order"
+          },
+          "400": {
+            "description": "Order not saved"
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "type:jwt",
+              "name:x-auth"
+            ]
+          }
+        ]
+      }
+
+    },
+    "/orders/{ordersId}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get orders by ID",
+        "description": "Get allorders",
+        "operationId": "getOrders",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "id",
+            "description": "Tags to filter by",
+            "required": true,
+            "type": "object",
+            "items": {
+              "type": "array"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          },
+          "500": {
+            "description": "error getting orders"
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "type:jwt",
+              "name:x-auth"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Update an existing order",
+        "description": "",
+        "operationId": "updateOrder",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Order that needs to be  updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Order"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "order updated"
+          },
+          "404": {
+            "description": "order not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "type:jwt",
+              "name:x-auth"
+            ]
+          }
+        ]
+      }
+    },
+    "/users/{userId}/orders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get orders by userId",
+        "description": "Get all the orders placed by a user",
+        "operationId": "userOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters":  [
+          {
+            "name": "tags",
+            "in": "id",
+            "description": "Tags to filter by",
+            "required": true,
+            "type": "object",
+            "items": {
+              "type": "array"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Order"
+              }
+            }
+          },
+          "500": {
+            "description": "error getting orders"
+          }
+        },
+        "security": [
+          {
+            "api_key": [
+              "type:jwt",
+              "name:x-auth"
+            ]
+          }
+        ]
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create user",
+        "description": "Users can sign up ",
+        "operationId": "userSignup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/auth/admin": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create a new admin",
+        "description": "Users with admin privileges can sign up ",
+        "operationId": "adminSignup",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "users can login",
+        "description": "Both users and admin accounts can login through this ",
+        "operationId": "userLogin",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "success"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Order": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "items": {
+          "type": "array",
+          "array": [
+            "item"
+          ]
+        },
+        "deliveryAddress": {
+          "type": "string",
+          "description": "users address"
+        },
+        "paymentmode": {
+          "type": "string",
+          "enum": [
+            "paymentondelivery",
+            "card"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": [
+            "pending",
+            "accepted",
+            "confirmed"
+          ]
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+     "User": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userType": {
+          "type": "string",
+          "description": "could represent admin or usertype"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "path to the actualimage link"
+        },
+        "deliveryaddress": {
+          "type": "string",
+          "description": "user delivery address"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    },
+    "Menu": {
+      "type": "object",
+      "required": [
+        "name",
+        "price",
+        "quantity",
+        "ingredient",
+        "imageUrl"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "example": "Bacon Cheesebuger"
+        },
+        "ingredients": {
+          "type": "string",
+          "example": "beef, ketchup"
+        },
+        "imageUrl": {
+          "type": "string",
+          "xml": {
+            "name": "imageUrl",
+            "wrapped": true
+          },
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "xml": {
+        "name": "Menu"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "status": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+
+}

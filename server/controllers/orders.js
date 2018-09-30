@@ -26,12 +26,6 @@ export default class Orders {
           message: 'you have successfully added a menu',
         });
       }, (err) => {
-        if (err.code == '23505') {
-          return res.status(400).json({
-            status: 'error',
-            message: 'Menu name already exist',
-          });
-        }
         return res.status(400).json({
           status: 'error',
           message: 'Menu not saved',
@@ -179,8 +173,8 @@ getAllOrders(req, res) {
       return t.batch(orders.map(order => t.one('SELECT id, price from MENU WHERE id = $1', order.itemid)))
         .then((result) => {
           orders.forEach((order, i) => {
-          order.price = result[i].price;
-          })
+            order.price = result[i].price;
+          });
           total = this.calculateTotal(orders);
           return t.one('INSERT INTO orders (userid, paymentmethod,orderstatus,deliveryaddress,total) values ($1,$2,$3,$4,$5) returning id', [userId, payment, status, deliveryAddress, total])
             .then((mydata) => {
