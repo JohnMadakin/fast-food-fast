@@ -22,7 +22,7 @@ const connect = {
   password: 'password!1',
 };
 
-const db = pgp(connect || process.env.DATABASE_URL || process.env.TEST_DB);
+const db = pgp(process.env.DATABASE_URL || connect);
 
 
 export default db;
