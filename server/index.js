@@ -24,8 +24,6 @@ const auth = new Authenticate();
 const orders = new Orders();
 const users = new Users();
 
-db.tables.create();
-
 const app = express();
 
 app.use(bodyParser.json());
