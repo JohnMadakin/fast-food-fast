@@ -257,7 +257,7 @@ getAllOrders(req, res) {
       .catch((err) => {
         return res.status(500).json({
           query,
-          message: 'Invalid search term',
+          message: 'server search error',
         });
       });
   }
