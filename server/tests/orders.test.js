@@ -369,6 +369,27 @@ describe('GET menu route', () => {
       .end(done);
   });
 });
+
+describe('Search menu', () => {
+  it('should return 200 if menu is found', (done) => {
+    const query =  'waf';
+    request(app).get(`/api/v1/search?query=${query}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.data[0].title).toEqual('waffle');
+      })
+      .end(done);
+  });
+  it('should return 404 if no menu is found', (done) => {
+    request(app).get('/api/v1/search?query=fgd')
+      .expect(404)
+      .expect((res) => {
+        expect(res.body.message).toEqual('No Search Results Found');
+      })
+      .end(done);
+  });
+});
+
 describe('GET order history', () => {
   let usToken;
   let loginUser = {

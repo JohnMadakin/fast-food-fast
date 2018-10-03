@@ -1,4 +1,3 @@
-import data from '../models/data';
 import db from '../db/dbconnection';
 
 
@@ -224,7 +223,7 @@ getAllOrders(req, res) {
           message: 'order updated',
         });
       })
-      .catch(e => {
+      .catch((e) => {
         return res.status(500).json({
           status: 'error',
           message: 'could not update',
@@ -232,5 +231,36 @@ getAllOrders(req, res) {
         });
       })
   }
+
+ /**
+ * search for menu
+ * @param {object} req
+ * @param {object} res
+ */
+  search(req, res) {
+    let { query } = req.query;
+    if(!query || query.length > 25) return res.status(400).json(query);
+    query = `%${query}%`
+    db.any('SELECT title FROM menu WHERE title ILIKE $1', [query])
+      .then((data) => {
+        if (data.length > 0) {
+          return res.status(200).json({
+            status: 'success',
+            data,
+          });
+        }
+        return res.status(404).json({
+          message: 'No Search Results Found',
+        });
+
+      })
+      .catch((err) => {
+        return res.status(500).json({
+          query,
+          message: 'Invalid search term',
+        });
+      });
+  }
+
 
 }
