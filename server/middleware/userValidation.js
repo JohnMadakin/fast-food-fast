@@ -46,7 +46,6 @@ export const validateString = (string) => {
 
 export const validateUserText = (string) => {
   if (typeof string !== 'string') return false;
-  if (string.length < 6 || string.length > 25) return false;
   const validString = /^[0-9a-zA-Z_]+$/;
   return string.trim().match(validString);
 };

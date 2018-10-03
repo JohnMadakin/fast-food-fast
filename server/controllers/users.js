@@ -121,6 +121,7 @@ export default class Users {
     const { username, password } = req.body;
     db.one('SELECT * FROM users where username = $1', username)
       .then((data) => {
+console.log(data)
         return data;
       })
       .then((data) => {

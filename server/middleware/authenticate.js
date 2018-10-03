@@ -19,6 +19,7 @@ export default class Authenticate {
     }
     try {
       const decoded = jwt.verify(token, process.env.SECRET);
+      console.log(decoded)
       if ( process.env.ADMINCODE !== decoded.usertype) {
         return res.status(401)
           .json({
