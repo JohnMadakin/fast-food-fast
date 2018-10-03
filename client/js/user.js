@@ -21,7 +21,6 @@ const verifyUsers = () => {
   const token = localStorage.getItem('fastfoodUser');
   try{
     const decoded = jwt_decode(token);
-    console.log(decoded)
     if(decoded) {
       const pageTitle = createNode('h1');
       let imgSrc;
@@ -31,12 +30,12 @@ const verifyUsers = () => {
       const userImage = createNode('img');
       appendNode(userProfileContainer, userImage);
       userImage.className = 'userProfile';
-      if(decoded.imageUrl === ""){
+      if(decoded.imageurl === ""){
         imgSrc = defaultImage;
         userImage.setAttribute('src',imgSrc);
         return;
       }
-      userImage.setAttribute('src', decoded.imageUrl);
+      userImage.setAttribute('src', decoded.imageurl);
       // getUserOrders(decoded);
       return;
     }else {
