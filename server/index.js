@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
+import path from 'path';
 
 import config from './config/config';
 import Orders from './controllers/orders';
@@ -19,7 +20,6 @@ import swaggerDoc from './config/swagger.json';
 import Authenticate from './middleware/authenticate';
 import Users from './controllers/users';
 import db from './db/dbconnection';
-
 const auth = new Authenticate();
 const orders = new Orders();
 const users = new Users();
@@ -31,17 +31,19 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+app.use(express.static(path.join(__dirname, '../client')));
 
-app.get('/', (req, res) => {
-  const info = `
-    <pre>
-        Welcome to the fast food fast Lite API
-        The following endpoints are available:
-        for API docs, navigate to /api-docs
+
+// app.get('/', (req, res) => {
+//   const info = `
+//     <pre>
+//         Welcome to the fast food fast Lite API
+//         The following endpoints are available:
+//         for API docs, navigate to /api-docs
        
-    </pre>`;
-  res.send(info);
-});
+//     </pre>`;
+//   res.send(info);
+// });
 
 
 /**
