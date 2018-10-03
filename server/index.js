@@ -108,6 +108,14 @@ app.get('/api/v1/users/:id/orders', auth.authenticateUser, validateUserOrderId, 
 app.post('/api/v1/orders', auth.authenticateUser, validateOrders, orders.postOrder);
 
 /**
+ * POST route for searching
+ * @param {string} url
+ * @param {function} search
+ */
+app.get('/api/v1/search', orders.search);
+
+
+/**
  * PUT route to update an order to the DB
  * @params {string} url
  * @params {function} updateOrder
