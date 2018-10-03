@@ -15,7 +15,6 @@ const nav =  document.querySelector('.nav');
 const content =  document.querySelector('.content');
 const modal = document.getElementById('modal-id');
 const openLogin =  document.querySelector('.login-modal');
-const submit = document.querySelector('.submit');
 
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
@@ -37,7 +36,6 @@ const startApp = () =>{
     orderFood();
     closePopUp();
     login();
-    gotoDashboard();
   }
   window.onclick = function(event) {
     if (event.target == modal) {
@@ -46,21 +44,6 @@ const startApp = () =>{
   }
   menuToggle();
   return;
-}
-
-
-
-const gotoDashboard = () => {
-  const uname = document.getElementById('uname').value;
-  submit.addEventListener('click',(e)=>{
-    e.preventDefault();
-    console.log(uname.trim() == "admin")
-    if(uname.trim() == "admin"){
-      return window.location.href = 'admin.html';
-    }
-   return window.location.href = 'user.html';
-
-  });
 }
 
 const login = () =>{
@@ -299,5 +282,3 @@ const populateCart = () => {
     });
   });
 }
-
-

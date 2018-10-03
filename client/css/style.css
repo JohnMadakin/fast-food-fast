@@ -661,6 +661,10 @@ textarea:focus{
   top: 0;
   z-index: 999;
 }
+.login-message{
+  display:none;
+  color: green;
+}
 .pop-up-container{
   display: flex;
   box-shadow: 2px 4px 25px rgba(0, 0, 0, .1);
