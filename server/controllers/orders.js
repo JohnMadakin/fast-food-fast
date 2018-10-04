@@ -124,7 +124,7 @@ getAllOrders(req, res) {
    * @params {object} res
    */
   getAllMenu(req, res) {
-    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl FROM menu')
+    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl,id FROM menu')
       .then((result) => {
         return res.status(200).json({
           menu: result,
