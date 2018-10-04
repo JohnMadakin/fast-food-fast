@@ -636,6 +636,7 @@ textarea:focus{
 .pop-up-title{
   padding: 1rem 2rem;
   margin-bottom: 0px;
+  text-align: center;
 }
 .close-pop-up{
   font-size: 1.6rem;
@@ -647,10 +648,11 @@ textarea:focus{
   margin-left: 50%;
   cursor: pointer;
 }
-.pop-up-message{
+.pop-up-message, .pop-up-messages{
   font-size: 1.6rem;
   padding: 1rem 2rem;
   margin-top: 0px;
+  text-align: center;
 }
 .pop-up, .pop-up-alert, .waiting{
   display:none;
@@ -660,6 +662,12 @@ textarea:focus{
   background-color: rgba(5, 5, 5, 0.6);
   top: 0;
   z-index: 999;
+}
+.saving{
+  padding: 1.5rem 2.5rem;
+  color: white;
+  background-color: green;
+  display: none;
 }
 .login-message{
   display:none;
