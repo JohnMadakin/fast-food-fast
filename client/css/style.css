@@ -147,7 +147,7 @@ body {
   padding: 1.5rem 2.5rem;
   text-align: center;
 }
-.email, .home-address, .delivery-address {
+.email, .home-address, .delivery-address, .phone-no {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -684,7 +684,10 @@ textarea:focus{
 }
 .login-message{
   display:none;
-  color: green;
+  color: white;
+  background-color: green;
+  padding: 1.1rem 2.0rem;
+  margin-bottom: 2.0rem;
 }
 .pop-up-container{
   display: flex;
