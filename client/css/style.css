@@ -744,9 +744,14 @@ textarea:focus{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.payment-on-delivery{
+.payment-on-delivery {
   font-size: 1.4rem;
   padding-bottom: 1.5rem;
+  color: #f1a503a1;
+}
+.error-message {
+  display: 'none';
+  color: red;
 }
 .pay{
   padding: 1rem 2.5rem;
