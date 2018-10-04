@@ -25,10 +25,21 @@
               </nav>
         </div>
       </header>
+      <div class="pop-up">
+          <div class="pop-up-container">
+            <div class="pop-up-msg-group">
+              <h2 class="pop-up-title">Hi Customer! This is your Attendant</h2>
+              <p class="pop-up-message">You have already added this to your food cart. Please adjust the quantity there</p>
+              <p class="close-pop-up">Ok</p>
+            </div>
+          </div>
+        </div>
   <main class="content-food">
+      
     <div class="checkout-container">
       <div class="checkout-shopping-cart">
           <h1 class="cart-title checkout-cart-title">Food Items</h1>
+          <h3 class="waiting">Please be patient, Placing other</h3>
           <div class="all-items">
 
           </div>
@@ -37,17 +48,16 @@
         <div class="item-recipt">
           <div class="sub"><p>Sub-total</p><p class="sub-total">0</p></div>
           <div class="tax"><p>Tax</p><p class="total-tax">0</p></div>
-          <div class="tax"><p>Delivery</p><p class="delivery-cost">500</p></div>
           <div class="total"><p>Total</p><p class="total-price">0</p></div>
         </div>
         <div class="payment-group">
-            <p class="pay">Payment method</p>
-            <input type="radio" name="payment" value="payondelivery"><span class="payment-on-delivery">payment on delivery</span><br>
+            <p class="pay">Payment method: <span class="payment-on-delivery">Payment on delivery</span></p>
             <button class="item-checkout" >Place Order</button>
-    
         </div>
       </div>
     </div>
+   
+    <h3 class="error-message"></h3>
   </main>
 
   <footer class="footer">

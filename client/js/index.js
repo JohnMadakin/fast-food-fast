@@ -22,7 +22,14 @@ const openLogin =  document.querySelector('.login-modal');
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
 let total = document.querySelector('.total-price');
+let cartItems = 0;
 let items = [];
+
+const initiateCartStorage = () => {
+  if (localStorage.orders) {
+    return items = JSON.parse(localStorage.orders);
+  }
+};
 
 const stickyHeader = () => {
   if (window.scrollY > sticky) {
@@ -38,7 +45,6 @@ const stickyHeader = () => {
 
 const checkOutOrders = () => {
   checkoutBtn.addEventListener('click',()=>{
-    localStorage.setItem('checkoutItems',items);
     window.location.href = 'checkout.html';
   });
 }
@@ -97,11 +103,14 @@ const placeOrder = (orders,menu) => {
       let price = menu[i].price;
       let img = menu[i].imageurl;
       let qty = 1;
+      let itemid = menu[i].id;
       const isAdded = items.find((element)=> element.title === title);
       if(!isAdded){
-        order.title = 'added';
+        order.textContent = 'added';
+        cartItems = cartItems + 1;
         calculatePrices(price,qty);
-        return items.push({title,price,qty,img});
+        items.push({title,price,qty,img,itemid});
+        return localStorage.orders = JSON.stringify(items)
       }
       popUp.style.display = 'block';
       return;
@@ -168,6 +177,7 @@ const populateCart = () => {
       tax.textContent = tax.textContent*1 - itemTax*1;
       total.textContent = subTotal.textContent*1 + tax.textContent*1;
       items.splice(i,1);
+      localStorage.orders = JSON.stringify(items)
       itemsContainer.removeChild(foodItem);
       emptyCart();
     });
@@ -370,6 +380,7 @@ const login = () =>{
   });
 };
 
+initiateCartStorage();
 login();
 signIn();
 populatePage();
