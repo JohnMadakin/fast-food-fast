@@ -2,14 +2,15 @@ const menuContainer = document.querySelector('.tab-content-container');
 const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
 const loginUsers = document.querySelector('.submit');
 const loginMessage = document.querySelector('.login-message');
+const waiting = document.querySelector('.spinner');
 
 const populatePage = () => {
   const url = `${baseUrl}/api/v1/menu`;
   fetch(url)
   .then(res => res.json())
   .then((data) => {
-    console.log(data)
     const { menu } = data;
+    waiting.style.display = 'none';
     menu.forEach((eachMenu) => {
       generateFoodCards(eachMenu);
     });
@@ -20,55 +21,27 @@ const populatePage = () => {
 }
 
 const generateFoodCards = (menu) => {
-  console.log(menuContainer);
-  const card = createNode('div');
-  const title = createNode('h1');
-  const foodGroup = createNode('div');
-  const foodImg = createNode('img');
-  const foodMore = createNode('div');
-  const details = createNode('h2');
-  const otherDetails = createNode('ul');
-  const price = createNode('li');
-  const calorie = createNode('li');
-  const ingredient = createNode('li');
-  const line = createNode('hr');
-  const foodDescription = createNode('p');
-  const orderButton = createNode('h1');
-  const space = createNode('div');
-  appendNode(menuContainer, card);
-  appendNode(card, title);
-  appendNode(card, space);
-  appendNode(card, foodGroup);
-  appendNode(foodGroup, foodImg);
-  appendNode(foodGroup, foodMore);
-  appendNode(foodMore, details);
-  appendNode(foodMore, otherDetails);
-  appendNode(otherDetails, price);
-  appendNode(otherDetails, calorie);
-  appendNode(otherDetails, ingredient);
-  appendNode(card, line);
-  appendNode(card, foodDescription);
-  appendNode(card, orderButton);
-  card.className = 'card';
-  title.className = 'food-title';
-  foodImg.className = 'food-img';
-  foodMore.className = 'food-more';
-  foodGroup.className = 'food-group';
-  details.className = 'details';
-  price.className = 'price';
-  space.className = 'space';
-  calorie.className = 'calorie';
-  ingredient.className = 'ingredient';
-  orderButton.className = 'order-now';
-  foodDescription.className = 'food-des';
-  title.textContent = menu.name;
-  price.textContent = menu.price;
-  calorie.textContent = menu.calorie;
-  foodDescription.textContent = menu.description;
-  ingredient.textContent = menu.ingredient;
-  foodImg.setAttribute('src', `${menu.imageurl}`);
-  orderButton.textContent = 'add to cart';
-  details.textContent = 'Details';
+  const menuCard = document.createElement('div');
+  menuCard.innerHTML = `<div class="card">
+  <h1 class="food-title">${menu.name}</h1>
+  <div class="space"></div>
+  <div class="food-group">
+  <img class="food-img" alt="bacon" src="${menu.imageurl}">
+  <div class="food-more">
+      <h2>Details</h2>
+      <ul class="details">
+        <li class="price">${menu.price}</li>
+        <li class="calorie">${menu.calorie}</li>
+        <li class="ingredient">${menu.ingredient}</li>
+      </ul>
+    </div>
+    </div>
+  <hr/>
+  <p class="food-des">${menu.description}</p>
+  <h1 class="order-now" data-price="2250" data-title="${menu.name}" data-image-src="${menu.imageurl}">add to cart</h1>
+  
+</div>`;
+menuContainer.appendChild(menuCard);
 
 };
 
