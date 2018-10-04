@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Fast food fast</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Dosis|PT+Sans+Narrow" rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+          <div class="logo-container"><a href="index.html" class="homepage">
+              <p class="logo">fast<span class="logo-icon"><img src="./images/logo.png" height="32px" width="32px"></span><span class="logo_sub">food</span> <span class="logo_sub_2">fast</span></p>
+            </a></div>
+            <div class="cart"><img src="./images/cart.png" height="24px" width="24px"><a href="index.html">Back to Shopping</a></div>
+            <div class="menu"><img src="./images/menu1.png" height="32px" width="32px"> </div>
+            <nav class="nav">
+                <div class="login nav__item"><a class="login-modal">Log in</a></div>
+                <div class="signup nav__item"><a href="signup.html">Sign Up</a></div>
+                </div>
+              </nav>
+        </div>
+      </header>
+  <main class="content-food">
+    <div class="checkout-container">
+      <div class="checkout-shopping-cart">
+          <h1 class="cart-title checkout-cart-title">Food Items</h1>
+          <div class="all-items">
+
+          </div>
+      </div>
+      <div class="item-recipt-container">
+        <div class="item-recipt">
+          <div class="sub"><p>Sub-total</p><p class="sub-total">0</p></div>
+          <div class="tax"><p>Tax</p><p class="total-tax">0</p></div>
+          <div class="tax"><p>Delivery</p><p class="delivery-cost">500</p></div>
+          <div class="total"><p>Total</p><p class="total-price">0</p></div>
+        </div>
+        <div class="payment-group">
+            <p class="pay">Payment method</p>
+            <input type="radio" name="payment" value="payondelivery"><span class="payment-on-delivery">payment on delivery</span><br>
+            <button class="item-checkout" >Place Order</button>
+    
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy;Copyright 2018</p>
+  </footer>
+  <script src="js/jwt-decode.min.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+
+</html>
