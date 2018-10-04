@@ -84,21 +84,23 @@
             <div class="signup-register">Register</div>
         </div>
 <form class="signup-form" name="signup">
+    <label class="login-message"></label>
   <div class="signup-form-container">
-      <input type="text" placeholder="Enter username" name="username" required class="firstname"><br/>
+      <label>Upload profile Image</label>
+      <input class="imageUrl" type="file" name="imageUrl" accept="image/*"><br/>
+      <input type="text" placeholder="Enter username" name="username" class="firstname signup-form" required ><br/>
     <div class="name-group">
-      <input type="text" placeholder="Enter Firstname" name="firstname" required class="firstname">
-      <input required type="text" placeholder="Enter Lastname" name="lastname" class="lastname"></div>
-    <input required type="email" placeholder="Enter Your Email" name="email" class="email">
+      <input type="text" placeholder="Enter Firstname" name="firstname" class="firstname signup-form" required >
+      <input type="text" placeholder="Enter Lastname" name="lastname" class="lastname signup-form" required ></div>
+    <input type="email" placeholder="Enter Your Email" name="email" class="email signup-form" required >
     <div class="pwd-group">
-      <input required type="password" placeholder="Enter Password" class="pwd" name="password" id="pwd">
-      <input required type="password" placeholder="Confirm Password" name="confirmpassword" id="confirmpwd" class="pwd">
+      <input type="password" placeholder="Enter Password" class="pwd" name="password" id="pwd" required >
+      <input type="password" placeholder="Confirm Password" name="confirmpassword" id="confirmpwd" class="pwd" required >
     </div>
     <label class="checkPasswords">passwords do not match</label>
-    <input required  type="text" placeholder="Enter Phone Number" name="phoneNo" class="delivery-address">
-    <input required  type="text" placeholder="Enter Delivery Address" name="deliveryAddress" class="delivery-address">
-    <label>Upload Image</label>
-    <input class="imageUrl" type="file" name="imageUrl" accept="image/*">
+    <input type="text" placeholder="Enter Phone Number" name="phoneNo" class="phone-no signup-form" required >
+    <input type="text" placeholder="Enter Delivery Address" name="deliveryAddress" class="delivery-address" required >
+   
     <button type="submit" class="signup-submit">Sign Up</button>
   </div>
 </form>
