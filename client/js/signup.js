@@ -169,7 +169,7 @@ const postForm = (formData) => {
     .catch(err => {
       loginMessage.style.display = 'block';
       loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = 'Couldnt sign you up';
+      loginMessage.textContent = 'Couldnt sign you up. Check your network Connection';
   })
   }
  

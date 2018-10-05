@@ -654,18 +654,24 @@ textarea:focus{
   margin-top: 0px;
   text-align: center;
 }
-.spinner {
+.spinner, .login-spinner {
   border: 16px solid #f3f3f3; 
   border-top: 16px solid rgb(245, 165, 16); 
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 50px;
+  height: 50px;
   animation: spin 2s linear infinite;
+  margin: 0 auto;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.login-spinner{
+  width: 20px;
+  height: 20px;
+  display: none;
 }
 .pop-up, .pop-up-alert, .waiting{
   display:none;
