@@ -66,16 +66,16 @@
         
             <div class="modal-container create-food-modal edit-food-content">
               <label class="saving">Saving.....Please wait</label>
+              <label>Upload Food Image: </label>
+              <input class="upload-image" type="file" name="pic" accept="image/*" required><br>
               <input id="title" type="text" placeholder="Food Name" name="name" required>
               <input id="price" type="number" placeholder="Price" name="price" required>
               <input id="calorie" type="number" placeholder="Calorie" name="calorie" required>
               <textarea id="ingredient" name="ingredients" placeholder="Separate ingredients with a comma" ></textarea><br>
-              <label>Upload Food Image: </label>
-              <input class="upload-image" type="file" name="pic" accept="image/*"><br>
               <textarea id="description" name="description" placeholder="Description" ></textarea><br>
               <div class="save-edited-menu">
                   <button class="submit" type="submit">Save</button>
-                  <button class= "cancelbtn" type="submit">cancel</button>
+                  <span class= "cancel-btn" >cancel</span>
               </div>
 
             </div>
