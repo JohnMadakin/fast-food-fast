@@ -73,7 +73,7 @@ userOrders (req, res) {
  */
 
 getAllOrders(req, res) {
-  const query = `SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid`;
+  const query = `SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid `;
   db.any(query)
     .then((items) => {
       return res.status(200).json({
@@ -126,13 +126,13 @@ getOrder(req, res) {
     });
 }
 
-  /**
+   /**
    * A method to get all available menu
    * @params {object} req
    * @params {object} res
    */
   getAllMenu(req, res) {
-    db.any(`SELECT json_build_object('ordersid',orders.id, 'total',orders.total,'status', orders.orderstatus, 'address',orders.deliveryaddress,'payment', orders.paymentmethod, 'items',(SELECT json_agg(json_build_object('quantity', orderitems.quantity, 'itemsid', orderitems.id)) FROM orderitems WHERE orders.id = orderitems.ordersId)) orders FROM orders`)
+    db.any('SELECT title as name, price, calorie, description, ingredient, imageurl,id FROM menu')
       .then((result) => {
         return res.status(200).json({
           menu: result,
