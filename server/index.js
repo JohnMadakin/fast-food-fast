@@ -34,17 +34,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 app.use(express.static(path.join(__dirname, '../client')));
 
 
-// app.get('/', (req, res) => {
-//   const info = `
-//     <pre>
-//         Welcome to the fast food fast Lite API
-//         The following endpoints are available:
-//         for API docs, navigate to /api-docs
-       
-//     </pre>`;
-//   res.send(info);
-// });
-
 
 /**
  * POST route to signup

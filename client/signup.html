@@ -50,15 +50,17 @@
           <label  for="psw"><b>Password</b></label>
           <input id="psw" type="password" placeholder="Enter Password" name="psw" required>
     
-          <button class="submit" type="submit">Login</button>
+          <button class="submit" type="submit">Login </button>
           <label>
             <input type="checkbox" checked="checked" name="remember"> Remember me
           </label>
         </div>
-    
+        <div class="login-spinner"></div> 
         <div class="modal-container" style="background-color:#f1f1f1">
           <button type="button" onclick="document.getElementById('modal-id').style.display='none'" class="cancelbtn">Cancel</button>
           <span class="psw">Forgot <a href="#">password?</a></span>
+                   
+
         </div>
       </form>
     </div>
@@ -85,7 +87,7 @@
             <div class="signup-register">Register</div>
         </div>
 <form class="signup-form" name="signup">
-    <label class="login-message"></label>
+    <label class="signup-message"></label>
   <div class="signup-form-container">
       <label>Upload profile Image</label>
       <input class="imageUrl" type="file" name="imageUrl" accept="image/*"><br/>

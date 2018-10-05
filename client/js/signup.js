@@ -9,7 +9,7 @@ const closePopup = document.querySelector('.close-pop-up');
 const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
 const openLogin =  document.querySelector('#login-modal');
 const modal = document.getElementById('modal-id');
-const loginUser = document.querySelector('.submit');
+// const loginUser = document.querySelector('.submit');
 const message = document.querySelector('.pop-up-message');
 const validEmail = document.querySelector('.email');
 const username = document.querySelector('.username');
@@ -21,7 +21,7 @@ let imageLink = '';
 let isImageUpload = false
 
 const waiting = document.querySelector('.waiting');
-const loginMessage = document.querySelector('.login-message');
+const signupnMessage = document.querySelector('.signup-message');
 let validated = false;
 
 /** https://code.lengstorf.com/get-form-values-as-json/
@@ -105,9 +105,9 @@ const uploadImageToServer = () => {
   const url = 'https://api.cloudinary.com/v1_1/fast-food-fast/upload';
   const preset = 'usersprofileimages';
   image.addEventListener('change', () => {
-    loginMessage.style.display = 'block';
-    loginMessage.style.backgroundColor = 'orange';
-    loginMessage.textContent = 'uploading image, please wait';
+    signupnMessage.style.display = 'block';
+    signupnMessage.style.backgroundColor = 'orange';
+    signupnMessage.textContent = 'uploading image, please wait';
     submit.disabled = true;
     const imageUrl = image.files[0];
     const uploadImage = new FormData();
@@ -121,9 +121,9 @@ const uploadImageToServer = () => {
     .then((data)=>{
       if(data.secure_url !== ''){
         submit.disabled = false;
-        loginMessage.style.display = 'block';
-        loginMessage.style.backgroundColor = 'green';
-        loginMessage.textContent = 'image uploaded';
+        signupnMessage.style.display = 'block';
+        signupnMessage.style.backgroundColor = 'green';
+        signupnMessage.textContent = 'image uploaded';
         imageLink = data.secure_url;
         isImageUpload = true;
         return imageLink;
@@ -131,9 +131,9 @@ const uploadImageToServer = () => {
       imageLink = '';
     })
     .catch((err)=>{
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = 'couldnt upload image';
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = 'couldnt upload image';
     })
   });
 }
@@ -154,22 +154,22 @@ const postForm = (formData) => {
     .then((res) => res.json())
       .then((data) => {
         if (data.status == 'Success') {
-          loginMessage.style.display = 'block';
-          loginMessage.style.backgroundColor = 'red';
-          loginMessage.textContent = 'Successfully Signed up';
+          signupnMessage.style.display = 'block';
+          signupnMessage.style.backgroundColor = 'red';
+          signupnMessage.textContent = 'Successfully Signed up';
           localStorage.setItem('fastfoodUser', data.token);
           return window.location.href = 'user.html';
         } else if (data.status !== 'Success') {
-          loginMessage.style.display = 'block';
-          loginMessage.style.backgroundColor = 'red';
-          loginMessage.textContent = `${data.message}`;
+          signupnMessage.style.display = 'block';
+          signupnMessage.style.backgroundColor = 'red';
+          signupnMessage.textContent = `${data.message}`;
   
         }
       })
     .catch(err => {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = 'Couldnt sign you up. Check your network Connection';
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = 'Couldnt sign you up. Check your network Connection';
   })
   }
  
@@ -192,45 +192,45 @@ function validateForm (formData) {
   const formInputs = Object.keys(formData)
   for(element of formInputs) {
     if(element === 'email' && !checkValidEmail(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid email`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid email`;
       return false;
     }
     if(element === 'password' && !validateStringLength(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid password length`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid password length`;
       return false;
     }
     if(element === 'username' && !validateUserText(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid username entered`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid username entered`;
       return false;
     }
     if(element === 'firstname' && !validateString(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid firstname entered`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid firstname entered`;
       return false;
     }
     if(element === 'lastname' && !validateString(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid lastname entered`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid lastname entered`;
       return false;
     }
     if(element === 'phoneNo' && !validatePhoneNo(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid phone number entered`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid phone number entered`;
       return false;
     }
     if(element === 'deliveryAddress' && !validateText(formData[element])) {
-      loginMessage.style.display = 'block';
-      loginMessage.style.backgroundColor = 'red';
-      loginMessage.textContent = `invalid address entered`;
+      signupnMessage.style.display = 'block';
+      signupnMessage.style.backgroundColor = 'red';
+      signupnMessage.textContent = `invalid address entered`;
       return false;
     }
 
@@ -240,7 +240,7 @@ function validateForm (formData) {
 
 const submitForm = (e) => {
   e.preventDefault();
-  loginMessage.style.display = 'none';
+  signupnMessage.style.display = 'none';
   const formData = convertFormValues(formValues.elements);
   delete formData.confirmpassword;
   formData.imageUrl = imageLink;

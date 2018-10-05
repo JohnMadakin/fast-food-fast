@@ -253,8 +253,13 @@ const postMenu = (formData) => {
       }
     })
     .catch(err => {
-      console.log('error => ',err);
-    });
+      saving.textContent = `Network Error`;
+      saving.style.backgroundColor = "red";
+      save.style.pointerEvents = 'unset';
+      save.style.backgroundColor = 'orange';
+      save.textContent = 'Save';
+
+  });
   }
 }
 

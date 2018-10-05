@@ -21,6 +21,7 @@ const verifyUsers = () => {
   const token = localStorage.getItem('fastfoodUser');
   try{
     const decoded = jwt_decode(token);
+    console.log(decoded)
     if(decoded) {
       const pageTitle = createNode('h1');
       let imgSrc;
@@ -35,7 +36,7 @@ const verifyUsers = () => {
         userImage.setAttribute('src',imgSrc);
         return;
       }
-      userImage.setAttribute('src', decoded.imageurl);
+      userImage.setAttribute('src', decoded.imageUrl);
       // getUserOrders(decoded);
       return;
     }else {

@@ -35,7 +35,7 @@ body {
   width: 50px;
   height: 50px;
 }
-#login-modal{
+#login-modal, .goto{
   cursor: pointer;
 }
 
@@ -688,7 +688,7 @@ textarea:focus{
   background-color: green;
   display: none;
 }
-.login-message{
+.login-message, .signup-message{
   display:none;
   color: white;
   background-color: green;
@@ -1256,7 +1256,8 @@ hr {
     font-size: 1.6rem;
   }
   .shopping-cart-card{
-    left: 56%;
+    left: 46%;
+    width: 50%
   }
   .pop-up-container{
     width: 70%;
@@ -1336,7 +1337,8 @@ hr {
     width: 25px;
   }
   .shopping-cart-card{
-    left: 56%;
+    left: 46%;
+    width: 60%;
   }
   textarea{
     width: 20em;
@@ -1400,7 +1402,7 @@ hr {
   }
   .shopping-cart-card {
     min-height: 50px;
-    width: 45%;
+    width: 70%;
     right: 0%;
     top: 5.5%;
   }
