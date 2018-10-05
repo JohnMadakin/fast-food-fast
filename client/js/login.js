@@ -1,9 +1,11 @@
 const loginUsers = document.querySelector('.submit');
+const spinner = document.querySelector('.login-spinner');
 
 const signIn = () => {
   const url = `${baseUrl}/api/v1/auth/login`;
   loginUsers.addEventListener('click', (e)=> {
     e.preventDefault();
+    spinner.style.display = 'block';
     const username = document.querySelector('#uname').value;
     const password = document.querySelector('#psw').value;
     if (!validateUserText(username)) {
@@ -29,16 +31,19 @@ const signIn = () => {
       .then((res)=> res.json())
       .then((data) => {
         if(data.message === 'invalid username'){
+          spinner.style.display = 'none';
           loginMessage.style.display = 'block';
           loginMessage.style.backgroundColor = 'red';
           return loginMessage.textContent = 'username entered is invalid'
         }
         if(data.message === 'invalid password'){
+          spinner.style.display = 'none';
           loginMessage.style.display = 'block';
           loginMessage.style.backgroundColor = 'red';
           return loginMessage.textContent = 'password entered is invalid'
         }
         if (data.status == 'Success') {
+          spinner.style.display = 'none';
           localStorage.setItem('fastfoodUser',data.token);
           try{
             const decoded = jwt_decode(data.token);
@@ -53,6 +58,7 @@ const signIn = () => {
               return  window.location.href = 'user.html';
             }
           }catch {
+            spinner.style.display = 'none';
             loginMessage.textContent = 'login fail'
             loginMessage.style.display = 'block';
             loginMessage.style.color = 'red';
@@ -61,8 +67,11 @@ const signIn = () => {
         } 
       })
       .catch(err => {
-        console.log('error: ',err);
-      })
+        spinner.style.display = 'none';
+        loginMessage.textContent = 'Login failed, No Network'
+        loginMessage.style.display = 'block';
+        loginMessage.style.color = 'red';
+  })
       
     
   });
