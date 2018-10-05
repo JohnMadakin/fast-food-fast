@@ -15,7 +15,12 @@ const closePopup = document.querySelector('.close-pop-up');
 const popUpAlert = document.querySelector('.pop-up-alert');
 const saving = document.querySelector('.saving');
 const message = document.querySelector('.pop-up-messages');
+const dashboardTitle = document.querySelector('.dashboard');
+const cancelbtn = document.querySelector('.cancel-btn');
 
+
+let isImageUpload = false
+let imageLink = '';
 const closePop = (e) => {
   popUp.style.display = 'none';
   popUpAlert.style.display = 'none';
@@ -34,24 +39,13 @@ const verifyUsers = () => {
     const token = localStorage.getItem('fastfoodUser');
     const decoded = jwt_decode(token);
     if (decoded.usertype === 'fastFOODnser_#23') {
-      const pageTitle = createNode('h1');
-      appendNode(adminContent, pageTitle);
-      pageTitle.className = 'dashboard';
-      pageTitle.textContent = `Hello ${decoded.firstname}, Welcome to your dashboard`;
+      dashboardTitle.textContent = `Hello ${decoded.firstname}, Welcome to your Admin dashboard`;
     } else {
       return window.location.href = 'signup.html';
     }
   } catch(err) {
     return window.location.href = 'signup.html';
   }
-};
-
-const createNode = (element) => {
-  return document.createElement(element);
-};
-
-const appendNode = (parent,child) => {
-  parent.appendChild(child);
 };
 
 function setFocus (e){
@@ -91,78 +85,192 @@ const checkValidKeys = key => {
   return key.name && key.value;
 };
 
-const validateForm = (formdata) => {
-  const a = Object.keys(formdata)
-  a.forEach(element => {
-    if(formdata[element] === '') {
-      throw popUpAlert.style.display = 'block';
-    }
-  })
-
-}
-
-const submitMenu = (e) => {
-  e.preventDefault();
-  const preset = 'foodimages';
-  const formData = convertFormValues(formValues.elements);
-  // validateForm(formData)
-  const imageUrl = image.files[0];
-  const uploadImage = new FormData();
-  uploadImage.append('file',imageUrl);
-  uploadImage.append("upload_preset", preset);
-  postMenu(formData, uploadImage);
-  // return popUp.style.display = 'block';
+const validateNumber = (number) => {
+  const validNum = /^[0-9]+$/;
+  if (!validNum.test(number)) {
+    return false;
+  }
+  return true;
 };
 
-const postMenu = (formData, uploadImage) => {
+const validateFoodName = (string) => {
+  if (typeof string !== 'string') return false;
+  if (string.length < 2 || string.length > 25) return false;
+  const validString = /^[a-zA-Z  -]+$/;
+  return string.trim().match(validString);
+};
+
+const validateIngredients = (ingredients) => {
+  const validText = /^[0-9a-zA-Z ,]+$/;
+  if(ingredients.length > 20){
+    return false;
+  }
+  if (!validText.test(ingredients)) {
+    return false;
+  }
+  return true;
+};
+
+const validateText = (text) => {
+  const validText = /^[0-9a-zA-Z\s #$&()%;,_@+|?!\.\-]+$/;
+  if (text.length >= 10 && text.length <= 150 && !!text.match(validText)) {
+    return true;
+  }
+  return false;
+};
+
+function validateForm (formData) {
+  const formInputs = Object.keys(formData)
+  for(element of formInputs) {
+    if(element === 'name' && !validateFoodName(formData[element])) {
+      saving.style.display = 'block';
+      saving.style.backgroundColor = 'red';
+      saving.textContent = `invalid email`;
+      return false;
+    }
+    if(element === 'price' && !validateNumber(formData[element])) {
+      saving.style.display = 'block';
+      saving.style.backgroundColor = 'red';
+      saving.textContent = `invalid price length`;
+      return false;
+    }
+    if(element === 'calorie' && !validateNumber(formData[element])) {
+      saving.style.display = 'block';
+      saving.style.backgroundColor = 'red';
+      saving.textContent = `invalid calorie entered`;
+      return false;
+    }
+    if(element === 'ingredient' && !validateIngredients(formData[element])) {
+      saving.style.display = 'block';
+      saving.style.backgroundColor = 'red';
+      saving.textContent = `please list at most 3 ingrdients`;
+      return false;
+    }
+    if(element === 'description' && !validateText(formData[element])) {
+      saving.style.display = 'block';
+      saving.style.backgroundColor = 'red';
+      saving.textContent = `invalid Description entered`;
+      return false;
+    }
+
+  }
+
+}
+const submitMenu = (e) => {
+  e.preventDefault();
+  const formData = convertFormValues(formValues.elements);
+  formData.imageUrl = imageLink;
+  if(validateForm(formData) === false){
+    return false;
+  }
+  return postMenu(formData);
+};
+
+const uploadImageToServer = () => {
   const url = 'https://api.cloudinary.com/v1_1/fast-food-fast/upload';
-  const url2 = `${baseUrl}/api/v1/menu`;
+  const preset = 'foodimages';
+  image.addEventListener('change', () => {
+    const imageUrl = image.files[0];
+    const uploadImage = new FormData();
+    uploadImage.append('file', imageUrl);
+    uploadImage.append("upload_preset", preset);
+    console.log(image)
+    saving.style.display = 'block';
+    saving.style.backgroundColor = 'orange';
+    saving.textContent = 'uploading image, please wait';
+    fetch(url, {
+        method: 'POST',
+        body: uploadImage,
+      })
+      .then(res => {
+        console.log(res)
+        return res.json()
+      })
+      .then((data) => {
+        console.log(data)
+        if (data.secure_url !== '') {
+          saving.style.display = 'block';
+          saving.style.backgroundColor = 'green';
+          saving.textContent = 'image uploaded';
+          imageLink = data.secure_url;
+          isImageUpload = true;
+          return imageLink;
+        }
+        imageLink = '';
+      })
+      .catch((err) => {
+        saving.style.display = 'block';
+        saving.style.backgroundColor = 'red';
+        saving.textContent = 'couldnt upload image';
+      })
+  });
+  }
+
+const postMenu = (formData) => {
+  const url = `${baseUrl}/api/v1/menu`;
   saving.style.display = 'block';
-  fetch(url, {
-    method: 'POST',
-    body: uploadImage,
-  })
-    .then(res => res.json())
-    .then((data)=>{
-      if (data.secure_url !== '') {
-        formData.imageUrl = data.secure_url;
-        formData.price = parseInt(formData.price);
-        formData.calorie = parseInt(formData.calorie);
-        delete formData.pic;
-        const token = localStorage.getItem('fastfoodUser');
-        return  fetch(url2, {
-          method: "POST",
-          body: JSON.stringify(formData),
-          headers: {
-            "Content-Type": "application/json",
-            "x-auth": token,
-          }
-        })
+  saving.style.backgroundColor = "orange";
+  saving.textContent = 'please wait, saving menu';
+  save.style.pointerEvents = 'none';
+  save.style.backgroundColor = 'grey';
+  save.textContent = 'Saving...';
+  const token = localStorage.getItem('fastfoodUser');
+  formData.price = parseInt(formData.price);
+  formData.calorie = parseInt(formData.calorie);
+  delete formData.pic;
+  console.log('-----> ',formData)
+  if(imageLink == ''){
+    isImageUpload = true;
+  }
+  if(isImageUpload === true ){
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth": token,
       }
     })
     .then((res) => res.json())
     .then((data) => {
       if (data.status == 'Success') {
-        createFood.style.display = 'none';
-        popUpAlert.style.display = 'block';
-        message.textContent = 'Menu added'
-      } else if ((data.status == 'failure')) {
-        popUpAlert.style.display = 'block';
-        message.textContent = 'Invalid Inputs'
+        saving.textContent = 'Menu Saved';
+        saving.style.backgroundColor = "green";
+        save.style.pointerEvents = 'unset';
+        save.style.backgroundColor = 'orange';
+        save.textContent = 'Save';
+        setTimeout(function () {
+          createFood.style.display = 'none';
+        }, 3000);
+        return true;
+      } else if ((data.status !== 'Success')) {
+        saving.textContent = `${data.message}`;
+        saving.style.backgroundColor = "red";
+        save.style.pointerEvents = 'unset';
+        save.style.backgroundColor = 'orange';
+        save.textContent = 'Save';
+        return false;
       }
     })
     .catch(err => {
       console.log('error => ',err);
     });
+  }
+}
 
+const closeMenu = () => {
+  console.log('hello')
+  createFood.style.display = 'none';
 }
 
 const saveMenu = () => {
-  save.addEventListener('click', submitMenu);
+  formValues.addEventListener('submit', submitMenu);
 }
-
+uploadImageToServer();
 saveMenu();
 toggleprofileNav();
 createNewFood();
 verifyUsers();
 closePopup.addEventListener('click', closePop);
+cancelbtn.addEventListener('click', closeMenu);
+console.log(cancelbtn)

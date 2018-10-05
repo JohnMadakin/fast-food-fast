@@ -292,7 +292,7 @@ span.psw {
   color: #f1a503a1;
 }
 
-.signup a, .submit,.cancelbtn {
+.signup a, .submit,.cancelbtn, .cancel-btn  {
   color: white;
   font-weight: bold;
   text-decoration: none;
@@ -303,7 +303,7 @@ span.psw {
   border: 0;
   cursor: pointer;
 }
-.cancelbtn {
+.cancelbtn ,.cancel-btn{
   background-color: rgb(163, 160, 160);
   cursor: pointer;
 }
