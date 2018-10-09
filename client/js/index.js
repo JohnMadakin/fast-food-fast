@@ -2,7 +2,7 @@ const header = document.querySelector('.header');
 const sticky = header.offsetTop;
 const menuContainer = document.querySelector('.tab-content-container');
 const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
-const loginMessage = document.querySelector('.login-message');
+// const loginMessage = document.querySelector('.login-message');
 const waiting = document.querySelector('.spinner');
 const cart = document.querySelector('.cart');
 const checkout = document.querySelector('.shopping-cart-card');
@@ -63,6 +63,7 @@ const populatePage = () => {
   })
   .catch((err)=> {
     console.log(err)
+    waiting.style.display = 'none';
   });
 }
 
@@ -335,6 +336,31 @@ const login = () =>{
   });
 };
 
+const verifyUsers = () => {
+  const token = localStorage.getItem('fastfoodUser');
+  if (token) {
+    document.querySelector('.login-modal').innerHTML= 'Go to your Dashboard';
+    document.querySelector('.login-modal').onclick = function(event) {
+      document.getElementById('modal-id').style.display='none'
+      try {
+        const decoded = jwt_decode(token);
+        if (decoded.usertype === 'fastFOODnser_#23') {
+          return window.location.href = 'admin.html';
+        } else if (decoded.usertype === 'fastf00DuSER_$1') {
+          return window.location.href = 'user.html';
+        }
+      } catch {
+        return window.location.href = 'signup.html';
+      }
+    
+    }
+    
+  }
+
+}
+
+
+verifyUsers();
 initiateCartStorage();
 populatePage();
 viewCart();

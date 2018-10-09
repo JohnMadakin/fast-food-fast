@@ -1,5 +1,6 @@
 const loginUsers = document.querySelector('.submit');
 const spinner = document.querySelector('.login-spinner');
+const loginMessage = document.querySelector('.login-message');
 
 const signIn = () => {
   const url = `${baseUrl}/api/v1/auth/login`;
@@ -11,11 +12,13 @@ const signIn = () => {
     if (!validateUserText(username)) {
       loginMessage.style.backgroundColor = 'red';
       loginMessage.textContent = `username is invalid`;
+      spinner.style.display = 'none';
       return loginMessage.style.display = 'block';
     }
     if (!validateStringLength(password)) {
       loginMessage.style.backgroundColor = 'red';
       loginMessage.textContent = `password length is too short`;
+      spinner.style.display = 'none';
       return loginMessage.style.display = 'block';
 
     }
@@ -70,7 +73,7 @@ const signIn = () => {
         spinner.style.display = 'none';
         loginMessage.textContent = 'Login failed, No Network'
         loginMessage.style.display = 'block';
-        loginMessage.style.color = 'red';
+        loginMessage.style.backgroundColor = 'red';
   })
       
     
