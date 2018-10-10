@@ -410,7 +410,8 @@ describe('GET order history', () => {
     .set('x-auth', usToken)
       .expect(200)
       .expect((res) => {
-        expect(typeof res.body.item).toBe('object');
+        expect(typeof res.body.ordersInfo).toBe('object');
+        expect(typeof res.body.ordersItem).toBe('object');
         expect(res.body.status).toEqual('Success');
       })
       .end(done);
