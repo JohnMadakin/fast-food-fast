@@ -42,29 +42,30 @@ export default class Orders {
  * @params {object} req
  * @params {object} res
  */
-userOrders (req, res) {
-  const {id} = req.user;
-  db.any('SELECT * FROM orders WHERE userid = $1', id)
-    .then((item) => {
-      if(item.length < 1) {
-        return res.status(404).json({
-          message: 'order not found',
-        });
-      }
-      return res.status(200).json({
-        item,
-        status: 'Success',
-        message: 'Get order Successfull',
-      });
+  userOrders (req, res) {
+    const id = parseInt(req.params.id, 0);
+    db.task((t) => {
+      return t.any('SELECT * FROM orders WHERE userid = $1', id)
+        .then((result) => {
+          return t.batch(result.map(resu => t.any('SELECT orderitems.ordersid, orderitems.quantity, menu.title, menu.price, menu.imageurl FROM menu INNER JOIN orderitems ON menu.id = orderitems.menuid WHERE ordersid = $1', resu.id)))
+            .then((mydata) => {
+              return res.status(200).json({
+                ordersInfo: result,
+                ordersItem: mydata,
+                status: 'Success',
+              });
+
+            })
+        })
     })
-    .catch((error) => {
-      return res.status(500).json({
-        status: 'error',
-        message: 'error getting orders',
-        error,
+      .catch((error) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'error getting orders',
+          error,
+        });
       });
-    });
-}
+  }
 
    /**
  * A method to get all oders from the DB
@@ -72,22 +73,22 @@ userOrders (req, res) {
  * @params {object} res
  */
 
-getAllOrders(req, res) {
-  const query = `SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid `;
-  db.any(query)
-    .then((items) => {
-      return res.status(200).json({
-        items,
+  getAllOrders(req, res) {
+    const query = `SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid `;
+    db.any(query)
+      .then((items) => {
+        return res.status(200).json({
+          items,
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'error getting orders',
+          error,
+        });
       });
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        status: 'error',
-        message: 'error getting orders',
-        error,
-      });
-    });
-}
+  }
 
 
  /**
@@ -95,36 +96,36 @@ getAllOrders(req, res) {
  * @params {object} req
  * @params {object} res
  */
-getOrder(req, res) {
-  const id = parseInt(req.params.id, 0);
-  if (!id) {
-    return res.status(400).json({
-      error: 'Invalid order Id',
-    });
-  }
-  db.any(`SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid WHERE orders.id = $1`, id)
-    .then((item) => {
-      if(item.length < 1) {
-        return res.status(404).json({
+  getOrder(req, res) {
+    const id = parseInt(req.params.id, 0);
+    if (!id) {
+      return res.status(400).json({
+        error: 'Invalid order Id',
+      });
+    }
+    db.any(`SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid WHERE orders.id = $1`, id)
+      .then((item) => {
+        if(item.length < 1) {
+          return res.status(404).json({
+            item,
+            status: 'error',
+            message: 'order not found',
+          });
+        }
+        return res.status(200).json({
           item,
-          status: 'error',
-          message: 'order not found',
+          status: 'Success',
+          message: 'Get order Successfull',
         });
-      }
-      return res.status(200).json({
-        item,
-        status: 'Success',
-        message: 'Get order Successfull',
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          status: 'error',
+          message: 'error getting orders',
+          error,
+        });
       });
-    })
-    .catch((error) => {
-      return res.status(500).json({
-        status: 'error',
-        message: 'error getting orders',
-        error,
-      });
-    });
-}
+  }
 
    /**
    * A method to get all available menu

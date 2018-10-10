@@ -27,16 +27,6 @@ CREATE TABLE IF NOT EXISTS ORDERS(
     date_created timestamp default  now() 
 );
 
-CREATE TABLE IF NOT EXISTS ORDERITEMS (
-  id SERIAL UNIQUE,
-  ordersId INT NOT NULL REFERENCES ORDERS(id) ON DELETE CASCADE,
-  menuid INT NOT NULL,
-  quantity INT NOT NULL,
-  FOREIGN KEY (ordersID) REFERENCES ORDERS(id),
-  date_created timestamp default  now() 
-
-);
-
 CREATE TABLE IF NOT EXISTS MENU(
     id SERIAL UNIQUE,
     userid INT NOT NULL,
@@ -49,4 +39,15 @@ CREATE TABLE IF NOT EXISTS MENU(
     primary key(id),
     FOREIGN KEY (userId) REFERENCES USERS(id),
     date_created timestamp default now() 
+);
+
+CREATE TABLE IF NOT EXISTS ORDERITEMS (
+  id SERIAL UNIQUE,
+  ordersId INT NOT NULL REFERENCES ORDERS(id) ON DELETE CASCADE,
+  menuid INT NOT NULL,
+  quantity INT NOT NULL,
+  FOREIGN KEY (ordersID) REFERENCES ORDERS(id),
+  FOREIGN KEY (menuid) REFERENCES MENU(id),
+  date_created timestamp default  now() 
+
 );
