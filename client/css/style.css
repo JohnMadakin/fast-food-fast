@@ -1069,6 +1069,7 @@ hr {
 }
 .admin-food-item{
   padding: 0.5rem 2rem;
+  border-bottom: solid 1px #f1a503a1;
 }
 
 
