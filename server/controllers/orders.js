@@ -74,13 +74,21 @@ export default class Orders {
  */
 
   getAllOrders(req, res) {
-    const query = `SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email, orderitems.menuid, orderitems.quantity FROM USERS INNER JOIN ORDERS ON users.id = orders.userid INNER JOIN ORDERITEMS ON orders.id = orderitems.ordersid `;
-    db.any(query)
-      .then((items) => {
-        return res.status(200).json({
-          items,
-        });
-      })
+    const query = `SELECT orders.id, orders.userid, orders.paymentmethod, orders.orderstatus, orders.deliveryaddress, orders.total, orders.date_created, users.firstname, users.phoneno, users.imageurl, users.email FROM USERS INNER JOIN ORDERS ON users.id = orders.userid`;
+    db.task((t) => {
+      return t.any(query)
+        .then((result) => {
+          return t.batch(result.map(resu => t.any('SELECT orderitems.ordersid, orderitems.quantity, menu.title, menu.price, menu.imageurl FROM menu INNER JOIN orderitems ON menu.id = orderitems.menuid WHERE ordersid = $1', resu.id)))
+            .then((mydata) => {
+              return res.status(200).json({
+                ordersInfo: result,
+                ordersItem: mydata,
+                status: 'Success',
+              });
+
+            })
+        })
+    })
       .catch((error) => {
         return res.status(500).json({
           status: 'error',

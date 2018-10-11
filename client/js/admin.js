@@ -6,7 +6,8 @@ const popUp = document.querySelector('.pop-up');
 const confirm = document.querySelector('.pop-up-open');
 const cancel = document.querySelector('.cancel');
 const editTitle = document.querySelector('.food-imgcontainer-title');
-const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
+// const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
+const baseUrl = 'http://localhost:3002';
 const adminContent = document.querySelector('.admin-content');
 const save = document.querySelector('.submit');
 const formValues = document.querySelector('.modal-content');
@@ -17,7 +18,8 @@ const saving = document.querySelector('.saving');
 const message = document.querySelector('.pop-up-messages');
 const dashboardTitle = document.querySelector('.dashboard');
 const cancelbtn = document.querySelector('.cancel-btn');
-
+const logout = document.querySelector('.logout');
+const defaultImage = 'https://res.cloudinary.com/fast-food-fast/image/upload/v1538500928/usersprofileimages/img_avatar_m4xaqf.png';
 
 let isImageUpload = false
 let imageLink = '';
@@ -241,7 +243,7 @@ const postMenu = (formData) => {
         save.textContent = 'Save';
         setTimeout(function () {
           createFood.style.display = 'none';
-        }, 3000);
+        }, 1000);
         return true;
       } else if ((data.status !== 'Success')) {
         saving.textContent = `${data.message}`;
@@ -261,7 +263,97 @@ const postMenu = (formData) => {
 
   });
   }
-}
+};
+
+const loadUSersOrders = () => {
+  const token = localStorage.getItem('fastfoodUser');
+  const url = `${baseUrl}/api/v1/orders`;
+  fetch(url,  {
+    method: 'GET',
+    headers: {
+      "x-auth": token,
+    }
+  })
+  .then(res => res.json())
+  .then((data) => {
+    console.log(data);
+    if(data.status !== 'Success'){
+      document.querySelector('.admin-title').textContent = `You have No pending Orders`;
+      document.querySelector('.order-status').textContent = `You have No confirmed Orders`;
+      adminContents.forEach((each)=>{
+        each.innerHTML = '';
+      });
+    }
+    if(data.status === 'Success'){
+      const userPending = document.querySelector('.admin-orders');
+      const userConfirm = document.querySelector('#confirm');
+      data.ordersItem.forEach((order,i) => {
+        if(data.ordersInfo[i].orderstatus === 'pending'){
+          getOrders(userPending,data.ordersInfo[i],order,i);
+        }
+        if(data.ordersInfo[i].orderstatus === 'confirmed'){
+          getOrders(userConfirm,data.ordersInfo[i],order,i);
+        }
+
+      });
+    }
+  })
+  .catch((err)=> {
+    console.log(err)
+    // waiting.style.display = 'none';
+  });
+
+};
+
+const getOrders = (userPanel, ordersInfo, order, i) => {
+  const userOrder = document.createElement('div');
+  userOrder.innerHTML = `<div class="admin-order">
+  <h2 class="order-status">${ordersInfo.orderstatus}</h2>
+  <div class="profile-image"><img class="order-avatar" src="${ordersInfo.orderstatus}"></div>
+  <h2 class="profile-names">${ordersInfo.firstname}</h2>
+  <div class="order-menu">
+    <h3 class="order-menu-title">Order</h3>
+    <div class="admin-arrow"></div>
+  </div>
+  <div class="order-menu-group">
+    <p class="payment-status">Payment Status</p>
+    <span>${ordersInfo.paymentmethod}</span>
+    <p class="admin-food-list">Food List</p>
+    <div class="admin-food-items">
+      <ul class="user-food-list">
+      </ul>
+    </div>
+    <div class="settings">
+      
+    </div>
+  </div>
+
+</div>`;
+  userPanel.appendChild(userOrder);
+  const userFoodList = document.querySelectorAll('.user-food-list');
+  const setting = document.querySelectorAll('.settings');
+  order.forEach((item) => {
+    const itemList = document.createElement('li');
+    itemList.className = 'admin-food-item';
+    itemList.innerHTML = `${item.title} <span class="admin-order-qty">${item.quantity}</span>`;
+    userFoodList[i].appendChild(itemList);
+  });
+  if(ordersInfo.orderstatus === 'pending'){
+    acceptDecline(setting[i],i);
+  }
+
+};
+
+const acceptDecline = (adminSettings,i) => {
+  const adminSet = document.createElement('div');
+  adminSet.className = 'admin-settings';
+  adminSet.innerHTML = `
+  <input type="radio" class="admin-settings-status" name=${i} value="accept"> Accept
+  <input type="radio" class="admin-settings-status" name=${i} value="decline"> Decline<br>
+<button class="confirm">Confirm</button>
+`;
+  adminSettings.appendChild(adminSet);
+};
 
 const closeMenu = () => {
   console.log('hello')
@@ -270,7 +362,18 @@ const closeMenu = () => {
 
 const saveMenu = () => {
   formValues.addEventListener('submit', submitMenu);
-}
+};
+
+
+const logoutUsers = () => {
+  logout.addEventListener('click',(e) => {
+    localStorage.removeItem('fastfoodUser');
+    return window.location.href = 'index.html';
+  });
+};
+
+
+loadUSersOrders();
 uploadImageToServer();
 saveMenu();
 toggleprofileNav();
@@ -278,4 +381,4 @@ createNewFood();
 verifyUsers();
 closePopup.addEventListener('click', closePop);
 cancelbtn.addEventListener('click', closeMenu);
-console.log(cancelbtn)
+logoutUsers();
