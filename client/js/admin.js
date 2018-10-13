@@ -6,8 +6,7 @@ const popUp = document.querySelector('.pop-up');
 const confirm = document.querySelector('.pop-up-open');
 const cancel = document.querySelector('.cancel');
 const editTitle = document.querySelector('.food-imgcontainer-title');
-// const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
-const baseUrl = 'http://localhost:3002';
+const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
 const adminContent = document.querySelector('.admin-content');
 const save = document.querySelector('.submit');
 const formValues = document.querySelector('.modal-content');
@@ -176,7 +175,6 @@ const uploadImageToServer = () => {
     const uploadImage = new FormData();
     uploadImage.append('file', imageUrl);
     uploadImage.append("upload_preset", preset);
-    console.log(image)
     saving.style.display = 'block';
     saving.style.backgroundColor = 'orange';
     saving.textContent = 'uploading image, please wait';
@@ -184,12 +182,8 @@ const uploadImageToServer = () => {
         method: 'POST',
         body: uploadImage,
       })
-      .then(res => {
-        console.log(res)
-        return res.json()
-      })
+      .then(res => res.json())
       .then((data) => {
-        console.log(data)
         if (data.secure_url !== '') {
           saving.style.display = 'block';
           saving.style.backgroundColor = 'green';
@@ -220,7 +214,6 @@ const postMenu = (formData) => {
   formData.price = parseInt(formData.price);
   formData.calorie = parseInt(formData.calorie);
   delete formData.pic;
-  console.log('-----> ',formData)
   if(imageLink == ''){
     isImageUpload = true;
   }
@@ -278,38 +271,48 @@ const loadUSersOrders = () => {
   .then((data) => {
     console.log(data);
     if(data.status !== 'Success'){
-      document.querySelector('.admin-title').textContent = `You have No pending Orders`;
-      document.querySelector('.order-status').textContent = `You have No confirmed Orders`;
-      adminContents.forEach((each)=>{
-        each.innerHTML = '';
-      });
+      const conOrders = document.querySelector('#confirm')
+      document.querySelector('.admin-title').textContent = `You have No confirmed Orders`;
+      const noOrders = document.createElement('h2');
+      noOrders.className = 'admin-title';
+      noOrders.textContent = `You have No confirmed Orders`;
+      conOrders.appendChild(noOrders);
     }
     if(data.status === 'Success'){
-      const userPending = document.querySelector('.admin-orders');
-      const userConfirm = document.querySelector('#confirm');
+      const userPending = document.querySelector('#pending-order');
+      const userConfirm = document.querySelector('#confirm-order');
+      const deliveredOrders = document.querySelector('#delivered-order');
       data.ordersItem.forEach((order,i) => {
-        if(data.ordersInfo[i].orderstatus === 'pending'){
-          getOrders(userPending,data.ordersInfo[i],order,i);
+        if(data.ordersInfo[i].orderstatus === 'pending' || data.ordersInfo[i].orderstatus === 'rejected'){
+          getOrders(userPending,data.ordersInfo[i],order,token,i);
         }
-        if(data.ordersInfo[i].orderstatus === 'confirmed'){
-          getOrders(userConfirm,data.ordersInfo[i],order,i);
+        if(data.ordersInfo[i].orderstatus === 'accepted'){
+          getOrders(userConfirm,data.ordersInfo[i],order,token,i);
+        }
+        if(data.ordersInfo[i].orderstatus === 'completed'){
+          getOrders(deliveredOrders,data.ordersInfo[i],order,token,i);
         }
 
       });
     }
   })
   .catch((err)=> {
-    console.log(err)
-    // waiting.style.display = 'none';
+    const conOrders = document.querySelector('#confirm')
+    document.querySelector('.admin-title').textContent = `You have No pending Orders`;
+    const noOrders = document.createElement('h2');
+    noOrders.className = 'admin-title';
+    noOrders.textContent = `You have No confirmed Orders`;
+    conOrders.appendChild(noOrders);
+
   });
 
 };
 
-const getOrders = (userPanel, ordersInfo, order, i) => {
+const getOrders = (userPanel, ordersInfo, order, token,i) => {
   const userOrder = document.createElement('div');
   userOrder.innerHTML = `<div class="admin-order">
   <h2 class="order-status">${ordersInfo.orderstatus}</h2>
-  <div class="profile-image"><img class="order-avatar" src="${ordersInfo.orderstatus}"></div>
+  <div class="profile-image"><img class="order-avatar" src="${ordersInfo.imageurl}"></div>
   <h2 class="profile-names">${ordersInfo.firstname}</h2>
   <div class="order-menu">
     <h3 class="order-menu-title">Order</h3>
@@ -323,11 +326,9 @@ const getOrders = (userPanel, ordersInfo, order, i) => {
       <ul class="user-food-list">
       </ul>
     </div>
-    <div class="settings">
-      
-    </div>
+    <form name="settings" class="settings">
+    </form>
   </div>
-
 </div>`;
   userPanel.appendChild(userOrder);
   const userFoodList = document.querySelectorAll('.user-food-list');
@@ -338,25 +339,94 @@ const getOrders = (userPanel, ordersInfo, order, i) => {
     itemList.innerHTML = `${item.title} <span class="admin-order-qty">${item.quantity}</span>`;
     userFoodList[i].appendChild(itemList);
   });
-  if(ordersInfo.orderstatus === 'pending'){
-    acceptDecline(setting[i],i);
+  if (ordersInfo.orderstatus === 'pending') {
+    acceptDecline(userOrder, setting[i], token, ordersInfo.id, i);
   }
 
+  if (ordersInfo.orderstatus === 'rejected') {
+    resetStatus(userOrder, setting[i], token, ordersInfo.id, i);
+  }
+
+  if (ordersInfo.orderstatus === 'completed') {
+    const address = document.createElement('h3');
+    address.innerHTML = `<h3 class="order-status confirmed">Home Address: ${ordersInfo.deliveryaddress}</h3>`;
+    setting[i].appendChild(address);
+  }
+
+  if (ordersInfo.orderstatus === 'accepted') {
+    const address = document.createElement('h3');
+    address.innerHTML = `<h3 class="order-status confirmed">Home Address: ${ordersInfo.deliveryaddress}</h3>`;
+    setting[i].appendChild(address);
+    confirmDelivery(userOrder, setting[i], token, ordersInfo.id, i);
+  }
 };
 
-const acceptDecline = (adminSettings,i) => {
+const confirmDelivery = (userOrder,adminSettings,token,id,i) => {
   const adminSet = document.createElement('div');
   adminSet.className = 'admin-settings';
   adminSet.innerHTML = `
-  <input type="radio" class="admin-settings-status" name=${i} value="accept"> Accept
-  <input type="radio" class="admin-settings-status" name=${i} value="decline"> Decline<br>
+  <input type="checkbox" class="admin-settings-status" name=${i} value="completed"> Confirm Delivery <br>
 <button class="confirm">Confirm</button>
 `;
   adminSettings.appendChild(adminSet);
+  confirmStatus(userOrder,adminSettings,token,id,i);
+
+};
+
+const acceptDecline = (userOrder,adminSettings,token,id,i) => {
+  const adminSet = document.createElement('div');
+  adminSet.className = 'admin-settings';
+  adminSet.innerHTML = `
+  <input type="radio" class="admin-settings-status" name=${i} value="accepted"> Accept
+  <input type="radio" class="admin-settings-status" name=${i} value="rejected"> Decline<br>
+<button class="confirm">Confirm</button>
+`;
+  adminSettings.appendChild(adminSet);
+  confirmStatus(userOrder,adminSettings,token,id,i);
+
+};
+
+const confirmStatus = (userOrder,forms,token,id,radioName) => {
+  console.log(id, radioName)
+  forms.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let orderStatus = forms.elements.namedItem(`${radioName}`).value;
+    let status = {
+      status: orderStatus,
+    };
+    const spinner = document.createElement('div');
+    spinner.className = 'spinner';
+    userOrder.innerHTML = '';
+    userOrder.appendChild(spinner);
+    fetch(`${baseUrl}/api/v1/orders/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(status),
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth": token,
+      }
+    })
+    .then(res=>res.json())
+    .then((data)=>{
+      userOrder.style.display = 'none';
+      console.log(data);
+    })
+    .catch();
+  });
+};
+
+const resetStatus = (userOrder,adminSettings,token,id,i) => {
+  const adminSet = document.createElement('div');
+  adminSet.className = 'admin-settings';
+  adminSet.innerHTML = `
+  <input type="radio" class="admin-settings-status" name=${i} value="pending">Reset<br>
+<button class="confirm">Confirm</button>
+`;
+  adminSettings.appendChild(adminSet);
+  confirmStatus(userOrder,adminSettings,token,id,i);
 };
 
 const closeMenu = () => {
-  console.log('hello')
   createFood.style.display = 'none';
 }
 
