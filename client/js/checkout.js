@@ -17,19 +17,15 @@ let status = 'pending';
 let deliveryAddress = '';
 let payment = 'payondelivery';
 
-
-
 const verifyUsers = () => {
   const token = localStorage.getItem('fastfoodUser');
   const decoded = jwt_decode(token);
-  console.log(token,decoded)
   try {
     if (decoded.usertype === 'fastf00DuSER_$1') {
       if (localStorage.orders) {
         items = JSON.parse(localStorage.orders);
       }
       deliveryAddress = decoded.address;
-      console.log('item----> ',items);
       total = calculateTotal(items);
       items.forEach(item => {
         const itemsContainer = document.createElement('div');
@@ -70,7 +66,6 @@ const displayAmount = () => {
 
 const placeOrder = (items) => {
   const url = `${baseUrl}/api/v1/orders`;
-  console.log('-----> items ', items);
   const customerOrder = items.map((item) => {
     delete item.price;
     delete item.title;
@@ -85,7 +80,6 @@ const placeOrder = (items) => {
     payment,
     deliveryAddress,
   };
-  console.log(JSON.stringify(myOrder));
   const token = localStorage.getItem('fastfoodUser');
   fetch(url, {
     method: 'POST',
@@ -97,7 +91,6 @@ const placeOrder = (items) => {
   })
   .then((res)=> res.json())
   .then((data) => {
-    console.log(data);
     if(data.status = 'Success'){
       let empty = [];
       allitems.innerHTML = '';

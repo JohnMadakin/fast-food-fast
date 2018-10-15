@@ -95,7 +95,7 @@ export const validateMenuRoute = (req, res, next) => {
 
 export const validateOrderStatus = (req, res, next) => {
   const { status } = req.body;
-  const validStatus = ['accepted', 'rejected', 'completed'];
+  const validStatus = ['accepted', 'rejected', 'completed', 'pending'];
   if (!validStatus.includes(status)) {
     return res.status(400).json({
       status: 'invalid status value',

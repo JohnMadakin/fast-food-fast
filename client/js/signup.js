@@ -140,6 +140,7 @@ const uploadImageToServer = () => {
 
 const postForm = (formData) => {
   const url = `${baseUrl}/api/v1/auth/signup`;
+  console.log('--> ', imageLink);
   if(imageLink == ''){
     isImageUpload = true;
   }
@@ -155,7 +156,7 @@ const postForm = (formData) => {
       .then((data) => {
         if (data.status == 'Success') {
           signupnMessage.style.display = 'block';
-          signupnMessage.style.backgroundColor = 'red';
+          signupnMessage.style.backgroundColor = 'green';
           signupnMessage.textContent = 'Successfully Signed up';
           localStorage.setItem('fastfoodUser', data.token);
           return window.location.href = 'user.html';
@@ -242,6 +243,12 @@ const submitForm = (e) => {
   e.preventDefault();
   signupnMessage.style.display = 'none';
   const formData = convertFormValues(formValues.elements);
+  if(formData.confirmpassword !== formData.password){
+    signupnMessage.style.display = 'block';
+    signupnMessage.style.backgroundColor = 'red';
+    signupnMessage.textContent = `passwords do not match`;
+    return false;
+  }
   delete formData.confirmpassword;
   formData.imageUrl = imageLink;
   if(validateForm(formData) === false){
@@ -252,9 +259,18 @@ const submitForm = (e) => {
 
 const closePop = (e) =>{
   popUp.style.display = 'none';
-}
+};
+
+const verifyUsers = () => {
+  const token = localStorage.getItem('fastfoodUser');
+  if (token) {
+    return window.location.href = 'index.html';
+  }
+  return true;
+};
 
 const startApp = ()  => {
+  verifyUsers();
   checkPasswordEquality();
   checkPwdEquality();
   uploadImageToServer();

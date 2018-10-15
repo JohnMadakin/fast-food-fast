@@ -48,9 +48,19 @@ body {
 .menu {
   display: none;
 }
+.divider{
+  width: 1px;
+  height: 20px;
+  background-color: #f1a503a1;
+}
 
 .nav {
   padding: 5px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.4rem;
 }
 
 .logo-container {
@@ -90,11 +100,11 @@ body {
   padding-left: 8px;
 }
 
-.login a, .cart a {
+.login a, .cart a, .user-login, .user-logout {
   color: #27282B;
   text-decoration: none;
   border-radius: 1px;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   padding: 5px 10px;
   cursor:pointer;
 }
@@ -143,7 +153,7 @@ body {
 }
 .signup-register{
   background-image: linear-gradient(120deg, #f1a503a1 0%, #f1f50c 100%);
-  color: #f2f1f3;
+  color: #27282B;
   padding: 1.5rem 2.5rem;
   text-align: center;
 }
@@ -175,6 +185,7 @@ body {
   height: 400px;
   width: 80%;
   margin: 6rem auto;
+  justify-content: space-evenly;
 }
 
 .pwd-group, .name-group{
@@ -279,8 +290,6 @@ span.psw {
   to {transform: scale(1)}
 }
 
-
-
 .login,
 .signup {
   display: inline-flex;
@@ -288,8 +297,12 @@ span.psw {
   align-items: center;
 }
 
-.login a:hover, .cart a:hover {
+.login a:hover, 
+.cart a:hover, 
+.signup-cart a:hover,
+.user-login:hover, .user-logout:hover {
   color: #f1a503a1;
+  text-decoration: underline;
 }
 
 .signup a, .submit,.cancelbtn, .cancel-btn  {
@@ -306,6 +319,11 @@ span.psw {
 .cancelbtn ,.cancel-btn{
   background-color: rgb(163, 160, 160);
   cursor: pointer;
+  margin-left: 90%;
+}
+
+.cancel-btn{
+  margin-left: 80%;
 }
 .submit,.cancelbtn {
   outline: none;
@@ -338,7 +356,8 @@ span.psw {
   background-size: cover;
   border: 0;
 }
-.sticky .login a{
+.sticky .login a, 
+.sticky .user-login, .sticky .user-logout{
   color: white;
 }
 .sticky .logo_sub{
@@ -350,7 +369,7 @@ span.psw {
 .sticky .cart{
   color:white;
 }
-.sticky .cart a{
+.sticky .cart a, .sticky .signup-cart a{
   color:white;
 }
 .cart {
@@ -358,9 +377,20 @@ span.psw {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin-left: 20%;
   font-size:1.4rem;
-  /* width: 10vw; */
+  padding-right: 1.5rem;
+  margin-left:30%;
+}
+.signup-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size:1.4rem;
+  padding-right: 1.5rem;
+}
+.signup-cart a:visited{
+  color: #27282B;
 }
 .cart-arrow{
   width: 20px;
@@ -1394,7 +1424,7 @@ hr {
   }
 
   .signup a,
-  .login a {
+  .login a, .user-login, .user-logout {
     font-size: 1.4rem;
   }
   .item-checkout {
@@ -1434,7 +1464,8 @@ hr {
     width: 95%;
     padding: 0;
   }
-  .sticky .login a{
+  .sticky .login a, 
+  .user-login, .user-logout {
     color: #27282B;
   }
   .admin-content {
@@ -1505,6 +1536,13 @@ hr {
 .delete-item{
   margin-left: 0rem;
 }
+.cancelbtn{
+  margin-left: 70%;
+}
+
+.cancel-btn{
+  margin-left: 50%;
+}
 
 }
 
@@ -1566,7 +1604,8 @@ hr {
   .signup-title{
     display: none;
   }
-  .sticky .login a{
+  .sticky .login a, 
+  .user-login, .user-logout {
     color: #27282B;
   }
   .checkout-shopping-cart{
@@ -1732,10 +1771,23 @@ textarea{
     left: 55%;
     top: 8%;
   }
+  .divider, .userProfileContainer{
+    display: none;
+  }
+  .cancelbtn{
+    margin-left: 75%;
+  }
+  
+  .cancel-btn{
+    margin-left: 50%;
+  }
 
 }
 
 @media screen and (max-width: 339px) {
+  .divider, .userProfileContainer{
+    display: none;
+  }
   .logo{
     font-size: 1.4rem;
   }
@@ -1779,7 +1831,8 @@ textarea{
  .delete{
    margin-left: 1rem;
  }
- .sticky .login a{
+ .sticky .login a, 
+ .user-login, .user-logout{
    color:#27282B;
  }
  .checkout-minus, .checkout-plus {
@@ -1800,6 +1853,13 @@ textarea{
 }
 .admin-nav-items{
   font-size: 1rem;
+}
+.cancelbtn{
+  margin-left: 60%;
+}
+
+.cancel-btn{
+  margin-left: 40%;
 }
 
 }

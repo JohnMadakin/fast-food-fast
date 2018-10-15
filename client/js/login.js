@@ -53,6 +53,7 @@ const signIn = () => {
             if(decoded.usertype === 'fastFOODnser_#23') {
               loginMessage.textContent = 'login successful'
               loginMessage.style.display = 'block';
+              loginMessage.style.backgroundColor = 'green';
               return  window.location.href = 'admin.html';
             }else if (decoded.usertype === 'fastf00DuSER_$1'){
               loginMessage.style.backgroundColor = 'green';
