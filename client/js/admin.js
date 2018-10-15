@@ -278,7 +278,7 @@ const loadUSersOrders = () => {
       noOrders.textContent = `You have No confirmed Orders`;
       conOrders.appendChild(noOrders);
     }
-    if(data.status === 'Success'){
+    if(data.status === 'Success' && data.ordersItem.length > 0){
       const userPending = document.querySelector('#pending-order');
       const userConfirm = document.querySelector('#confirm-order');
       const deliveredOrders = document.querySelector('#delivered-order');
@@ -295,14 +295,33 @@ const loadUSersOrders = () => {
 
       });
     }
+    if(data.status === 'Success' && data.ordersItem.length < 1){
+      const conOrders = document.querySelector('#confirm')
+      const deliverOrders = document.querySelector('#deliveries')
+      document.querySelector('.admin-title').textContent = `There are no pending Orders`;
+      const noOrders = document.createElement('h1');
+      noOrders.className = 'admin-title';
+      noOrders.textContent = `There are no confirmed Orders`;
+      conOrders.appendChild(noOrders);
+      const noDeliveries = document.createElement('h1');
+      noDeliveries.className = 'admin-title';
+      noDeliveries.textContent = `There are no deliveries made`;
+      deliverOrders.appendChild(noDeliveries);
+    }
+
   })
-  .catch((err)=> {
-    const conOrders = document.querySelector('#confirm')
-    document.querySelector('.admin-title').textContent = `You have No pending Orders`;
-    const noOrders = document.createElement('h2');
+  .catch((err) => {
+    const conOrders = document.querySelector('#confirm');
+    const deliverOrders = document.querySelector('#deliveries')
+    document.querySelector('.admin-title').textContent = `There are no pending Orders`;
+    const noOrders = document.createElement('h1');
     noOrders.className = 'admin-title';
-    noOrders.textContent = `You have No confirmed Orders`;
+    noOrders.textContent = `There are no confirmed Orders`;
     conOrders.appendChild(noOrders);
+    const noDeliveries = document.createElement('h1');
+    noDeliveries.className = 'admin-title';
+    noDeliveries.textContent = `There are no deliveries made`;
+    deliverOrders.appendChild(noDeliveries);
 
   });
 

@@ -1,8 +1,8 @@
 const header = document.querySelector('.header');
 const sticky = header.offsetTop;
+const content =  document.querySelector('.content');
 const menuContainer = document.querySelector('.tab-content-container');
 const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
-// const loginMessage = document.querySelector('.login-message');
 const waiting = document.querySelector('.spinner');
 const cart = document.querySelector('.cart');
 const checkout = document.querySelector('.shopping-cart-card');
@@ -11,12 +11,10 @@ const title = document.querySelector('.food-title');
 const price = document.querySelector('.price');
 const checkoutBtn = document.querySelector('.item-checkout');
 const itemsContainer = document.querySelector('.all-items');
-const content =  document.querySelector('.content');
 const close = document.querySelector('.close-pop-up');
 const nav =  document.querySelector('.nav');
 const modal = document.getElementById('modal-id');
 const openLogin =  document.querySelector('.login-modal');
-
 
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
@@ -62,7 +60,6 @@ const populatePage = () => {
     placeOrder(order, menu)
   })
   .catch((err)=> {
-    console.log(err)
     waiting.style.display = 'none';
   });
 }
@@ -89,9 +86,6 @@ const generateFoodCards = (menu) => {
   
 </div>`;
 menuContainer.appendChild(menuCard);
-
-
-
 };
 
 const placeOrder = (orders,menu) => {
@@ -193,7 +187,6 @@ const emptyCart = () => {
     tax.textContent = 0;
     total.textContent = 0;
     appendNode(itemsContainer,noItem);
-    // document.querySelector('.cart-arrow').style.left = ``;
   }
 }
 
@@ -306,19 +299,6 @@ const validateStringLength = (string) => {
   return false;
 };
 
-const menuToggle = ()=> {
-  const menu =  document.querySelector('.menu');
-  menu.addEventListener('click', toggleMenu);
-  content.addEventListener('click', (e)=> {
-      nav.classList.remove('open');
-  });
-}
-
-const toggleMenu = (evt) => {
-  evt.stopPropagation();
-  return nav.classList.toggle('open');
-};
-
 const closePopUp = () => {
   close.addEventListener('click',()=>{
     popUp.style.display = 'none';
@@ -329,7 +309,6 @@ const closeCart = () => {
   document.querySelector('.content').onclick = () => checkout.classList.remove('openCart');
 };
 
-
 const login = () =>{
   openLogin.addEventListener('click',()=>{
     modal.style.display='block';
@@ -339,9 +318,16 @@ const login = () =>{
 const verifyUsers = () => {
   const token = localStorage.getItem('fastfoodUser');
   if (token) {
-    document.querySelector('.login-modal').innerHTML= 'Go to your Dashboard';
-    document.querySelector('.login-modal').onclick = function(event) {
-      document.getElementById('modal-id').style.display='none'
+    nav.innerHTML = '';
+    nav.innerHTML = `<div class="user-login nav__item">My Dashboard</div>
+    <div class="divider"></div>
+    <div class="user-logout nav__item">Logout</div>
+`;
+    document.querySelector('.user-logout').addEventListener('click', (e) => {
+      localStorage.removeItem('fastfoodUser');
+      return window.location.href = 'index.html';
+    });
+    document.querySelector('.user-login').onclick = function (event) {
       try {
         const decoded = jwt_decode(token);
         if (decoded.usertype === 'fastFOODnser_#23') {
@@ -352,19 +338,15 @@ const verifyUsers = () => {
       } catch {
         return window.location.href = 'signup.html';
       }
-    
+
     }
-    
   }
-
 }
-
 
 verifyUsers();
 initiateCartStorage();
 populatePage();
 viewCart();
-menuToggle();
 closePopUp();
 closeCart();
 checkOutOrders();

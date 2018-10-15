@@ -6,7 +6,7 @@ const popUp = document.querySelector('.pop-up');
 const confirm = document.querySelector('.pop-up-open');
 const cancel = document.querySelector('.cancel');
 const editTitle = document.querySelector('.food-imgcontainer-title');
-const baseUrl =  'https://edafe-fast-food-fast.herokuapp.com';
+const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
 const adminContent = document.querySelector('.admin-content');
 const orderContainer = document.querySelector('.order-menu-group');
 const userProfileContainer = document.querySelector('.userProfileContainer');
@@ -134,9 +134,12 @@ const loadOrders = () => {
     }
   })
   .catch((err)=> {
-    console.log(err)
-    // waiting.style.display = 'none';
-  });
+    document.querySelector('.admin-title').textContent = `You have No pending Orders`;
+    document.querySelector('.order-status').textContent = `You have No confirmed Orders`;
+    adminContents.forEach((each)=>{
+      each.innerHTML = '';
+    });
+});
 }
 
 const getOrders = (userPanel,ordersInfo,order,i) => {
