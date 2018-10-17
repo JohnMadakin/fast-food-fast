@@ -2,7 +2,7 @@ const header = document.querySelector('.header');
 const sticky = header.offsetTop;
 const content =  document.querySelector('.content');
 const menuContainer = document.querySelector('.tab-content-container');
-const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
+const baseUrl = 'http://localhost:3002' || 'https://edafe-fast-food-fast.herokuapp.com';
 const waiting = document.querySelector('.spinner');
 const cart = document.querySelector('.cart');
 const checkout = document.querySelector('.shopping-cart-card');
@@ -56,8 +56,8 @@ const populatePage = () => {
     menu.forEach((eachMenu) => {
       generateFoodCards(eachMenu);
     });
-    const order = document.querySelectorAll('.order-now');
-    placeOrder(order, menu)
+    const myOrders = document.querySelectorAll('.order-now');
+    placeOrder(myOrders, menu)
   })
   .catch((err)=> {
     waiting.style.display = 'none';

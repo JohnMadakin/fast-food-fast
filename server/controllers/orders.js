@@ -258,7 +258,7 @@ export default class Orders {
     let { query } = req.query;
     if(!query || query.length > 25) return res.status(400).json(query);
     query = `%${query}%`
-    db.any('SELECT title FROM menu WHERE title ILIKE $1', [query])
+    db.any('SELECT id, title as name, imageurl,price,calorie,ingredient, description FROM menu WHERE title ILIKE $1', [query])
       .then((data) => {
         if (data.length > 0) {
           return res.status(200).json({
