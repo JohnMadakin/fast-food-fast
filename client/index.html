@@ -68,6 +68,8 @@
   </header>
   <main class="content">
     <div class="hero">
+        <div class="login-spinner"></div>           
+        <h2 class="search-message">No Search Result Found</h2>
         <div class="search">
             <input class="search-food" type="text" placeholder="Search" /><button class="search-food-btn">Search</button>
           </div>
@@ -82,8 +84,10 @@
       </div>
     </div>
     <div class="content-food">
-      
         <div class="tab-content" id="sale">
+            <div class="search-result">
+
+            </div>          
           <div class="tab-content-container">
               <div class="spinner"></div>           
           </div>
@@ -98,6 +102,7 @@
 <script src="js/index.js"></script>
 <script src="js/login.js"></script>
 <script src="js/header.js"></script>
+<script src="js/search.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/jwt-decode.min.js"></script>
 </body>

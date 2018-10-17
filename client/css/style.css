@@ -501,6 +501,8 @@ span.psw {
   font-size: 1.5rem;
   cursor: pointer;
   font-weight: bold;
+  outline: rgb(245, 165, 16);
+
 }
 .search-food-btn:hover{
   background-color: rgb(245, 165, 16);
@@ -508,6 +510,19 @@ span.psw {
   transition: background-color 0.3s ease-in;
 }
 
+.search-message{
+  color: #f2f1f3;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 15%;
+  display: none;
+}
+.search-result{
+  width: 100%;
+  background-color: #fefefe;
+  display: none;
+}
 .search-food {
   width: 60%;
   padding: 20px 40px 20px 40px;
@@ -519,7 +534,7 @@ span.psw {
   border: 0;
   outline: none;
   border-radius: 40px;
- 
+  display: block;
 }
 ::placeholder{
   color: #f1a503a1;
