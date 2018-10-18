@@ -2,7 +2,7 @@ const header = document.querySelector('.header');
 const sticky = header.offsetTop;
 const content =  document.querySelector('.content');
 const menuContainer = document.querySelector('.tab-content-container');
-const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
+const baseUrl = 'http://localhost:3002' || 'https://edafe-fast-food-fast.herokuapp.com';
 const waiting = document.querySelector('.spinner');
 const cart = document.querySelector('.cart');
 const checkout = document.querySelector('.shopping-cart-card');
@@ -15,12 +15,13 @@ const close = document.querySelector('.close-pop-up');
 const nav =  document.querySelector('.nav');
 const modal = document.getElementById('modal-id');
 const openLogin =  document.querySelector('.login-modal');
+const popUp =  document.querySelector('.pop-up');
 
 let tax = document.querySelector('.total-tax');
 let subTotal = document.querySelector('.sub-total');
 let total = document.querySelector('.total-price');
-let cartItems = 0;
 let items = [];
+let cartItems;
 
 const initiateCartStorage = () => {
   if (localStorage.orders) {
@@ -82,7 +83,7 @@ const generateFoodCards = (menu) => {
     </div>
   <hr/>
   <p class="food-des">${menu.description}</p>
-  <h1 class="order-now" data-price="2250" data-title="${menu.name}" data-image-src="${menu.imageurl}">add to cart</h1>
+  <h1 class="order-now" data-price="${menu.price}" data-title="${menu.name}" data-image-src="${menu.imageurl}">add to cart</h1>
   
 </div>`;
 menuContainer.appendChild(menuCard);
@@ -98,9 +99,7 @@ const placeOrder = (orders,menu) => {
       let itemid = menu[i].id;
       const isAdded = items.find((element)=> element.title === title);
       if(!isAdded){
-        order.textContent = 'added';
-        cartItems = cartItems + 1;
-        calculatePrices(price,qty);
+        // order.textContent = 'added';
         items.push({title,price,qty,img,itemid});
         return localStorage.orders = JSON.stringify(items)
       }
@@ -111,13 +110,6 @@ const placeOrder = (orders,menu) => {
   
 };
 
-const calculatePrices = (price,qty) => {
-  subTotal.textContent = (subTotal.textContent*1) + (price*qty);
-  tax.textContent = tax.textContent*1 + (price * 0.05);
-  total.textContent =  (tax.textContent * 1 + subTotal.textContent * 1);
-  return
-}
-
 const viewCart = () => {
   cart.addEventListener('click',toggleCart)
 }
@@ -126,7 +118,38 @@ const toggleCart = (evt) => {
   evt.stopPropagation();
   checkout.classList.toggle('openCart');
   populateCart();
+  setQuantity();  
 };
+
+const calculateTotal = (orders) => {
+  const init = 0;
+  const total = orders.reduce((acc, curr) => {
+    return (acc + curr.price);
+  }, init);
+  return total;
+}
+
+const setQuantity = () => {
+  const quantity = document.querySelectorAll('.quantity');
+  quantity.forEach((quan,i)=>{
+    quan.addEventListener('change', (e) => {
+      const priceView = document.querySelectorAll('.item-price');
+      let qty = e.target.value;
+      let itemPrice = cartItems[i].price * qty;
+      priceView[i].textContent = itemPrice;
+      items[i].price = itemPrice;
+      items[i].qty = parseInt(qty);
+      let subTotalValue = calculateTotal(items);
+      subTotal.textContent = subTotalValue.toFixed(2);
+      const taxvalue = subTotalValue *0.05;
+      tax.textContent = taxvalue.toFixed(2);
+      const totalValue = subTotalValue*1 + taxvalue*1;
+      total.textContent = totalValue.toFixed(2);
+      console.log('all items => ', items)
+
+    });
+  });
+}
 
 window.onclick = function(event) {
   if (event.target == modal) {
@@ -145,33 +168,39 @@ const populateCart = () => {
   itemsContainer.innerHTML ='';
   checkoutBtn.disabled = false;
   emptyCart();
-  items.forEach((item,i)=>{
-    let {foodItem,itemImage,itemPrice,itemTitle} = getItem();
-    let {itemQty,plus,minus,deleteItem,foodItemFooter} =getItemFooter();
-    itemImage.setAttribute('src',`${item.img}`);
-    itemPrice.textContent = item.price;
-    itemTitle.textContent = item.title;
-    itemQty.textContent = item.qty;
-    appendNode(itemsContainer,foodItem);
-    appendNode(foodItem,itemImage);
-    appendNode(foodItem,itemTitle);
-    appendNode(foodItem,itemPrice);
-    appendNode(foodItem,foodItemFooter);
-    appendNode(foodItemFooter,minus);
-    appendNode(foodItemFooter,itemQty);
-    appendNode(foodItemFooter,plus);
-    appendNode(foodItemFooter,deleteItem);
-    adjustQty(minus,plus,item.qty,itemQty,itemPrice,i,item);
-    
-    deleteItem.addEventListener('click',()=> {
-      let itemTax = item.price*0.05;
-      subTotal.textContent = subTotal.textContent*1 - item.price*1;
-      tax.textContent = tax.textContent*1 - itemTax*1;
-      total.textContent = subTotal.textContent*1 + tax.textContent*1;
-      items.splice(i,1);
-      localStorage.orders = JSON.stringify(items)
-      itemsContainer.removeChild(foodItem);
-      emptyCart();
+  let subTotalValue = calculateTotal(items);
+  subTotal.textContent = subTotalValue.toFixed(2);
+  const taxvalue = subTotalValue *0.05;
+  tax.textContent = taxvalue.toFixed(2);
+  const totalValue = subTotalValue*1 + taxvalue*1;
+  total.textContent = totalValue.toFixed(2);
+  items.forEach((item,index)=>{
+    const itemView = document.createElement('div');
+    itemView.innerHTML = `<div class="item"><img class="cart-image" src="${item.img}">
+    <p class="item-title">${item.title}</p>
+    <p class="item-price">${item.price}</p>
+    <div class="item-footer">
+    <div class="qty"><input class="quantity" type="number" min="1" max="50" step="1" value="${item.qty}"></div>
+    <div class="delete">
+    </div>
+    </div>
+    </div>`;
+    itemsContainer.appendChild(itemView);
+    cartItems = JSON.parse(localStorage.orders);
+    const deleteItem = document.querySelectorAll('.delete');
+    deleteItem.forEach((deItem,i)=>{
+      deItem.addEventListener('click',()=> {
+        let itemTax = item.price*0.05;
+        subTotal.textContent = subTotal.textContent*1 - item.price*1;
+        tax.textContent = tax.textContent*1 - itemTax*1;
+        total.textContent = subTotal.textContent*1 + tax.textContent*1;
+        items.splice(i,1);
+        localStorage.orders = JSON.stringify(items)
+        itemsContainer.removeChild(itemView);
+        const order = document.querySelectorAll('.order-now');
+        order[i].textContent = 'add to cart';
+        emptyCart();
+      });
     });
   });
 };
@@ -187,103 +216,6 @@ const emptyCart = () => {
     tax.textContent = 0;
     total.textContent = 0;
     appendNode(itemsContainer,noItem);
-  }
-}
-
-const adjustAllPrices = (price, value,index,item,adjustment) => {
-  if (adjustment === true) {
-    items.splice(index,1,{
-      title:item.title,
-      price,
-      qty:value,
-      img:item.img,
-    });
-    subTotal.textContent = price * 1;
-    tax.textContent =  (price * 0.05);
-    total.textContent = (tax.textContent * 1 + subTotal.textContent * 1);
-    return
-  }
-  items.splice(index,1,{
-    title:item.title,
-    price,
-    qty:value,
-    img:item.img,
-  });
-  subTotal.textContent =  price * 1;
-  tax.textContent =  (price * 0.05);
-  total.textContent = (tax.textContent * 1 + subTotal.textContent * 1);
-  return;
-}
-
-const increaseQty = (value,price,index,item) => {
-  value = value + 1;
-  price = value*price;
-  adjustAllPrices(price,value,index,item,true);
-  return {value,price};
-}
-const decreaseQty = (value,price,index,item) => {
-  value = value - 1;
-  price = value*price;
-  adjustAllPrices(price,value,index,item,false);
-  return {value,price};
-}
-
-const adjustQty = (minus,plus,qty,itemQty,itemPrice,index,item) =>{
-  let price = itemPrice.textContent;
-  let currentPrice = price;
-  minus.addEventListener('click',(e)=>{
-    if(qty < 2) return itemQty.textContent = qty;
-    let previousPrice = price;
-    let qtyItem = decreaseQty(qty,currentPrice,index,item);
-    qty =  qtyItem.value;
-    // price = currentPrice*qty;
-    itemQty.textContent = qtyItem.value;
-    itemPrice.textContent = qtyItem.price;
-  });
-  plus.addEventListener('click',(e)=>{
-    let previousPrice = price;
-    let qtyItem = increaseQty(qty,currentPrice,index,item);
-    qty =  qtyItem.value;
-    // price = currentPrice*qty;
-    itemQty.textContent = qtyItem.value;
-    itemPrice.textContent = qtyItem.price;
-  });
-}
-
-const getItemFooter = () => {
-  let foodItemFooter = createNode('div');
-  let plus = createNode('div');
-  let minus = createNode('div');
-  let itemQty = createNode('p');
-  let deleteItem = createNode('div');
-  plus.className = 'plus';
-  minus.className= 'minus';
-  itemQty.className = 'item-qty';
-  deleteItem.className = 'delete';
-  foodItemFooter.className = 'item-footer';
-  return {
-    plus,
-    minus,
-    itemQty,
-    deleteItem,
-    foodItemFooter
-  }
-}
-const getItem = () => {
-  let foodItem = createNode('div');
-  let itemImage = createNode('img');
-  let itemTitle = createNode('p');
-  let itemPrice = createNode('p');
-  foodItem.className = 'item';
-  itemImage.className = 'cart-image';
-  itemTitle.className = 'item-title';
-  itemPrice.className = 'item-price';
-
-  return {
-    foodItem,
-    itemImage,
-    itemPrice,
-    itemTitle,
   }
 }
 
