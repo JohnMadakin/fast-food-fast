@@ -376,7 +376,7 @@ describe('Search menu', () => {
     request(app).get(`/api/v1/search?query=${query}`)
       .expect(200)
       .expect((res) => {
-        expect(res.body.data[0].title).toEqual('waffle');
+        expect(res.body.data[0].name).toEqual('waffle');
       })
       .end(done);
   });
