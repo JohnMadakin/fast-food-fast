@@ -9,7 +9,6 @@ const closePopup = document.querySelector('.close-pop-up');
 const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
 const openLogin =  document.querySelector('#login-modal');
 const modal = document.getElementById('modal-id');
-// const loginUser = document.querySelector('.submit');
 const message = document.querySelector('.pop-up-message');
 const validEmail = document.querySelector('.email');
 const username = document.querySelector('.username');

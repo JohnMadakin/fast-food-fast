@@ -2,7 +2,7 @@ const header = document.querySelector('.header');
 const sticky = header.offsetTop;
 const content =  document.querySelector('.content');
 const menuContainer = document.querySelector('.tab-content-container');
-const baseUrl = 'http://localhost:3002' || 'https://edafe-fast-food-fast.herokuapp.com';
+const baseUrl = 'https://edafe-fast-food-fast.herokuapp.com';
 const waiting = document.querySelector('.spinner');
 const cart = document.querySelector('.cart');
 const checkout = document.querySelector('.shopping-cart-card');
@@ -10,7 +10,7 @@ const deleteItem = document.querySelector('.delete');
 const title = document.querySelector('.food-title');
 const price = document.querySelector('.price');
 const checkoutBtn = document.querySelector('.item-checkout');
-const itemsContainer = document.querySelector('.all-items');
+const itemsContainer = document.querySelector('.cart-all-items');
 const close = document.querySelector('.close-pop-up');
 const nav =  document.querySelector('.nav');
 const modal = document.getElementById('modal-id');
@@ -42,7 +42,8 @@ const stickyHeader = () => {
 } 
 
 const checkOutOrders = () => {
-  checkoutBtn.addEventListener('click',()=>{
+  checkoutBtn.addEventListener('click',()=> {
+    localStorage.orders = JSON.stringify(items);
     window.location.href = 'checkout.html';
   });
 }
@@ -95,12 +96,13 @@ const placeOrder = (orders,menu) => {
       let title = menu[i].name;
       let price = menu[i].price;
       let img = menu[i].imageurl;
+      let itemPrice = menu[i].price;
       let qty = 1;
       let itemid = menu[i].id;
       const isAdded = items.find((element)=> element.title === title);
       if(!isAdded){
         // order.textContent = 'added';
-        items.push({title,price,qty,img,itemid});
+        items.push({title, price, qty, img, itemPrice, itemid});
         return localStorage.orders = JSON.stringify(items)
       }
       popUp.style.display = 'block';
