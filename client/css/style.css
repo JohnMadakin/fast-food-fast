@@ -563,7 +563,7 @@ textarea:focus{
 }
 .all-items{
   overflow-y: scroll;
-  max-height: 50%;
+  height: 15rem;
 }
 .container, .tab-content-container {
   display: flex;
@@ -878,6 +878,7 @@ textarea:focus{
   font-size: 1.5rem;
   font-weight: bold;
   margin: 5px 5px;
+  width: 7rem;
 }
 .checkout-item-title {
   padding: 1.5rem 1.5rem;
