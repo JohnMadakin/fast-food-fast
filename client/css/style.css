@@ -561,9 +561,13 @@ textarea:focus{
   display: flex;
   margin-left: 2.5rem;
 }
-.all-items{
+.cart-all-items{
   overflow-y: scroll;
   height: 15rem;
+}
+.all-items{
+  overflow-y: scroll;
+  height: 25rem;
 }
 .container, .tab-content-container {
   display: flex;
@@ -882,9 +886,15 @@ textarea:focus{
 }
 .checkout-item-title {
   padding: 1.5rem 1.5rem;
+  margin: 0;
 }
-.checkout-item-price{
+.checkout-item-price {
+  padding: 1.5rem 1rem;
+  margin: 0;
+}
+.checkout-qty{
   padding: 1.4rem 1rem;
+  margin: 0;
 }
 .food-item-ing,.food-item-cal,.edit, .calorie, .food-price{
   padding: 1.6rem 1rem;
@@ -950,7 +960,7 @@ width: 10%;
 }
 .checkout-item{
   margin: 1.5rem 1rem;
-  height: 110px;
+  height: 7rem;
 }
 .noItems{
   font-size: 1.6rem;

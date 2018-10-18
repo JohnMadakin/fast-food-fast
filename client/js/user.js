@@ -112,6 +112,7 @@ const loadOrders = () => {
   })
   .then(res => res.json())
   .then((data) => {
+    console.log(data)
     if(data.message === 'order not found'){
       document.querySelector('.admin-title').textContent = `You have No pending Orders`;
       document.querySelector('.order-status').textContent = `You have No confirmed Orders`;
@@ -126,7 +127,7 @@ const loadOrders = () => {
         if(data.ordersInfo[i].orderstatus === 'pending'){
           getOrders(userPending,data.ordersInfo[i],order,i);
         }
-        if(data.ordersInfo[i].orderstatus === 'confirmed'){
+        if(data.ordersInfo[i].orderstatus === 'accepted'){
           getOrders(userConfirm,data.ordersInfo[i],order,i);
         }
 

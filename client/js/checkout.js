@@ -16,6 +16,8 @@ let items = [];
 let status = 'pending';
 let deliveryAddress = '';
 let payment = 'payondelivery';
+let cartItems;
+
 
 const verifyUsers = () => {
   const token = localStorage.getItem('fastfoodUser');
@@ -27,17 +29,15 @@ const verifyUsers = () => {
       }
       deliveryAddress = decoded.address;
       total = calculateTotal(items);
+      console.log(items)
       items.forEach(item => {
         const itemsContainer = document.createElement('div');
         itemsContainer.innerHTML = `<div class="item checkout-item">
         <img class="checkout-cart-image" src="${item.img}" />
         <p class="item-title checkout-item-title">${item.title}</p>
-        <div class="minus checkout-minus"></div>
-        <p class="item-qty checkout-item-qty">${item.qty}</p>
-        <div class="plus checkout-plus"></div>
+        <div class="checkout-qty"><input class="quantity" type="number" min="1" max="50" step="1" value="${item.qty}"></div>
         <div class="group-price-delete">
             <p class="checkout-item-price">${item.price}</p>
-            <div class="delete checkout-delete" title="delete item"></div>
         </div>
     </div>`;
         allitems.appendChild(itemsContainer);
@@ -53,15 +53,39 @@ const verifyUsers = () => {
 const calculateTotal = (orders) => {
     const init = 0;
     const total = orders.reduce((acc, curr) => {
-      return (acc + (curr.price * curr.qty));
+      return (acc + curr.price);
     }, init);
     return total;
 };
 
+const setQuantity = () => {
+  const quantity = document.querySelectorAll('.quantity');
+  quantity.forEach((quan,i)=>{
+    quan.addEventListener('change', (e) => {
+      const priceView = document.querySelectorAll('.checkout-item-price');
+      let qty = e.target.value;
+      console.log(qty)
+      let itemPrice = items[i].itemPrice * qty;
+      console.log('-->', itemPrice)
+      priceView[i].textContent = itemPrice;
+      items[i].price = itemPrice;
+      items[i].qty = parseInt(qty);
+      let subTotalValue = calculateTotal(items);
+      sub.textContent = subTotalValue.toFixed(2);
+      const taxvalue = subTotalValue *0.05;
+      tax.textContent = taxvalue.toFixed(2);
+      const totalValue = subTotalValue*1 + taxvalue*1;
+      totalCost.textContent = totalValue.toFixed(2);
+      console.log('all items => ', items)
+
+    });
+  });
+}
+
 const displayAmount = () => {
-  sub.textContent = total;
-  tax.textContent = total * 0.1;
-  totalCost.textContent = total*0.1 + total*1;
+  sub.textContent = total.toFixed(2);
+  tax.textContent = (total * 0.05).toFixed(2);
+  totalCost.textContent = (total*0.05 + total*1).toFixed(2);
 };
 
 const placeOrder = (items) => {
@@ -72,6 +96,7 @@ const placeOrder = (items) => {
     delete item.img;
     item.quantity = item.qty;
     delete item.qty;
+    delete item.itemPrice;
   });
   let orders = [...items];
   const myOrder = {
@@ -126,7 +151,8 @@ window.onclick = function(event) {
   popUp.style.display = "none";
 }
 
-orderItems();
 verifyUsers();
+setQuantity();
+orderItems();
 displayAmount();
 closePopUAlert();
